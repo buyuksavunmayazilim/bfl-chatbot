@@ -1,0 +1,4808 @@
+[
+    {
+        "question": "Aracım arıza yaptı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Arabam bozuldu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç gitmiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araba durdu kaldı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Aracım stop etti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç hareket etmiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Motor çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araba çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Aracım birden durdu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç yolda kaldı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Yolda mahsur kaldım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araba yolda kaldı ne yapayım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç ortada kaldı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç aniden durdu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Motor ışığı yandı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Check engine ışığı yandı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Motor arıza lambası yandı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç hararet yaptı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Motor ısındı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç aşırı ısındı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Direksiyon sertleşti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Fren tutmuyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç fren yapmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç start almıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Kontak çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Marş basmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Akü bitti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Akü zayıf",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç elektrik sorunu var",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araçtan ses geliyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Motor vuruyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Şanzıman sorunlu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Vites geçmiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç tekliyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç sarsılıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç çekişten düştü",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Gaz yemiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç hızlanmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastiğim patladı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Tekerlek patladı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastik indi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastik havası indi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastik değişimi istiyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Yeni lastik lazım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastik bozuk",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastik yarıldı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastik delindi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastik problem var",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Tekerlek hasarlı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Aracın lastiği patladı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastik sorun yaşıyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastik değiştirmem gerekiyor",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastik eskidi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Kış lastiği lazım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Yaz lastiği taktıracağım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastik talep ediyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": false
+    },
+    {
+        "question": "Kaza yaptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Kaza oldu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Arabaya çarptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Aracıma çarptılar",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç hasar aldı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Araba hasarlı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Trafik kazası yaptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç pert oldu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Arabam zarar gördü",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç çizildi",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Park halinde çarptılar",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Biri arabama vurdu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç çalındı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Arabam çalındı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Hırsızlık oldu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": false
+    },
+    {
+        "question": "Servise gitmem lazım",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": false
+    },
+    {
+        "question": "Bakım zamanı geldi",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": false
+    },
+    {
+        "question": "Periyodik bakım yaptıracağım",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": false
+    },
+    {
+        "question": "Servis randevusu almak istiyorum",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç bakıma girecek",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": false
+    },
+    {
+        "question": "Servise götürmem gerekiyor",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": false
+    },
+    {
+        "question": "Bakım yaptırmak istiyorum",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": false
+    },
+    {
+        "question": "Servis talebi oluştur",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç bakım gerekiyor",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": false
+    },
+    {
+        "question": "Trafik cezası geldi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": false
+    },
+    {
+        "question": "Ceza yedim",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç ceza yedi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": false
+    },
+    {
+        "question": "Trafik cezası bildirimi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": false
+    },
+    {
+        "question": "Ceza ne yapacağım",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": false
+    },
+    {
+        "question": "HGS cezası var",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": false
+    },
+    {
+        "question": "OGS cezası geldi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": false
+    },
+    {
+        "question": "Geçiş ihlali yaptım",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": false
+    },
+    {
+        "question": "HGS borcu var",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": false
+    },
+    {
+        "question": "OGS borcu çıktı",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç kiralamak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": false
+    },
+    {
+        "question": "Fiyat alabilir miyim",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": false
+    },
+    {
+        "question": "Kiralama fiyatı nedir",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": false
+    },
+    {
+        "question": "Aylık ne kadar öderim",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": false
+    },
+    {
+        "question": "Teklif almak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": false
+    },
+    {
+        "question": "Filo kiralama yapmak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": false
+    },
+    {
+        "question": "Araç fiyat bilgisi",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": false
+    },
+    {
+        "question": "Kiralık araç fiyatları",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": false
+    },
+    {
+        "question": "Uzun dönem kiralama fiyatı",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": false
+    },
+    {
+        "question": "Yol yardım var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": false
+    },
+    {
+        "question": "7/24 destek var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": false
+    },
+    {
+        "question": "Kasko dahil mi",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": false
+    },
+    {
+        "question": "İkame araç veriliyor mu",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": false
+    },
+    {
+        "question": "Servis ağı var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": false
+    },
+    {
+        "question": "Lastik değişimi ücretsiz mi",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": false
+    },
+    {
+        "question": "Bakım dahil mi",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": false
+    },
+    {
+        "question": "Sigorta var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": false
+    },
+    {
+        "question": "MTV kim ödüyor",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": false
+    },
+    {
+        "question": "Hizmetleriniz neler",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": false
+    },
+    {
+        "question": "Ne sunuyorsunuz",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": false
+    },
+    {
+        "question": "Merhaba",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": false
+    },
+    {
+        "question": "Selam",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": false
+    },
+    {
+        "question": "İyi günler",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": false
+    },
+    {
+        "question": "İyi akşamlar",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": false
+    },
+    {
+        "question": "Hey",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": false
+    },
+    {
+        "question": "Yardım lazım",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": false
+    },
+    {
+        "question": "Biri var mı",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": false
+    },
+    {
+        "question": "Teşekkürler",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": false
+    },
+    {
+        "question": "Sağ ol",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": false
+    },
+    {
+        "question": "Tamamdır",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": false
+    },
+    {
+        "question": "Anlaşıldı",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": false
+    },
+    {
+        "question": "Görüşürüz",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": false
+    },
+    {
+        "question": "İyi günler",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": false
+    },
+    {
+        "question": "arac calismiyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "araba calısmıyor ya",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "arac bozuldu napcam",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "motor calısmıyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "arac hic gitmiyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım sabah çalışıyordu ama şu an çalışmıyor ne yapmam gerekiyor",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Yolda giderken araç birden durdu ve tekrar çalışmadı nasıl ilerlemeliyim",
+        "answer": "Yol yardım yönlendiriyorum.",
+        "intent_category": "ariza_yolda_kalma",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç çalışırken birden stop etti ve şu an hiç tepki vermiyor",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "lastik patladi ya",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "teker indi galiba",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "lastık patladı",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracın lastiği yolda giderken patladı ne yapmam gerekiyor",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik havası indi sanırım araç dengesiz gidiyor",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "kaza yaptık ya",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "arabaya vurdum napcam",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracı park ettim döndüğümde birinin çarptığını gördüm ne yapmam lazım",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafikte giderken kaza yaptık ve araç hasar aldı süreç nasıl ilerliyor",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "bakım zamanı geldi galiba",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "servise gitmem lazm",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç için periyodik bakım zamanı geldi nasıl randevu alabilirim",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "ceza geldi ya napcam",
+        "answer": "Trafik formuna yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "hgs borc var",
+        "answer": "HGS formuna yönlendiriyorum.",
+        "intent_category": "hgs",
+        "is_augmented": true
+    },
+    {
+        "question": "Araca trafik cezası geldi bununla ilgili nasıl işlem yapmam gerekiyor",
+        "answer": "Trafik formuna yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "fiyat ne kadar",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "arac kiralamak istiom",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Şirketimiz için uzun dönem araç kiralama yapmak istiyoruz fiyat bilgisi alabilir miyiz",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım çalışmıyor kiralama fiyatı nedir",
+        "answer": "Arıza bildirimi önceliklidir.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Kaza yaptım yeni araç kiralamak istiyorum",
+        "answer": "Önce hasar bildirimi yapmalısınız.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik patladı fiyat bilgisi alabilir miyim",
+        "answer": "Önce lastik değişimi yapılmalıdır.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "ya bi bakar mısınız",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "yardım edin",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "bilmiyorum ne yapacağım",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Arracım arıza yatpı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım arıza yaptı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım arıza yaptı lütfen",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım arıza yptı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabam bozuldu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabam ariza yapti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabam bozuldu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabam bozuldu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Arraç çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç çlışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "AAraç çaalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç gittmiyor yardım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "raç gitmiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç gitmiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç gitmiiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "arac durdu kaldı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araba durdu kaldı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "bi Araba durdu kaaldı yardım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Araba durdu kadlı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım stop etti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım stop etti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım stop etti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım stop etti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka Araç hareket etmiyor lütfen",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç hareket etmiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aaç harekket etmiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Araç hareket etmiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor çalışmıyor yardım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motr çalımıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Mtor çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "oMtor çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "bi Arabba çalşmıyor ya",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aaba çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araba çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araba çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım birdn durud",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araacım biden durdu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "racım birden durdu acil",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım birden durdu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "rAaç yolda kaldı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç yolda kaldı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araaç olda kaldı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç yolda kaldı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Yolda mahsur kaldım acil",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Yolda mahsur kalım lütfen",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka Yolda mahsur kaldım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Yolda mahsur kaldım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araab yoolda kaldı ne yapayım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araba yolda kaldı ne yapayım ya",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araba yoolda kaldı ne yapayım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araab yolda kalıd ne yapayım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç ortada kaldı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Araç ortada kaldı acil",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç ortada kaldı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç ortada kaldı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç anideen durdu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "rAaç aniden duurdu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "rAaç anidden durdu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç aniden durdu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor ışığı yandı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor ışığı yandı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor ışığı yandı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motoor ışığı yanddı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Check engine ışığı yandı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Check engine ışığı yandı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka Check engine ışığı yandı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Ceck engine ışığı yanı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor arıza lambası yandı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor arıza lambası yandı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor arıza lambası yandı acil",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Mootr arza lambası yandı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç hararet yaptı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç hararet yaptı lütfen",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç hararet yapttı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Arça hararet yapptı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor ısındı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor ıssındı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Mootor ısındı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor ıısndı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "bi Araç aşırı ısındı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç aşırı ısındı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç aşırı ısındı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç aşırı ısındı",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Direksiyon sertleşti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Direksiyon sertleşti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Direksiyon sertleşti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Direksiyon sertleşti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Fren tutmuyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Fren tutmuyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Fern tutmuyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Fren tutmuyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç fren yapmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "bi Araç fren yapmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "raç fren yapmıyor lütfen",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "AAraç frne yapmıoyr yardım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç start almıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç sart almmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç start almıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aaç start almıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Kontak çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Kontak çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Kontak çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Kontak çalışmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Marş basmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Marş basmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Marş basmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "arş asmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Akü bitti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Akü bitti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Akü bitti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Akü bitti",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Akü zayıf",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Akü zaıf",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Akü zayıf",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Akü zayıf yardım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "AAraç elektrik sorunu var",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Arça elekrtik sorunu var",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç elektrik sorrunu var ya",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç elektrik sorunu var",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araçtn ses geliyr",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araçtan ses geliyor acil",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araçtan ses geliyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araçtan ses geliyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "MMotor vuruoyr",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor vuruyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor vuuryor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Motor vuruyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Şanzıman sorunlu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Şaanzıman sorunlu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Şanzıman sorunlu",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Şanzıman soorunlu yardım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Vies geçmiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Vites geçmiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Vties geçmiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Vites geçmyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç tekliyor acil",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç tekliyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Araç tekliyyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç tekliyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç sarsılıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aaç sarsılıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "rAaç sarsılııyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç sarsılıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "AAraç çekişten düştü",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "raç ekişten düştü",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç çekişten düştü",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç çekişten düştü acil",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Gaz yemiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Gaz yemiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Gaz yemiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Gaz yemiyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç ıhzlanmıyor yardım",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "rAaç hızlanmıyyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç hızlanmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç hızlanmıyor",
+        "answer": "Arıza bildirim formuna yönlendiriyorum. 7/24: 0 (850) 840 05 39.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastiğim patladı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastiğim patladı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastiğim patladı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Lastiğim patladı pls",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Tekerlek patladı yardım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Tekerlek patladı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Tekerlek patadı pls",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Tekerlke patladı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik indi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik indi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "bi teker indi ya",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "tekerlek indi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastiik havası indi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik havası indi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik hhavası ndi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik havası indi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "teeker değişimmi iistiyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik değiişimi istiyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik değişimi istiyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik değişimi istiyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Yeni tekerlek lazım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "eYni lastik lazım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Yeni tekerlek lazım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "YYeni lastik alzım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik bozuk pls",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "teker bozuk ya",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lsatik bozuk yardım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik bozuk",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Lastik yarıldı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik yarıldı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik yarıldı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik ayrıldı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "teker delindi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lasik delindi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Lastik deilndi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "tekerlek deilndi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik problem var lütfen",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik prolem var",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Lastik problem var",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "tekerlek problem var",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Tekerlek hasarlı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Tekerlek hasarlı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Tekerlek hasarlı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Tekerlek ahsarlı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracın lastiği patladı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Aacın lastiği patladı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Araıcn lastiği patlaı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracın lastiği patladı",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka Lastik sorun aşıyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "tekerlek ssorun yaşıyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "aLstik sorun yaşıyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "bi Lastik sorun yaşıyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "eker değiştirmem gerekiyor",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik değiştirmem gerekiyor lütfen",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik değiştirmem gerekiyor",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik değiştirmem gerekiyor",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "tekerlek eeskidi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik eskidi",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam teker eskidi yardım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik eskii",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Kış lsatiği lazım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Kış lastiği lazım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Kış lastiği lazım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Kış lastiği lazım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Yaz lastiği taktıracağım pls",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Yaz lastiği taktıracağım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Yaz lastiği taktıracağım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Yaz lastiği taktıracağım",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Lastik talep ediyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "teker talep edyiorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Latsik taalep ediyoorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik talep ediyorum",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Kaaza yaptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Kaza yaptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Kaza yaptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Kaza yaptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Kaza oldu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Kaza oldu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Kaza lodu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "aKza odlu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabaya çarptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabaya çarptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabaya çarptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabaya çarptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Arcıma çarptılar",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracıma çarptılar",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Araccıma çrptılar",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracıma çarptılar",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç hasar ldı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç haar alıd",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç hasar aldı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç hasar ladı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Araba hasarlı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "otomobil hasarlı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "otomobil hasarlı acil",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Araba hasarlı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Trafik kazası yaptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafik kazası yaptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka Trafik kazası yaptım lütfen",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafik kazası yaaptım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç pert oldu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç pert oldu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç pert oldu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç prt olud",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabam zarar ggördü",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Arabam zarr gördü",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Arabam zarar gördü lütfen",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabam arar gördü",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç çizildi",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "raç çizildi",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç çizildi",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Arça çizildi",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "bi Prk halinde çarptılar",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Park halinde çarptılar",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Park halinde çarptılar",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "PPark hainde çarpıtlar",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Biri arabama vurdu ya",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Biri arabama vurdu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Biri arabama vurdu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Biri araabama vvurdu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Araç çalındı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Araç çalındı yardım",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Araç çalındı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Arraç çalındı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabam çalındı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabam çlaındı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Arabam çalındı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Arabam çaındı",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Hırsızlık oldu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Hırsızlık oldu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "ırsızlık oldu lütfen",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Hırsızlık oldu",
+        "answer": "Hasar bildirim formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Servise gitmem lazım",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Servise gitmem lazım pls",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Servise gitmem lazım",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka Servsie gitmem lzaım",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Bakım zamanı geldi",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Baakım zaanı geli",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Bakım zamanı geldi",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Bakım zamanı geldi",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "bi Periyodik bakım yaptıracağım ya",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Periyodik bakım yaptıracağım",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Periyodik baıkm yaptıracağım",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Periyodik bakım yaptıracağım yardım",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Servis randevusu almak istiyorum",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Servis randevusu almak istiyorum",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Servis randevusu almak istiyorum",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Servis randevusu almak istiyorum",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç bakıma girecek",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "raç baıkma girecek",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç bakıma girecek",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç bakıma girecek",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Servise götürmem gerekiyor pls",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Servise götürmem gerekiyor",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Servise götürmem gerekiyor",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Servise götürmem gerekiyor",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Baakım yatpırmak istiyorum lütfen",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Bkaım yaptrmak istiyorum",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Bakım yaptırrmak istiyorum",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Bakım yaptırmak istiyorrum",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka Serivs talebi oluştur",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "eSrvis alebi ooluştur",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Servis talebi oluştur",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "bi Servis talebi oluştur",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç bakım gerekiyor",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç bakım gerekiyor",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "rAaç bbakım gerekiyor",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç bakım gerekiyor",
+        "answer": "Servis bakım formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafik cezası geldi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafik cezası geldi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "TTrafik cezası geldi lütfen",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafik cezası geldi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Ceza yedim",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Ceza yedim",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "CCeza yedim",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "eza edim",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç ceza yedi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç eza yedi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Arça ceza yedi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç eza ydei",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafik cezası bildirimi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafik cezası bildirimi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafik cezası bildirimi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafik cezası bildirimi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "abi eCza ne yapacağım",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Ceza ne yapacağım",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Ceza ne yapacağım",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "bi Ceza ne yapacağım",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "HGS cezası var ya",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "ya HGS cezası var",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "HGS cezası var",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "HGS cezası var",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "OGS cezası geldi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "OGS cezası geldi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka OGS cezası geldi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam OGS cezası geldi",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Geçiş ihhlali yaptmı",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Geçiş ihlali yaptım",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Geçiş ihlali yaptım",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Geçiş ihlali yaptım",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "ya HGS borcu var",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "HGS borcu var",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "HGS borcu var",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "HGS borcu var",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "OGS bocru ççıktı",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "OGS borcu çıktı",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "OGS borcu çıktı",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka OGS borcu çıktı",
+        "answer": "İlgili forma yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç kiralamak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Arça kiralamak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç kiralamak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "AAraç kiralmak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Fiyat alabilir miyim",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Fiyat alabilir miyim",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Fiyat alabilir myim",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Fiyat alabilr miyim ya",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Kiralama fiyatı nedir",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Kiralama fiyatı needir",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Kiralama fiyatı ndir",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Kiralama fiyatı nedir",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Aylık ne kadar öderim",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "hocam Aylık ne kadar öderim",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Aylık ne kadar öderim",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Aylık ne kadar öderim",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Teklif almak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Teklif almak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Teklif almak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Teklif almmak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Filo kiralama ypmak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Fiilo kiralama yapmak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Filo kiralama aypmak istiyorum acil",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Flio kiralmaa yyapmak istiyorum",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç fiyat bilgisi",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç bedel bilgsi",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Arç bedel bilgissi",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç fiat bilgisi yardım",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Kiralık araç fiyatları",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Kiraılk aaraç ffiyatları",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Kiralık raç fiyatları",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Kiralık araç fiyatları",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka Uzun ddönem kiralama iyatı",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Uzn dönem kkiralama fiyatı acil",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Uzun dönem kiralama fiatı",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Uzun döenm kiraalma fiyatı",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Yol yardım var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Yol yardım var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Yol yardım var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka Yol yardım var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "7/24 destek var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "7/24 destek var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "7/24 destek var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "bi 7/24 destek var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Kasko dahil mi ya",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Kasko dahil mi",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Kasok dahil mi",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Kasko dahil mi",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "İkame araç veirliyor mu",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "İkame araç veriliyor mu",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "İkame araç veriliyor mu",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "İkame araç veriliyor mu",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Servis ağı var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Servs ağı var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Servs ağı var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Servis ağı var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik değişimi ücertsiz mi ya",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "tekerlek değişimi ücretsiz mi",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "tekerlek değiimi ücretsiz mi",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "tekerlek değişimi ücetsiz mi",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Bakım dahil mi",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Bakım dhail mi",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Bakım dahil mi ya",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Bakmı dhail mi",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Sgorta var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Sigorta var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Sigorta var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Sigorta var mı",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "MTV kim ödyüor lütfen",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "MTV kim ödüyor",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "MTV kim ödüyor",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "MTV kim ödüyor",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Hizmmetleriniz neler yardım",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Hizmetlerinzi neler",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Hizmetleriniz neler",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Hizmetleriniz neler",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Ne sunuyorsunuz",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Ne sunuyorsunuz",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Ne sunuyorsunuz",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Ne sunuyorsunuz",
+        "answer": "Detaylı bilgi için yardımcı olabilirim.",
+        "intent_category": "bilgi",
+        "is_augmented": true
+    },
+    {
+        "question": "Mrhaba",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Merhaba",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Merhaba",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Meraba",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Selam",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Seelam",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Seam",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Selam",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "İyi günler lütfen",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "İyi günler",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "İyi günler",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "İyi günler",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "İyi akşamlar",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "İyi akşamlar",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "İyi akşamlar",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "İyi akşamlar yardım",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "bi Hey",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka Hey acil",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Hey",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Hey",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Yardım lazım yardım",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Yardım lazım",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Yardım lazım",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Yardım lazım",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Biri var mı",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Biri var mı",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Biir var mı",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Bri var mı",
+        "answer": "Merhaba! Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Teşekkürler",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Teşekkürler",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Teşekkürler",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Teşekkürler",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Sağ ol acil",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Sağ ol acil",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Sağ ol",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Sağ ol",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Tamamdıır",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Tamamdır",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Tamamdır",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Tamamdır",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Anlaşıldı",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Anlaşıldı ya",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Anlaşıdı",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "nlaşıldı",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka Görüşürüz yardım",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Görüşürüz",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "Görüşürüz",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "örüşürüz",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "İyi ügnler acil",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "İyi günler",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "İyi günler",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "İyi günler",
+        "answer": "Rica ederim!",
+        "intent_category": "kapanis",
+        "is_augmented": true
+    },
+    {
+        "question": "raac calismiyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "arrac aclismiyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "araba calismiyo lütfen",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "araba caalismiyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "araba calısmıyor ya",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "abi araaba calısmıyor ya",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "otomobil calısmıyor ya",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "araba calısmıyor ya",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "arac bozuldu napcam",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "arac bozuldu npcam",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka otomobil ariza yapti napcam lütfen",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "araba bozulmus napcam",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "motor calısmıyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "motor calısmıyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "motor calısmıyo ya",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "mootor calısmıyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "ya arac hic gitmiyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "arac hic gitmiyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "arac hic gitmiyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "bi arac hic gitmiyo",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım sabah çalışıyordu ama şu an çalışmıyor ne yapmam gerekiyor",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım sabah çalışıyordu ama şu an çalışmıyor ne yapmam gerekyor",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım sabah çalışıyordu ama şu an çalışmıyor ne yapmam gerekiyor",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım sabbah çalışııyordu ama şu an çlışmıyor ne yapmam gerekiyoor",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Yolda giderken araç birden durrdu ve tekrar çalışmadı nasııl illerlemeliyim",
+        "answer": "Yol yardım yönlendiriyorum.",
+        "intent_category": "ariza_yolda_kalma",
+        "is_augmented": true
+    },
+    {
+        "question": "Yola gidrken araç birden durdu ve tekrrar çalışmadı nasıl ilerlemeliyim",
+        "answer": "Yol yardım yönlendiriyorum.",
+        "intent_category": "ariza_yolda_kalma",
+        "is_augmented": true
+    },
+    {
+        "question": "Yolda giderken araç birden durdu ve tekrar çalışmadı nasıl ilerlemeliyim",
+        "answer": "Yol yardım yönlendiriyorum.",
+        "intent_category": "ariza_yolda_kalma",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Yolda giderken araç birden durdu ve tekrar çalışmadı nasıl ilerlemeliyim",
+        "answer": "Yol yardım yönlendiriyorum.",
+        "intent_category": "ariza_yolda_kalma",
+        "is_augmented": true
+    },
+    {
+        "question": "Aaç çalıırken ibrden stop etti ve şu an hiç tepki vermiyor",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç çalışırken birden stop etti ve şu an hiç tepki vermiyor yardım",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç çalışırken birden stop etti ve şu an hiç tepki vermiyor",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Arraç çalışırken birden stop etti ve şu an hiç teppki vvermiyor",
+        "answer": "Arıza formuna yönlendiriyorum.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "ya tekerlek patladi ya",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "lastik patladi ya",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "lastik patladi ya",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "teker patladi ya",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "teker indi galiba",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "etker indi galiba",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "teker indi galiba",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "teker indi galiba",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "lastık patladı",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "lastık patladı",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "laastık patladı",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "lstık patadı pls",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracnı lastii yolda giderken patladı ne yapmam gerekiyor",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracın lastğii yolda giderken patladı ne yappmam gerekiyor",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracın lstiği yolda giderekn patladı ne yampam gerekiyor lütfen",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Aacın lastiği yola giderken patladı ne yapmaam gerekiyor",
+        "answer": "Lastik değişim formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik havası indi sanırım araç dengesiz gidiyor",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "tekr havası indi sanırım aaç dengeiz giiyor",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik havası indi sanırım raç dengeisz gidiyor",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik havası indi sanırım aarç dengesiz gidiyor",
+        "answer": "Lastik formuna yönlendiriyorum.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "kaza yaptık ya",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "kaaz yaptık ya",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "kaza yaptık ya",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "kaza yaptık ya",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "arabaya vurddum napcam",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "arabaya vurduum napcam pls",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "arabaya vurdum napcam",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "arabaya vurum napcam",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "racı park ettim döndüğümde birinin çarptığını gördüm ne yappmam lazmı",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracı pakr ettim döndüğümde birinn çarptığını grdüm ne yapam laazım",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Aracı park ettim döndüğümde birinin çarptığını gödrüm ne yapmam lazım",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracı park ettim dödnüğümde birinin çarptığını gördüm ne yapmam alzım lütfen",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafikte giderkken kaza yaptık ve araç hasar aldı süreç nasıl ilerliyor",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafikte gideerken asar yaptık ve araç hasar alddı sreç nasıl ilerliyor",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Trafitke giderken kaaz yaptım ypatık ve araç hasar alı süreç nasıl ilerliyor",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "abi Trafikte giderken kaza yaptık ve araç hasar aldı süreç nasıl ilerliyor",
+        "answer": "Hasar formuna yönlendiriyorum.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "bakım zamanı geli galiba ya",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "bakım zamanı geldi galiba",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "ya bakım zamanı geldi galliba",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "bakım zaanı gelddi galiba",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "servise gitmem lazm",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "servise gitmem lazm lütfen",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "servise gitmem lazm",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "servise gitmem lazm",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç için periyodik bakım zamanı geldi nasıl randevu alabilirim",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç için periyodik bakım zamanı geldi nasıl randevu alabilirim",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç için periyodik bkım zaamnı geldi nasıl randeuv alaabilirim pls",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "Araç içiin periyodik bakım zamanı geldi naasıl randeu alabilirim",
+        "answer": "Servis formuna yönlendiriyorum.",
+        "intent_category": "servis",
+        "is_augmented": true
+    },
+    {
+        "question": "ceza gldi ya napcm",
+        "answer": "Trafik formuna yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "ceza geldi ya napcam",
+        "answer": "Trafik formuna yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "ceza geldi ya napam",
+        "answer": "Trafik formuna yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "ceza geldi ya napcam",
+        "answer": "Trafik formuna yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "hgs borc var",
+        "answer": "HGS formuna yönlendiriyorum.",
+        "intent_category": "hgs",
+        "is_augmented": true
+    },
+    {
+        "question": "hgs orc var",
+        "answer": "HGS formuna yönlendiriyorum.",
+        "intent_category": "hgs",
+        "is_augmented": true
+    },
+    {
+        "question": "hgs borc var",
+        "answer": "HGS formuna yönlendiriyorum.",
+        "intent_category": "hgs",
+        "is_augmented": true
+    },
+    {
+        "question": "hgs bocr var acil",
+        "answer": "HGS formuna yönlendiriyorum.",
+        "intent_category": "hgs",
+        "is_augmented": true
+    },
+    {
+        "question": "Araca trafik cezası geldi bununla ilgili nasıl işlem yapmam gerekiyor",
+        "answer": "Trafik formuna yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Araca trafik cezası geldi bununla ilgili nasl işlem yapmam egrekiyor",
+        "answer": "Trafik formuna yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "kanka Araca trafik cezası geldi bununla ilgili nasıl işlem yapmam gerekiyor",
+        "answer": "Trafik formuna yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "Araca trafik cezası geldi bununa ilgili asıl işlem yapmam gerekiyor",
+        "answer": "Trafik formuna yönlendiriyorum.",
+        "intent_category": "trafik",
+        "is_augmented": true
+    },
+    {
+        "question": "fiyat ne kadar",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "ifyat ne kadar",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "fiyat ne kadar",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "fiyat ne kadar",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "arac kiralamak istiom",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "arac kiralamak istiom",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "arac kiralamak istim",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "bi arac kiralamak istiom pls",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Şirketimiz için uzun dönem araç kiralama yapmak istiyoruz fiyat bilgisi alabilir miyiz",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Şirketimiz içni uzun dönem araç kiralama yyapmak istiyooruz bedel bilggisi alabilir miyz",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Şirketimiz için zun dönem araç kiiralama yyapmak istiyoruz ücret bilgisi alabilr miyiz",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Şirketimiz için uun dönem araç kiralmaa yapmka istiyoruz fiyat bilgisi alabilir miyiz lütfen",
+        "answer": "Teklif formuna yönlendiriyorum.",
+        "intent_category": "teklif",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım çalışmıyor kiralama fiyatı nedir",
+        "answer": "Arıza bildirimi önceliklidir.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Arracım çalışmıyor kiralama fiyatı nedri",
+        "answer": "Arıza bildirimi önceliklidir.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım çalışmıyor kiralama fiyatı nedir",
+        "answer": "Arıza bildirimi önceliklidir.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Aracım çalışmmıyor kiralaa fiyatı nedir",
+        "answer": "Arıza bildirimi önceliklidir.",
+        "intent_category": "ariza",
+        "is_augmented": true
+    },
+    {
+        "question": "Kaaza yaptım yeni araç kiralamak stiyorum",
+        "answer": "Önce hasar bildirimi yapmalısınız.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "kkaza ypatım yaptım yenni arça kiralamaak istiyorum",
+        "answer": "Önce hasar bildirimi yapmalısınız.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "kaza yapttım yaptım yni araaç krialamak istiyoum",
+        "answer": "Önce hasar bildirimi yapmalısınız.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "kaza yaptım yapıtm yeni araç kiralamak isttiyorum",
+        "answer": "Önce hasar bildirimi yapmalısınız.",
+        "intent_category": "hasar",
+        "is_augmented": true
+    },
+    {
+        "question": "Lastik patladı ücret iblgisi alabiilr miyim",
+        "answer": "Önce lastik değişimi yapılmalıdır.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "ya Lastik pataldı fiyat billgisi alabilir miyim yardım",
+        "answer": "Önce lastik değişimi yapılmalıdır.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "tekerlek patladı bedel bilgisi alabilir miyim",
+        "answer": "Önce lastik değişimi yapılmalıdır.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "teker patldı bedel bilgisi alabilir miyim",
+        "answer": "Önce lastik değişimi yapılmalıdır.",
+        "intent_category": "lastik",
+        "is_augmented": true
+    },
+    {
+        "question": "ya bi bakkar mısınız",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "ya bi bakar mısıınız",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "ya bi bkaar mısınız",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "ya bi bakar mısınız",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "yardım din",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "yardım edin",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "yardım edin",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "yardım eedin",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "bilmiyorum ne yapacağım",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "ilmiyorum ne yapacağım",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "bilmiyorum ne yapacağım",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "bimliyorum ne yapacağım",
+        "answer": "Nasıl yardımcı olabilirim?",
+        "intent_category": "selamlama",
+        "is_augmented": true
+    },
+    {
+        "question": "Büyük Filo nedir",
+        "answer": "Büyük Filo, kurumsal araç kiralama ve filo yönetimi hizmetleri sunan bir şirkettir.",
+        "intent_category": "hakkimizda",
+        "is_augmented": false
+    },
+    {
+        "question": "Siz kimsiniz",
+        "answer": "Büyük Filo, Türkiye genelinde filo kiralama hizmeti sunar.",
+        "intent_category": "hakkimizda",
+        "is_augmented": false
+    },
+    {
+        "question": "Şirketiniz ne iş yapıyor",
+        "answer": "Uzun dönem araç kiralama ve filo yönetimi hizmetleri sunuyoruz.",
+        "intent_category": "hakkimizda",
+        "is_augmented": false
+    },
+    {
+        "question": "Hangi hizmetleri sunuyorsunuz",
+        "answer": "Filo kiralama, bakım, hasar yönetimi ve yol yardım hizmetleri sunuyoruz.",
+        "intent_category": "hizmetler",
+        "is_augmented": false
+    },
+    {
+        "question": "Ne tür hizmetleriniz var",
+        "answer": "Araç kiralama ve filo yönetimi hizmetleri sağlıyoruz.",
+        "intent_category": "hizmetler",
+        "is_augmented": false
+    },
+    {
+        "question": "Neden sizi tercih etmeliyim",
+        "answer": "Geniş servis ağı, 7/24 destek ve operasyonel kolaylık sağlıyoruz.",
+        "intent_category": "neden_biz",
+        "is_augmented": false
+    },
+    {
+        "question": "Sizi diğerlerinden ayıran nedir",
+        "answer": "Müşteri odaklı yaklaşımımız ve güçlü operasyon altyapımız ile fark yaratıyoruz.",
+        "intent_category": "neden_biz",
+        "is_augmented": false
+    },
+    {
+        "question": "Filo yönetimi nedir",
+        "answer": "Şirket araçlarının yönetimini kapsayan profesyonel hizmettir.",
+        "intent_category": "filo_yonetimi",
+        "is_augmented": false
+    },
+    {
+        "question": "Filo yönetimi hizmeti veriyor musunuz",
+        "answer": "Evet, kapsamlı filo yönetimi hizmetleri sunuyoruz.",
+        "intent_category": "filo_yonetimi",
+        "is_augmented": false
+    },
+    {
+        "question": "Bireysel kiralama var mı",
+        "answer": "Hizmetlerimiz ağırlıklı olarak kurumsal müşterilere yöneliktir.",
+        "intent_category": "musteri_tipi",
+        "is_augmented": false
+    },
+    {
+        "question": "Kimlere hizmet veriyorsunuz",
+        "answer": "Kurumsal firmalara filo kiralama hizmeti sunuyoruz.",
+        "intent_category": "musteri_tipi",
+        "is_augmented": false
+    },
+    {
+        "question": "Size nasıl ulaşabilirim",
+        "answer": "Web sitemiz üzerinden veya çağrı merkezimizden bize ulaşabilirsiniz.",
+        "intent_category": "iletisim",
+        "is_augmented": false
+    },
+    {
+        "question": "İletişim numaranız nedir",
+        "answer": "Çağrı merkezimiz üzerinden destek alabilirsiniz.",
+        "intent_category": "iletisim",
+        "is_augmented": false
+    },
+    {
+        "question": "Hangi şehirlerde varsınız",
+        "answer": "Türkiye genelinde geniş bir hizmet ağımız bulunmaktadır.",
+        "intent_category": "subeler",
+        "is_augmented": false
+    },
+    {
+        "question": "Şubeleriniz nerede",
+        "answer": "Birçok şehirde servis ağımız bulunmaktadır.",
+        "intent_category": "subeler",
+        "is_augmented": false
+    },
+    {
+        "question": "Sürdürülebilirlik çalışmalarınız var mı",
+        "answer": "Çevre dostu çözümler ve sürdürülebilir filo yönetimi sunuyoruz.",
+        "intent_category": "surdurulebilirlik",
+        "is_augmented": false
+    },
+    {
+        "question": "Şirket kültürünüz nasıl",
+        "answer": "İnsan odaklı, yenilikçi ve sürdürülebilir bir çalışma ortamı sunuyoruz.",
+        "intent_category": "insan_kultur",
+        "is_augmented": false
+    },
+    {
+        "question": "Çalışma ortamınız nasıl",
+        "answer": "Takım çalışmasını destekleyen dinamik bir ortam sunuyoruz.",
+        "intent_category": "insan_kultur",
+        "is_augmented": false
+    },
+    {
+        "question": "İş başvurusu yapmak istiyorum",
+        "answer": "Kariyer sayfamız üzerinden başvurabilirsiniz.",
+        "intent_category": "kariyer",
+        "is_augmented": false
+    },
+    {
+        "question": "Açık pozisyonlar var mı",
+        "answer": "Güncel ilanları kariyer sayfamızdan inceleyebilirsiniz.",
+        "intent_category": "kariyer",
+        "is_augmented": false
+    },
+    {
+        "question": "Staj imkanı var mı",
+        "answer": "Staj imkanları için kariyer sayfamızı takip edebilirsiniz.",
+        "intent_category": "kariyer",
+        "is_augmented": false
+    }
+]

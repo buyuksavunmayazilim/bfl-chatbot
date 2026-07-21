@@ -1,0 +1,11 @@
+data/*
+tests/*
+.env*
+*.sql
+.vscode/*
+__pycache__/*
+*/__pycache__/*
+*/*/__pycache__/*
+.pytest_cache/*
+scripts/*
+*.ipynb

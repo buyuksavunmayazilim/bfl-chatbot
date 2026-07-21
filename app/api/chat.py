@@ -1,0 +1,212 @@
+"""
+POST /chat — Ana chatbot endpoint'i
+
+Akış (her mesajda):
+    1. K1 Keyword → eşleşti → yanıt ver (fallback askıda kalır)
+    2. K2 Similarity → eşleşti → yanıt ver (fallback askıda kalır)
+    3. Fallback aktif mi? → adıma devam et
+    4. Fallback yok → fallback başlat
+"""
+import time
+import uuid
+
+import asyncpg
+from fastapi import APIRouter
+from pydantic import BaseModel
+
+from app.core.config import settings
+from app.services.keyword_service import match_keyword, INTENT_FORM_URLS
+from app.services.similarity_service import search_similar
+from app.services.session_service import has_active_fallback, is_fallback_completed, delete_fallback_state
+from app.services.fallback_service import start_fallback, process_fallback
+
+router = APIRouter()
+
+ALLOW_INTERRUPT_INTENTS = {"ariza", "hasar", "lastik", "servis", "teklif", "trafik", "hgs"}
+CANCEL_WORDS = {"iptal", "vazgeç", "vazgectim", "vazgeçtim", "çık", "cik",
+                "kapat", "baştan", "bastan", "menü", "menu", "geri","yok","hayır"}
+VALID_SOURCES = {"k1_keyword", "k2_similarity", "fallback", "static"}
+
+# ─── Request / Response ──────────────────────────────────────────────────────
+class ChatRequest(BaseModel):
+    session_id: str
+    message: str
+
+
+class ChatResponse(BaseModel):
+    session_id: str
+    message: str
+    intent: str | None
+    source: str
+    confidence: float | None
+    form_urls: dict
+    response_ms: int
+
+
+# ─── DB kayıt ────────────────────────────────────────────────────────────────
+async def _save_message(
+    session_id: str,
+    user_content: str,
+    bot_content: str,
+    intent: str | None,
+    source: str,
+    confidence: float | None,
+    response_ms: int,
+) -> None:
+    try:
+
+        if source not in {"k1_keyword", "k2_similarity", "fallback", "static"}:
+            source = "static"
+
+        conn = await asyncpg.connect(
+            host=settings.postgres_host,
+            port=settings.postgres_port,
+            database=settings.postgres_db,
+            user=settings.postgres_user,
+            password=settings.postgres_password,
+        )
+        try:
+            await conn.execute(
+                """
+                INSERT INTO conversations (id, session_id, created_at)
+                VALUES ($1, $2, NOW())
+                ON CONFLICT (session_id) DO NOTHING
+                """,
+                uuid.uuid4(), session_id,
+            )
+            conv_id = await conn.fetchval(
+                "SELECT id FROM conversations WHERE session_id = $1",
+                session_id,
+            )
+            for role, content in [("user", user_content), ("bot", bot_content)]:
+                await conn.execute(
+                    """
+                    INSERT INTO messages
+                        (id, conversation_id, role, content, intent,
+                         source, confidence, response_ms, created_at)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
+                    """,
+                    uuid.uuid4(), conv_id, role, content,
+                    intent, source, confidence, response_ms,
+                )
+            await conn.execute(
+                """
+                INSERT INTO analytics_events
+                    (id, session_id, intent, layer_hit, response_ms, created_at)
+                VALUES ($1, $2, $3, $4, $5, NOW())
+                """,
+                uuid.uuid4(), session_id, intent, source, response_ms,
+            )
+        finally:
+            await conn.close()
+    except Exception as e:
+        print(f"[Chat] DB kayit hatasi: {e}")
+
+
+# ─── Ana endpoint ─────────────────────────────────────────────────────────────
+@router.post("/chat", response_model=ChatResponse)
+async def chat(req: ChatRequest) -> ChatResponse:
+    t_start = time.time()
+    message = req.message.strip()
+    session_id = req.session_id
+
+    intent = None
+    source = "unknown"
+    confidence = None
+    form_urls = {}
+    bot_reply = ""
+
+    fallback_active = await has_active_fallback(session_id)
+ 
+    # ══════════════════════════════════════════════════════════════════════
+    # FALLBACK AKTİF
+    # ══════════════════════════════════════════════════════════════════════
+    if fallback_active:
+        text_low = message.lower().strip()
+ 
+        # (a) İptal/çıkış
+        if text_low in CANCEL_WORDS:
+            await delete_fallback_state(session_id)
+            source = "static"
+            bot_reply = ("Tabii, iptal ettim. Araç arızası, hasar, servis, lastik, "
+                         "teklif veya genel sorularınız için buradayım.")
+ 
+        else:
+            k1 = match_keyword(message)
+ 
+            # (b) Net aksiyon intenti -> fallback'ten çık
+            if k1.matched and k1.intent in ALLOW_INTERRUPT_INTENTS:
+                await delete_fallback_state(session_id)
+                intent = k1.intent
+                source = "k1_keyword"
+                confidence = 1.0
+                form_urls = k1.form_urls if isinstance(k1.form_urls, dict) else {}
+                bot_reply = k1.response or ""
+ 
+            else:
+                # (d) Değilse fallback akışına DEVAM (isim/telefon topla)
+                fb = await process_fallback(session_id, message)
+                source = "fallback"
+                intent = "iletisim"
+                bot_reply = fb.response
+ 
+    # ══════════════════════════════════════════════════════════════════════
+    # FALLBACK AKTİF DEĞİL  → normal akış
+    # ══════════════════════════════════════════════════════════════════════
+    else:
+        # ── 1: Keyword ────────────────────────────────────────────────────
+        k1 = match_keyword(message)
+        if k1.matched:
+            intent = k1.intent
+            source = "k1_keyword"
+            confidence = 1.0
+            form_urls = k1.form_urls if isinstance(k1.form_urls, dict) else {}
+            bot_reply = k1.response or ""
+ 
+        else:
+            # ── 2: Similarity ─────────────────────────────────────────────
+            k2 = await search_similar(message)
+            if k2.matched:
+                intent = k2.intent_category
+                source = "k2_similarity"
+                confidence = k2.score
+                bot_reply = k2.answer or ""
+                form_urls = INTENT_FORM_URLS.get(intent, {})
+ 
+            else:
+                # ── 3: Kısa/anlamsız girdi -> fallback BAŞLATMA ────────────
+                if len(message) < 3:
+                    source = "static"
+                    bot_reply = ("Tam anlayamadım. Araç arızası, hasar, servis, "
+                                 "lastik veya teklif hakkında yazabilirsiniz.")
+                elif not await is_fallback_completed(session_id):
+                    fb = await start_fallback(session_id)
+                    source = "fallback"
+                    bot_reply = fb.response
+                else:
+                    source = "static"
+                    bot_reply = ("Başka bir konuda yardımcı olabilir miyim? "
+                                 "Araç arızası, hasar bildirimi, servis, lastik veya "
+                                 "teklif konularında buradayım.")
+ 
+    response_ms = int((time.time() - t_start) * 1000)
+
+    await _save_message(
+        session_id=session_id,
+        user_content=message,
+        bot_content=bot_reply,
+        intent=intent,
+        source=source,
+        confidence=confidence,
+        response_ms=response_ms,
+    )
+
+    return ChatResponse(
+        session_id=session_id,
+        message=bot_reply,
+        intent=intent,
+        source=source,
+        confidence=confidence,
+        form_urls=form_urls,
+        response_ms=response_ms,
+    )

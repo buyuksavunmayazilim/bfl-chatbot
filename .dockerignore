@@ -1,0 +1,11 @@
+data/
+test/
+.pytest_cache/
+__pycache__/
+*.pyc
+.git
+tests/
+data/*.csv
+venv/
+.venv/
+*.md

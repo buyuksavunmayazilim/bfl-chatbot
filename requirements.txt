@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+#ollama
+redis
+psycopg2-binary
+sqlalchemy
+python-dotenv
+scikit-learn
+faker
+asyncpg
+alembic
+pydantic-settings==2.14.0
+pgvector
+sentence-transformers==5.4.1
+httpx
+pandas
