@@ -83,12 +83,20 @@ def _detect_pref(text: str) -> str | None:
 
 
 def _detect_phone(text: str) -> str | None:
-    """Metinden telefon numarası çıkarır."""
+    """Metinden geçerli telefon numarası çıkarır."""
     match = PHONE_RE.search(text)
-    if match:
-        digits = re.sub(r'\D', '', match.group())
-        if len(digits) >= 10:
-            return match.group().strip()
+
+    if not match:
+        return None
+
+    phone = match.group().strip()
+    digits = re.sub(r"\D", "", phone)
+
+    min_length = 11 if digits.startswith("0") else 10
+
+    if len(digits) >= min_length:
+        return phone
+
     return None
 
 
@@ -96,6 +104,37 @@ def _detect_email(text: str) -> str | None:
     """Metinden email adresi çıkarır."""
     match = EMAIL_RE.search(text)
     return match.group() if match else None
+
+async def _complete_fallback(
+    session_id: str,
+    state: dict,
+    contact_type: str,
+    contact_value: str,
+) -> FallbackResult:
+    """
+    İletişim bilgisini kaydeder ve fallback akışını tamamlar.
+    """
+
+    await _save_contact(
+        session_id=session_id,
+        name=state.get("name", ""),
+        contact_type=contact_type,
+        contact_value=contact_value,
+    )
+
+    await mark_fallback_completed(session_id)
+    await delete_fallback_state(session_id)
+
+    if contact_type == "phone":
+        response = MSG_CONF_PHONE.format(contact=contact_value)
+    else:
+        response = MSG_CONF_EMAIL.format(contact=contact_value)
+
+    return FallbackResult(
+        response=response,
+        is_done=True,
+        should_save=True,
+    )
 
 
 # ─── Yeni fallback başlat ────────────────────────────────────────────────────
@@ -140,25 +179,50 @@ async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
 
     # ── Adım 2: Tercih al (telefon/email) ────────────────────────────────────
     if step == STEP_ASK_PREF:
+
+        # Kullanıcı tercih belirtmeden doğrudan iletişim bilgisi paylaşmış olabilir.
+        email = _detect_email(text)
+        if email:
+            return await _complete_fallback(
+                session_id=session_id,
+                state=state,
+                contact_type="email",
+                contact_value=email,
+            )
+
+        phone = _detect_phone(text)
+        if phone:
+            return await _complete_fallback(
+                session_id=session_id,
+                state=state,
+                contact_type="phone",
+                contact_value=phone,
+            )
+
+        # Doğrudan iletişim bilgisi yoksa tercihi anlamaya çalış.
         pref = _detect_pref(text)
 
         if pref == "declined":
             await delete_fallback_state(session_id)
-            return FallbackResult(response=MSG_DECLINED, is_done=True)
+            return FallbackResult(
+                response=MSG_DECLINED,
+                is_done=True,
+            )
 
         if pref == "phone":
             state["pref"] = "phone"
             state["step"] = STEP_ASK_PHONE
             await set_fallback_state(session_id, state)
+
             return FallbackResult(response=MSG_ASK_PHONE)
 
         if pref == "email":
             state["pref"] = "email"
             state["step"] = STEP_ASK_EMAIL
             await set_fallback_state(session_id, state)
+
             return FallbackResult(response=MSG_ASK_EMAIL)
 
-        # Tercih anlaşılamadı
         return FallbackResult(response=MSG_INVALID_PREF)
 
     # ── Adım 3a: Telefon al ──────────────────────────────────────────────────
@@ -167,23 +231,11 @@ async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
         if not phone:
             return FallbackResult(response=MSG_INVALID_PHONE)
 
-        state["contact"] = phone
-        state["step"] = STEP_DONE
-        await delete_fallback_state(session_id)
-
-        await _save_contact(
+        return await _complete_fallback(
             session_id=session_id,
-            name=state.get("name", ""),
+            state=state,
             contact_type="phone",
             contact_value=phone,
-        )
-
-        await mark_fallback_completed(session_id)
-
-        return FallbackResult(
-            response=MSG_CONF_PHONE.format(contact=phone),
-            is_done=True,
-            should_save=True,
         )
 
     # ── Adım 3b: Email al ────────────────────────────────────────────────────
@@ -192,23 +244,11 @@ async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
         if not email:
             return FallbackResult(response=MSG_INVALID_EMAIL)
 
-        state["contact"] = email
-        state["step"] = STEP_DONE
-        await delete_fallback_state(session_id)
-
-        await _save_contact(
+        return await _complete_fallback(
             session_id=session_id,
-            name=state.get("name", ""),
+            state=state,
             contact_type="email",
             contact_value=email,
-        )
-
-        await mark_fallback_completed(session_id)
-
-        return FallbackResult(
-            response=MSG_CONF_EMAIL.format(contact=email),
-            is_done=True,
-            should_save=True,
         )
 
     # Bilinmeyen adım
