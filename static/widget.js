@@ -17,7 +17,7 @@
         width: 60px;
         height: 60px;
         border-radius: 50%;
-        background: #537286;
+        background: var(--bf-brand, #537286);
         box-shadow: 0 4px 16px rgba(0,0,0,0.2);
         cursor: pointer;
         display: flex;
@@ -35,39 +35,21 @@
         position: fixed;
         bottom: 90px;
         left: 20px;
-
         width: 400px;
         height: 600px;
-
         border-radius: 16px;
         box-shadow: 0 5px 40px rgba(0,0,0,0.16);
         overflow: hidden;
-
+        transition: opacity 0.3s, transform 0.3s;
         opacity: 0;
+        transform: translateY(20px);
         pointer-events: none;
         z-index: 999998;
-
-        /*
-        * Sol alt köşeden küçülsün.
-        * Değer JavaScript tarafından hesaplanacak.
-        */
-        --bf-widget-scale: 1;
-        transform-origin: left bottom;
-        transform:
-          translateY(20px)
-          scale(var(--bf-widget-scale));
-
-        transition:
-          opacity 0.3s,
-          transform 0.3s;
       }
       .bf-iframe-container.open {
         opacity: 1;
+        transform: translateY(0);
         pointer-events: auto;
-
-        transform:
-          translateY(0)
-          scale(var(--bf-widget-scale));
       }
       .bf-chat-iframe {
         width: 100%;
@@ -75,16 +57,13 @@
         border: none;
       }
       @media (max-width: 480px) {
-      .bf-widget-container {
-        bottom: 12px;
-        left: 12px;
+        .bf-iframe-container {
+          width: calc(100% - 40px);
+          height: calc(100% - 140px);
+          bottom: 90px;
+          left: 20px;
+        }
       }
-
-      .bf-iframe-container {
-        bottom: 82px;
-        left: 12px;
-      }
-    }
     `;
     document.head.appendChild(style);
 
@@ -115,46 +94,6 @@
 
     const iframeContainer = document.createElement('div');
     iframeContainer.className = 'bf-iframe-container';
-
-    function updateWidgetScale() {
-      const originalWidth = 400;
-      const originalHeight = 600;
-
-      /*
-      * Ekranın kenarlarında bırakılacak alanlar:
-      * - yatayda toplam 40px
-      * - dikeyde chatbot butonu ve boşluklar için 130px
-      */
-      const availableWidth = Math.max(window.innerWidth - 40, 240);
-      const availableHeight = Math.max(window.innerHeight - 130, 360);
-
-      const widthScale = availableWidth / originalWidth;
-      const heightScale = availableHeight / originalHeight;
-
-      /*
-      * 1'in üzerine çıkmaz; sadece gerektiğinde küçülür.
-      * Genişlik ve yükseklikten küçük olan değer seçildiği için
-      * 400×600 oranı korunur.
-      */
-      const scale = Math.min(
-        1,
-        widthScale,
-        heightScale
-      );
-
-      iframeContainer.style.setProperty(
-        '--bf-widget-scale',
-        scale.toFixed(4)
-      );
-    }
-
-    updateWidgetScale();
-
-    window.addEventListener(
-      'resize',
-      updateWidgetScale,
-      { passive: true }
-    );
 
     // Tenant + API origin'i kendi <script> etiketimizden turet.
     // Ornek gomme:
@@ -187,6 +126,12 @@
 
     container.appendChild(iframeContainer);
     container.appendChild(button);
+
+    // Buton rengini tenant config'inden al
+    const cfgUrl = (apiBase || '') + `/api/${tenant}/config`;
+    fetch(cfgUrl).then(r => r.json()).then(cfg => {
+      if (cfg && cfg.color) button.style.setProperty('--bf-brand', cfg.color);
+    }).catch(() => {});
     document.body.appendChild(container);
 
     // 3. Tıklama Olayını Yönet

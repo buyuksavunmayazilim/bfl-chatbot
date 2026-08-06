@@ -11,4 +11,6 @@ scripts/add_data.py
 scripts/import_new_dataset_with_bge.py
 scripts/seed_all_models.py
 scripts/seed_qa_emb.py
+scripts/seed_bfl.py
+scripts/seed_common.py
 *.ipynb

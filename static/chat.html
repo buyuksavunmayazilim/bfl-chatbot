@@ -11,6 +11,7 @@
   <title>Büyük Filo — Asistan</title>
 
   <style>
+    :root { --brand: #537286; }
     * {
       box-sizing: border-box;
       margin: 0;
@@ -58,7 +59,7 @@
     /* ───────────────── Header ───────────────── */
 
     .header {
-      background: #537286;
+      background: var(--brand);
       padding: 14px 18px;
       display: flex;
       align-items: center;
@@ -178,7 +179,7 @@
 
     .bot .msg-av {
       background: #e8eef6;
-      color: #537286;
+      color: var(--brand);
     }
 
     .user .msg-av {
@@ -209,7 +210,7 @@
     }
 
     .user .bubble {
-      background: #537286;
+      background: var(--brand);
       color: #fff;
       border-radius: 16px 4px 16px 16px;
     }
@@ -229,7 +230,7 @@
       padding: 4px 10px;
       border-radius: 20px;
       background: #e8eef6;
-      color: #537286;
+      color: var(--brand);
       text-decoration: none;
       border: 1px solid #c5d4e8;
       transition: background 0.15s;
@@ -289,7 +290,7 @@
       height: 30px;
       border-radius: 50%;
       background: #e8eef6;
-      color: #537286;
+      color: var(--brand);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -364,7 +365,7 @@
     }
 
     .input-area input:focus {
-      border-color: #537286;
+      border-color: var(--brand);
       background: #fff;
     }
 
@@ -372,7 +373,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: #537286;
+      background: var(--brand);
       border: none;
       cursor: pointer;
       display: flex;
@@ -471,11 +472,11 @@
   <div class="chat-container">
 
     <header class="header">
-      <div class="header-avatar">BF</div>
+      <div class="header-avatar" id="bf-avatar">BF</div>
 
       <div class="header-info">
-        <h1>Büyük Filo Asistan</h1>
-        <p>Araç kiralama &amp; destek</p>
+        <h1 id="bf-title">Büyük Filo Asistan</h1>
+        <p id="bf-subtitle">Araç kiralama &amp; destek</p>
       </div>
 
       <div
@@ -506,10 +507,10 @@
       aria-label="Sohbet mesajları"
     >
       <div class="msg bot">
-        <div class="msg-av">BF</div>
+        <div class="msg-av" id="bf-welcome-av">BF</div>
 
         <div class="msg-body">
-          <div class="bubble">
+          <div class="bubble" id="bf-greeting">
             Merhaba! Büyük Filo'ya hoş geldiniz 👋
             <br><br>
             Araç arızası, hasar bildirimi, servis, lastik değişimi,
@@ -582,6 +583,24 @@
     const API = API_BASE_URL
       ? `${API_BASE_URL}/api/${TENANT_ID}/chat`
       : `/api/${TENANT_ID}/chat`;
+
+    // Widget branding'i sunucudan cek (baslik/alt baslik/avatar/karsilama/renk)
+    let WIDGET_AVATAR = "BF";
+    const CONFIG_URL = API_BASE_URL
+      ? `${API_BASE_URL}/api/${TENANT_ID}/config`
+      : `/api/${TENANT_ID}/config`;
+    fetch(CONFIG_URL).then(r => r.json()).then(cfg => {
+      if (!cfg) return;
+      if (cfg.color) document.documentElement.style.setProperty("--brand", cfg.color);
+      if (cfg.title) { const e = document.getElementById("bf-title"); if (e) e.textContent = cfg.title; document.title = cfg.title; }
+      if (cfg.subtitle) { const e = document.getElementById("bf-subtitle"); if (e) e.textContent = cfg.subtitle; }
+      if (cfg.avatar) {
+        WIDGET_AVATAR = cfg.avatar;
+        const h = document.getElementById("bf-avatar"); if (h) h.textContent = cfg.avatar;
+        const w = document.getElementById("bf-welcome-av"); if (w) w.textContent = cfg.avatar;
+      }
+      if (cfg.greeting) { const g = document.getElementById("bf-greeting"); if (g) g.textContent = cfg.greeting; }
+    }).catch(() => {});
 
     const SESSION_STORAGE_KEY =
       `bfl_chat_session:${TENANT_ID}`;
@@ -837,7 +856,7 @@
       }
 
       wrap.innerHTML = `
-        <div class="msg-av">BF</div>
+        <div class="msg-av">${WIDGET_AVATAR}</div>
 
         <div class="msg-body">
           <div class="bubble">

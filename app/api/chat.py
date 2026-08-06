@@ -234,3 +234,17 @@ async def chat_legacy(req: ChatRequest) -> ChatResponse:
 @router.post("/{tenant}/chat", response_model=ChatResponse)
 async def chat(tenant: str, req: ChatRequest) -> ChatResponse:
     return await _run_chat(_resolve(tenant), req)
+
+
+# ─── Public widget yapilandirmasi (baslik/alt baslik/avatar/karsilama/renk) ───
+@router.get("/{tenant}/config")
+async def public_config(tenant: str) -> dict:
+    ctx = _resolve(tenant)
+    s = ctx.content.settings
+    return {
+        "title": s.get("widget_title") or ctx.config.label,
+        "subtitle": s.get("widget_subtitle") or "",
+        "avatar": s.get("widget_avatar") or "",
+        "greeting": s.get("widget_greeting") or "",
+        "color": s.get("widget_color") or "#537286",
+    }

@@ -304,6 +304,9 @@ const TABS = {
     remove: (t, row) => fetchJSON("DELETE", `${t}/intent_forms?intent=${encodeURIComponent(row.intent)}&button_label=${encodeURIComponent(row.button_label)}`),
     label1: r => `${r.intent} / ${r.button_label}`,
   },
+  appearance: {
+    label: "Görünüm", custom: true,
+  },
   settings: {
     label: "Ayarlar", noAdd: true, noDelete: true,
     load: async (t) => (await fetchJSON("GET", `${t}/settings`)).filter(s => String(s.key).startsWith("similarity_threshold")),
@@ -345,6 +348,7 @@ function cellHTML(row, col) {
 function loadTab() {
   const cfg = TABS[state.tab];
   if (cfg.readonly) return loadConversations();
+  if (cfg.custom) return loadAppearance();
   renderTabs();
   document.getElementById("mainToolbar").style.display = "";
   document.getElementById("addBtn").style.display = cfg.noAdd ? "none" : "";
@@ -496,6 +500,50 @@ async function removeRow(row) {
   if (!confirm(`Silinsin mi?\n\n${cfg.label1(row)}`)) return;
   try { await cfg.remove(state.tenant, row); toast("Silindi.", "ok"); loadTab(); }
   catch (e) { toast(e.message, "err"); }
+}
+
+// ---- Görünüm (branding: başlık/alt başlık/avatar/karşılama/renk) -------------
+async function loadAppearance() {
+  renderTabs();
+  document.getElementById("testHost").innerHTML = "";
+  document.getElementById("mainToolbar").style.display = "none";
+  document.getElementById("convBar").style.display = "none";
+  document.getElementById("pager").style.display = "none";
+  const host = document.getElementById("tableHost");
+  host.innerHTML = `<div class="empty">Yükleniyor…</div>`;
+  try {
+    const rows = await fetchJSON("GET", `${state.tenant}/settings`);
+    const val = k => { const r = rows.find(x => x.key === k); return r && r.value != null ? r.value : ""; };
+    host.innerHTML = `
+      <div style="padding:20px; display:grid; gap:14px; max-width:600px">
+        <div class="field"><label>Başlık</label><input type="text" id="ap_title" value="${esc(val("widget_title"))}"></div>
+        <div class="field"><label>Alt başlık</label><input type="text" id="ap_subtitle" value="${esc(val("widget_subtitle"))}"></div>
+        <div class="field"><label>Avatar <span class="hint">(kısa harf, örn. BF)</span></label><input type="text" id="ap_avatar" maxlength="4" value="${esc(val("widget_avatar"))}" style="width:90px"></div>
+        <div class="field"><label>Karşılama mesajı</label><textarea id="ap_greeting">${esc(val("widget_greeting"))}</textarea></div>
+        <div class="field"><label>Renk</label><input type="color" id="ap_color" value="${esc(val("widget_color") || "#537286")}" style="width:64px;height:38px;padding:2px"></div>
+        <div><button class="btn-primary" id="ap_save">Kaydet</button></div>
+      </div>`;
+    document.getElementById("ap_save").onclick = async () => {
+      const items = {
+        widget_title: document.getElementById("ap_title").value.trim(),
+        widget_subtitle: document.getElementById("ap_subtitle").value.trim(),
+        widget_avatar: document.getElementById("ap_avatar").value.trim(),
+        widget_greeting: document.getElementById("ap_greeting").value.trim(),
+        widget_color: document.getElementById("ap_color").value.trim(),
+      };
+      const btn = document.getElementById("ap_save");
+      btn.disabled = true; btn.textContent = "Kaydediliyor…";
+      try {
+        for (const [k, v] of Object.entries(items)) {
+          await fetchJSON("PUT", `${state.tenant}/settings/${k}`, { value: v });
+        }
+        toast("Görünüm kaydedildi. Widget'ta anında geçerli.", "ok");
+      } catch (e) { toast(e.message, "err"); }
+      finally { btn.disabled = false; btn.textContent = "Kaydet"; }
+    };
+  } catch (e) {
+    host.innerHTML = `<div class="empty"><strong>Yüklenemedi</strong>${esc(e.message)}</div>`;
+  }
 }
 
 // ---- Sayfalama --------------------------------------------------------------
