@@ -3,15 +3,29 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from app.core.config import settings
 from app.api.chat import router as chat_router
+from app.api.admin import router as admin_router
+from app.core.context import init_tenants, close_tenants, get_tenant
+from app.core.tenants import DEFAULT_TENANT_ID
+from contextlib import asynccontextmanager
 import asyncpg
 import redis.asyncio as aioredis
 import httpx
 import os
 
-app = FastAPI(title="BFL Chatbot API", version="0.1.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: her tenant icin asyncpg havuzu ac
+    await init_tenants()
+    yield
+    # Shutdown: havuzlari kapat
+    await close_tenants()
+
+
+app = FastAPI(title="BFL Chatbot API", version="0.1.0", lifespan=lifespan)
 
 # Chat router
-app.include_router(chat_router, prefix="/api/v1", tags=["chat"])
+app.include_router(chat_router, prefix="/api", tags=["chat"])
+app.include_router(admin_router, prefix="/api/admin", tags=["admin"])
 
 # Static files
 static_dir = os.path.join(os.path.dirname(__file__), "static")
@@ -43,13 +57,9 @@ async def health():
     }
 
     try:
-        conn = await asyncpg.connect(
-            host=settings.postgres_host, port=settings.postgres_port,
-            database=settings.postgres_db, user=settings.postgres_user,
-            password=settings.postgres_password,
-        )
-        await conn.fetchval("SELECT 1")
-        await conn.close()
+        ctx = get_tenant(DEFAULT_TENANT_ID)
+        async with ctx.pool.acquire() as conn:
+            await conn.fetchval("SELECT 1")
         results["connections"]["postgres"] = "ok"
     except Exception as e:
         results["connections"]["postgres"] = f"error: {e}"

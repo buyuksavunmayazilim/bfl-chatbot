@@ -15,6 +15,7 @@ from dataclasses import dataclass
 import asyncpg
 
 from app.core.config import settings
+from app.core.context import TenantContext
 from app.services.session_service import (
     get_fallback_state,
     set_fallback_state,
@@ -106,6 +107,7 @@ def _detect_email(text: str) -> str | None:
     return match.group() if match else None
 
 async def _complete_fallback(
+    ctx: TenantContext,
     session_id: str,
     state: dict,
     contact_type: str,
@@ -116,6 +118,7 @@ async def _complete_fallback(
     """
 
     await _save_contact(
+        ctx=ctx,
         session_id=session_id,
         name=state.get("name", ""),
         contact_type=contact_type,
@@ -126,9 +129,9 @@ async def _complete_fallback(
     await delete_fallback_state(session_id)
 
     if contact_type == "phone":
-        response = MSG_CONF_PHONE.format(contact=contact_value)
+        response = ctx.content.msg("msg_conf_phone", MSG_CONF_PHONE).format(contact=contact_value)
     else:
-        response = MSG_CONF_EMAIL.format(contact=contact_value)
+        response = ctx.content.msg("msg_conf_email", MSG_CONF_EMAIL).format(contact=contact_value)
 
     return FallbackResult(
         response=response,
@@ -138,16 +141,16 @@ async def _complete_fallback(
 
 
 # ─── Yeni fallback başlat ────────────────────────────────────────────────────
-async def start_fallback(session_id: str) -> FallbackResult:
+async def start_fallback(ctx: TenantContext, session_id: str) -> FallbackResult:
     """
     Fallback akışını başlatır, ad-soyad ister.
     """
     await set_fallback_state(session_id, {"step": STEP_ASK_NAME})
-    return FallbackResult(response=MSG_TRIGGER)
+    return FallbackResult(response=ctx.content.msg("msg_trigger", MSG_TRIGGER))
 
 
 # ─── Fallback adımını işle ───────────────────────────────────────────────────
-async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
+async def process_fallback(ctx: TenantContext, session_id: str, user_input: str) -> FallbackResult:
     """
     Mevcut fallback adımını işler.
     Her adımda K1→K2 zaten chat.py'de kontrol edildi,
@@ -156,7 +159,7 @@ async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
     state = await get_fallback_state(session_id)
     if state is None:
         # TTL dolmuş, yeniden başlat
-        return await start_fallback(session_id)
+        return await start_fallback(ctx, session_id)
 
     step = state.get("step")
     text = user_input.strip()
@@ -165,7 +168,7 @@ async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
     if step == STEP_ASK_NAME:
         if len(text) < 2:
             return FallbackResult(
-                response="Adınızı ve soyadınızı yazabilir misiniz?"
+                response=ctx.content.msg("ask_name_retry", "Adınızı ve soyadınızı yazabilir misiniz?")
             )
 
         first_name = text.split()[0]
@@ -174,7 +177,7 @@ async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
         await set_fallback_state(session_id, state)
 
         return FallbackResult(
-            response=MSG_ASK_PREF.format(name=first_name)
+            response=ctx.content.msg("msg_ask_pref", MSG_ASK_PREF).format(name=first_name)
         )
 
     # ── Adım 2: Tercih al (telefon/email) ────────────────────────────────────
@@ -184,6 +187,7 @@ async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
         email = _detect_email(text)
         if email:
             return await _complete_fallback(
+                ctx=ctx,
                 session_id=session_id,
                 state=state,
                 contact_type="email",
@@ -193,6 +197,7 @@ async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
         phone = _detect_phone(text)
         if phone:
             return await _complete_fallback(
+                ctx=ctx,
                 session_id=session_id,
                 state=state,
                 contact_type="phone",
@@ -205,7 +210,7 @@ async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
         if pref == "declined":
             await delete_fallback_state(session_id)
             return FallbackResult(
-                response=MSG_DECLINED,
+                response=ctx.content.msg("msg_declined", MSG_DECLINED),
                 is_done=True,
             )
 
@@ -214,24 +219,25 @@ async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
             state["step"] = STEP_ASK_PHONE
             await set_fallback_state(session_id, state)
 
-            return FallbackResult(response=MSG_ASK_PHONE)
+            return FallbackResult(response=ctx.content.msg("msg_ask_phone", MSG_ASK_PHONE))
 
         if pref == "email":
             state["pref"] = "email"
             state["step"] = STEP_ASK_EMAIL
             await set_fallback_state(session_id, state)
 
-            return FallbackResult(response=MSG_ASK_EMAIL)
+            return FallbackResult(response=ctx.content.msg("msg_ask_email", MSG_ASK_EMAIL))
 
-        return FallbackResult(response=MSG_INVALID_PREF)
+        return FallbackResult(response=ctx.content.msg("msg_invalid_pref", MSG_INVALID_PREF))
 
     # ── Adım 3a: Telefon al ──────────────────────────────────────────────────
     if step == STEP_ASK_PHONE:
         phone = _detect_phone(text)
         if not phone:
-            return FallbackResult(response=MSG_INVALID_PHONE)
+            return FallbackResult(response=ctx.content.msg("msg_invalid_phone", MSG_INVALID_PHONE))
 
         return await _complete_fallback(
+            ctx=ctx,
             session_id=session_id,
             state=state,
             contact_type="phone",
@@ -242,9 +248,10 @@ async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
     if step == STEP_ASK_EMAIL:
         email = _detect_email(text)
         if not email:
-            return FallbackResult(response=MSG_INVALID_EMAIL)
+            return FallbackResult(response=ctx.content.msg("msg_invalid_email", MSG_INVALID_EMAIL))
 
         return await _complete_fallback(
+            ctx=ctx,
             session_id=session_id,
             state=state,
             contact_type="email",
@@ -253,25 +260,18 @@ async def process_fallback(session_id: str, user_input: str) -> FallbackResult:
 
     # Bilinmeyen adım
     await delete_fallback_state(session_id)
-    return await start_fallback(session_id)
+    return await start_fallback(ctx, session_id)
 
 
 # ─── PostgreSQL'e kaydet ─────────────────────────────────────────────────────
 async def _save_contact(
+    ctx: TenantContext,
     session_id: str,
     name: str,
     contact_type: str,
     contact_value: str,
 ) -> None:
-    conn = await asyncpg.connect(
-        host=settings.postgres_host,
-        port=settings.postgres_port,
-        database=settings.postgres_db,
-        user=settings.postgres_user,
-        password=settings.postgres_password,
-    )
-
-    try:
+    async with ctx.pool.acquire() as conn:
         await conn.execute(
             """
             INSERT INTO fallback_contacts
@@ -281,5 +281,3 @@ async def _save_contact(
             uuid.uuid4(), session_id, name, contact_type, contact_value,
         )
         print(f"[Fallback] Kaydedildi: {name} | {contact_type}: {contact_value}")
-    finally:
-        await conn.close()

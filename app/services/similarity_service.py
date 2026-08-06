@@ -14,6 +14,7 @@ import asyncpg
 from sentence_transformers import SentenceTransformer
 
 from app.core.config import settings
+from app.core.context import TenantContext
 
 
 # ─── Veri yapısı ─────────────────────────────────────────────────────────────
@@ -41,14 +42,15 @@ def embed(text: str) -> list[float]:
 
 # ─── Similarity sorgusu ───────────────────────────────────────────────────────
 async def search_similar(
+    ctx: TenantContext,
     message: str,
     threshold: float | None = None,
     top_k: int = 1,
 ) -> SimilarityResult:
     if threshold is None:
-        threshold = settings.similarity_threshold_high
+        threshold = ctx.config.similarity_threshold_high
 
-    col = settings.similarity_column
+    col = ctx.similarity_column
     vector_str = str(embed(message))
 
     # NOT: intent_category='fallback' HARİÇ tutulur. "fallback" gerçek bir cevap
@@ -68,18 +70,8 @@ async def search_similar(
         LIMIT $2
     """
 
-    conn = await asyncpg.connect(
-        host=settings.postgres_host,
-        port=settings.postgres_port,
-        database=settings.postgres_db,
-        user=settings.postgres_user,
-        password=settings.postgres_password,
-    )
-
-    try:
+    async with ctx.pool.acquire() as conn:
         rows = await conn.fetch(query, vector_str, top_k)
-    finally:
-        await conn.close()
 
     if not rows:
         return SimilarityResult(matched=False)

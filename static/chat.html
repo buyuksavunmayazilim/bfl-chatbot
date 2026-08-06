@@ -571,7 +571,7 @@
     const TENANT_ID =
       queryParams.get("tenant_id") ||
       globalConfig.tenantId ||
-      "buyuk-filo";
+      "bfl";
 
     const API_BASE_URL = (
       queryParams.get("api_base") ||
@@ -580,8 +580,8 @@
     ).replace(/\/+$/, "");
 
     const API = API_BASE_URL
-      ? `${API_BASE_URL}/api/v1/chat`
-      : "/api/v1/chat";
+      ? `${API_BASE_URL}/api/${TENANT_ID}/chat`
+      : `/api/${TENANT_ID}/chat`;
 
     const SESSION_STORAGE_KEY =
       `bfl_chat_session:${TENANT_ID}`;

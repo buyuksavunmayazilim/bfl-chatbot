@@ -1,4 +1,7 @@
 (function () {
+  // widget.js'in kendi <script> etiketi (defer ile calisirken currentScript gecerli).
+  const CURRENT_SCRIPT = document.currentScript;
+
   function initBFLWidget() {
     // 1. Stil Kurallarını Enjekte Et
     const style = document.createElement('style');
@@ -91,7 +94,31 @@
 
     const iframeContainer = document.createElement('div');
     iframeContainer.className = 'bf-iframe-container';
-    iframeContainer.innerHTML = `<iframe src="/static/chat.html" class="bf-chat-iframe"></iframe>`;
+
+    // Tenant + API origin'i kendi <script> etiketimizden turet.
+    // Ornek gomme:
+    //   <script src="https://api.host/static/widget.js" data-tenant="kfz" defer></script>
+    const ds = (CURRENT_SCRIPT && CURRENT_SCRIPT.dataset) || {};
+    const tenant = ds.tenant || 'bfl';
+    const scriptSrc = (CURRENT_SCRIPT && CURRENT_SCRIPT.src) || '';
+
+    let chatHtmlUrl = '/static/chat.html';   // ayni-domain fallback
+    let apiOrigin = '';
+    try {
+      const u = new URL(scriptSrc);
+      apiOrigin = u.origin;                                  // ornek: https://api.host
+      chatHtmlUrl = scriptSrc.replace(/widget\.js(\?.*)?$/, 'chat.html');
+    } catch (e) { /* scriptSrc parse edilemezse ayni-domain kullan */ }
+
+    // data-api-base verildiyse onu, yoksa script'in origin'ini kullan.
+    const apiBase = (ds.apiBase || apiOrigin || '').replace(/\/+$/, '');
+
+    const params = new URLSearchParams({ tenant_id: tenant });
+    if (apiBase) params.set('api_base', apiBase);
+
+    const iframeSrc = `${chatHtmlUrl}?${params.toString()}`;
+    iframeContainer.innerHTML =
+      `<iframe src="${iframeSrc}" class="bf-chat-iframe"></iframe>`;
 
     const button = document.createElement('div');
     button.className = 'bf-widget-button';

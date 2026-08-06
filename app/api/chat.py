@@ -11,26 +11,26 @@ import time
 import uuid
 
 import asyncpg
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from app.core.config import settings
-from app.services.keyword_service import match_keyword, INTENT_FORM_URLS
+from app.core.context import TenantContext, get_tenant
+from app.core.tenants import DEFAULT_TENANT_ID
+from app.services.keyword_service import match_keyword
 from app.services.similarity_service import search_similar
 from app.services.session_service import has_active_fallback, is_fallback_completed, delete_fallback_state
 from app.services.fallback_service import start_fallback, process_fallback
 
 router = APIRouter()
 
-ALLOW_INTERRUPT_INTENTS = {"ariza", "hasar", "lastik", "servis", "teklif", "trafik", "hgs"}
-CANCEL_WORDS = {"iptal", "vazgeç", "vazgectim", "vazgeçtim", "çık", "cik",
-                "kapat", "baştan", "bastan", "menü", "menu", "geri","yok","hayır"}
 VALID_SOURCES = {"k1_keyword", "k2_similarity", "fallback", "static"}
 
 # ─── Request / Response ──────────────────────────────────────────────────────
 class ChatRequest(BaseModel):
     session_id: str
     message: str
+    test: bool = False   # True ise mesaj kaydedilmez (panel/gelistirme denemeleri)
 
 
 class ChatResponse(BaseModel):
@@ -45,6 +45,7 @@ class ChatResponse(BaseModel):
 
 # ─── DB kayıt ────────────────────────────────────────────────────────────────
 async def _save_message(
+    ctx: TenantContext,
     session_id: str,
     user_content: str,
     bot_content: str,
@@ -58,14 +59,7 @@ async def _save_message(
         if source not in {"k1_keyword", "k2_similarity", "fallback", "static"}:
             source = "static"
 
-        conn = await asyncpg.connect(
-            host=settings.postgres_host,
-            port=settings.postgres_port,
-            database=settings.postgres_db,
-            user=settings.postgres_user,
-            password=settings.postgres_password,
-        )
-        try:
+        async with ctx.pool.acquire() as conn:
             await conn.execute(
                 """
                 INSERT INTO conversations (id, session_id, created_at)
@@ -97,15 +91,12 @@ async def _save_message(
                 """,
                 uuid.uuid4(), session_id, intent, source, response_ms,
             )
-        finally:
-            await conn.close()
     except Exception as e:
         print(f"[Chat] DB kayit hatasi: {e}")
 
 
 # ─── Ana endpoint ─────────────────────────────────────────────────────────────
-@router.post("/chat", response_model=ChatResponse)
-async def chat(req: ChatRequest) -> ChatResponse:
+async def _run_chat(ctx: TenantContext, req: ChatRequest) -> ChatResponse:
     t_start = time.time()
     message = req.message.strip()
     session_id = req.session_id
@@ -125,17 +116,20 @@ async def chat(req: ChatRequest) -> ChatResponse:
         text_low = message.lower().strip()
  
         # (a) İptal/çıkış
-        if text_low in CANCEL_WORDS:
+        if text_low in set(ctx.content.setting("cancel_words", [])):
             await delete_fallback_state(session_id)
             source = "static"
-            bot_reply = ("Tabii, iptal ettim. Araç arızası, hasar, servis, lastik, "
-                         "teklif veya genel sorularınız için buradayım.")
+            bot_reply = ctx.content.msg(
+                "cancel_reply",
+                "Tabii, iptal ettim. Araç arızası, hasar, servis, lastik, "
+                "teklif veya genel sorularınız için buradayım.",
+            )
  
         else:
-            k1 = match_keyword(message)
+            k1 = match_keyword(ctx, message)
  
             # (b) Net aksiyon intenti -> fallback'ten çık
-            if k1.matched and k1.intent in ALLOW_INTERRUPT_INTENTS:
+            if k1.matched and k1.intent in set(ctx.content.setting("allow_interrupt_intents", [])):
                 await delete_fallback_state(session_id)
                 intent = k1.intent
                 source = "k1_keyword"
@@ -145,7 +139,7 @@ async def chat(req: ChatRequest) -> ChatResponse:
  
             else:
                 # (d) Değilse fallback akışına DEVAM (isim/telefon topla)
-                fb = await process_fallback(session_id, message)
+                fb = await process_fallback(ctx, session_id, message)
                 source = "fallback"
                 intent = "iletisim"
                 bot_reply = fb.response
@@ -155,7 +149,7 @@ async def chat(req: ChatRequest) -> ChatResponse:
     # ══════════════════════════════════════════════════════════════════════
     else:
         # ── 1: Keyword ────────────────────────────────────────────────────
-        k1 = match_keyword(message)
+        k1 = match_keyword(ctx, message)
         if k1.matched:
             intent = k1.intent
             source = "k1_keyword"
@@ -165,41 +159,49 @@ async def chat(req: ChatRequest) -> ChatResponse:
  
         else:
             # ── 2: Similarity ─────────────────────────────────────────────
-            k2 = await search_similar(message)
+            k2 = await search_similar(ctx, message)
             if k2.matched:
                 intent = k2.intent_category
                 source = "k2_similarity"
                 confidence = k2.score
                 bot_reply = k2.answer or ""
-                form_urls = INTENT_FORM_URLS.get(intent, {})
+                form_urls = ctx.content.intent_forms.get(intent, {})
  
             else:
                 # ── 3: Kısa/anlamsız girdi -> fallback BAŞLATMA ────────────
                 if len(message) < 3:
                     source = "static"
-                    bot_reply = ("Tam anlayamadım. Araç arızası, hasar, servis, "
-                                 "lastik veya teklif hakkında yazabilirsiniz.")
+                    bot_reply = ctx.content.msg(
+                        "static_short_input",
+                        "Tam anlayamadım. Araç arızası, hasar, servis, "
+                        "lastik veya teklif hakkında yazabilirsiniz.",
+                    )
                 elif not await is_fallback_completed(session_id):
-                    fb = await start_fallback(session_id)
+                    fb = await start_fallback(ctx, session_id)
                     source = "fallback"
                     bot_reply = fb.response
                 else:
                     source = "static"
-                    bot_reply = ("Başka bir konuda yardımcı olabilir miyim? "
-                                 "Araç arızası, hasar bildirimi, servis, lastik veya "
-                                 "teklif konularında buradayım.")
+                    bot_reply = ctx.content.msg(
+                        "static_completed",
+                        "Başka bir konuda yardımcı olabilir miyim? "
+                        "Araç arızası, hasar bildirimi, servis, lastik veya "
+                        "teklif konularında buradayım.",
+                    )
  
     response_ms = int((time.time() - t_start) * 1000)
 
-    await _save_message(
-        session_id=session_id,
-        user_content=message,
-        bot_content=bot_reply,
-        intent=intent,
-        source=source,
-        confidence=confidence,
-        response_ms=response_ms,
-    )
+    if not req.test:
+        await _save_message(
+            ctx=ctx,
+            session_id=session_id,
+            user_content=message,
+            bot_content=bot_reply,
+            intent=intent,
+            source=source,
+            confidence=confidence,
+            response_ms=response_ms,
+        )
 
     return ChatResponse(
         session_id=session_id,
@@ -210,3 +212,25 @@ async def chat(req: ChatRequest) -> ChatResponse:
         form_urls=form_urls,
         response_ms=response_ms,
     )
+
+def _resolve(tenant: str) -> TenantContext:
+    """URL'deki tenant slug'ini canli baglama (TenantContext) cevirir."""
+    try:
+        return get_tenant(tenant)
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"Bilinmeyen tenant: {tenant}")
+    except RuntimeError:
+        raise HTTPException(status_code=503, detail=f"Tenant su an kullanilamiyor: {tenant}")
+
+
+# Geriye donuk uyum: eski /api/v1/chat -> bfl.
+# {tenant} route'undan ONCE tanimlanir ki "v1" bir tenant sanilmasin.
+@router.post("/v1/chat", response_model=ChatResponse)
+async def chat_legacy(req: ChatRequest) -> ChatResponse:
+    return await _run_chat(_resolve(DEFAULT_TENANT_ID), req)
+
+
+# Cok-kiracili route: /api/{tenant}/chat
+@router.post("/{tenant}/chat", response_model=ChatResponse)
+async def chat(tenant: str, req: ChatRequest) -> ChatResponse:
+    return await _run_chat(_resolve(tenant), req)

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Chatbot Yönetimi</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --line: #e4e7ec; --line-2: #eef1f4;
+    --ink: #1f2a37; --muted: #667085; --faint: #98a2b3;
+    --accent: #537286; --accent-d: #3f5766; --accent-tint: #eef2f5;
+    --danger: #b42318; --danger-tint: #fef3f2; --ok: #067647; --ok-tint: #ecfdf3;
+    --radius: 8px; --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--ink); font-size: 14px; line-height: 1.5;
+  }
+  a { color: var(--accent); }
+
+  /* Header */
+  header {
+    background: var(--card); border-bottom: 1px solid var(--line);
+    padding: 0 20px; display: flex; align-items: center; gap: 18px;
+    height: 60px; position: sticky; top: 0; z-index: 20;
+  }
+  .brand { font-weight: 700; letter-spacing: -0.01em; font-size: 15px; }
+  .brand span { color: var(--accent); }
+  .spacer { flex: 1; }
+  .tenant-wrap { display: flex; align-items: center; gap: 8px; }
+  .tenant-wrap label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  select, input, textarea {
+    font: inherit; color: var(--ink); background: var(--card);
+    border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px;
+  }
+  select:focus-visible, input:focus-visible, textarea:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px;
+  }
+  #tenant { font-weight: 600; min-width: 150px; }
+
+  button {
+    font: inherit; cursor: pointer; border-radius: 6px; border: 1px solid var(--line);
+    background: var(--card); color: var(--ink); padding: 8px 12px; font-weight: 500;
+    transition: background .12s, border-color .12s;
+  }
+  button:hover { background: var(--line-2); }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-d); border-color: var(--accent-d); }
+  .btn-ghost { background: transparent; border-color: transparent; color: var(--muted); }
+  .btn-ghost:hover { background: var(--line-2); color: var(--ink); }
+  .btn-danger { color: var(--danger); border-color: transparent; background: transparent; }
+  .btn-danger:hover { background: var(--danger-tint); }
+  .btn-sm { padding: 4px 8px; font-size: 13px; }
+  button:disabled { opacity: .45; cursor: default; }
+  button:disabled:hover { background: var(--card); }
+
+  /* Tabs */
+  nav.tabs { display: flex; gap: 2px; padding: 0 20px; background: var(--card); border-bottom: 1px solid var(--line); overflow-x: auto; }
+  nav.tabs button {
+    border: none; background: none; border-radius: 0; padding: 12px 14px; color: var(--muted);
+    font-weight: 500; border-bottom: 2px solid transparent; white-space: nowrap;
+  }
+  nav.tabs button:hover { background: none; color: var(--ink); }
+  nav.tabs button.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  main { padding: 22px; max-width: 1180px; margin: 0 auto; }
+
+  .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .toolbar .grow { flex: 1; }
+  .toolbar input[type=search] { min-width: 220px; }
+  .count { color: var(--faint); font-size: 13px; }
+
+  /* Semantic test panel */
+  .testbox {
+    background: var(--accent-tint); border: 1px solid #dbe4ea; border-radius: var(--radius);
+    padding: 14px 16px; margin-bottom: 18px;
+  }
+  .testbox h3 { margin: 0 0 4px; font-size: 13px; color: var(--accent-d); }
+  .testbox p { margin: 0 0 10px; color: var(--muted); font-size: 12.5px; }
+  .testbox .row { display: flex; gap: 8px; }
+  .testbox input { flex: 1; }
+  .test-results { margin-top: 12px; display: grid; gap: 6px; }
+  .test-hit { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; display: flex; gap: 10px; align-items: baseline; }
+  .test-hit .sim { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); font-family: var(--mono); font-size: 12px; }
+  .test-hit .q { font-weight: 600; }
+  .test-hit .meta { color: var(--faint); font-size: 12px; }
+
+  /* Table */
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line-2); vertical-align: top; }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; background: #fbfcfd; box-shadow: inset 0 -1px 0 var(--line); }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #fbfcfd; }
+  td.trunc { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
+  td .k { font-family: var(--mono); font-size: 12.5px; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; background: var(--line-2); color: var(--muted); }
+  .pill.on { background: var(--ok-tint); color: var(--ok); }
+  .pill.off { background: var(--danger-tint); color: var(--danger); }
+  .row-actions { white-space: nowrap; text-align: right; }
+  .empty { padding: 48px 20px; text-align: center; color: var(--muted); }
+  .empty strong { display: block; color: var(--ink); margin-bottom: 4px; }
+
+  /* Görüşme kartları */
+  .conv-list { display: grid; gap: 10px; padding: 12px; }
+  .conv-card { border: 1px solid var(--line); border-left: 3px solid var(--faint); border-radius: 8px; padding: 11px 14px; background: var(--card); }
+  .conv-card.unans { border-left-color: var(--danger); background: #fffaf9; }
+  .conv-card.ans { border-left-color: var(--ok); }
+  .conv-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .conv-head .time { color: var(--faint); font-size: 12px; white-space: nowrap; }
+  .conv-head .intent { margin-left: auto; }
+  .conv-line { display: flex; gap: 8px; padding: 3px 0; align-items: baseline; }
+  .conv-line b { color: var(--muted); font-weight: 600; min-width: 48px; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+  .conv-line.q span { font-weight: 600; color: var(--ink); }
+  .conv-line.a span { color: var(--ink); }
+
+  /* Modal */
+  .overlay { position: fixed; inset: 0; background: rgba(16,24,40,.45); display: none; align-items: center; justify-content: center; z-index: 50; padding: 20px; }
+  .overlay.show { display: flex; }
+  .modal { background: var(--card); border-radius: 12px; width: 560px; max-width: 100%; max-height: 90vh; overflow: auto; box-shadow: 0 12px 40px rgba(16,24,40,.2); }
+  .modal-head { padding: 18px 20px; border-bottom: 1px solid var(--line); font-weight: 700; }
+  .modal-body { padding: 20px; display: grid; gap: 14px; }
+  .field label { display: block; font-size: 12.5px; font-weight: 600; margin-bottom: 5px; color: var(--ink); }
+  .field .hint { font-weight: 400; color: var(--faint); }
+  .field input[type=text], .field input[type=number], .field textarea, .field input:not([type]) { width: 100%; }
+  .field textarea { min-height: 84px; resize: vertical; }
+  .field textarea.mono { font-family: var(--mono); font-size: 13px; }
+  .check { display: flex; align-items: center; gap: 8px; }
+  .check input { width: auto; }
+  .modal-foot { padding: 16px 20px; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; gap: 10px; }
+
+  /* Toast */
+  #toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 80; max-width: 90vw; }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  #toast.err { background: var(--danger); }
+  #toast.ok { background: var(--ok); }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media (max-width: 640px) { th { position: static; } td.trunc { max-width: 160px; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Chatbot <span>Yönetimi</span></div>
+  <div class="spacer"></div>
+  <div class="tenant-wrap">
+    <label for="tenant">Chatbot</label>
+    <select id="tenant"></select>
+  </div>
+  <button id="reloadBtn" class="btn-ghost" title="Sunucu önbelleğini ve tabloyu yenile">↻ Yenile</button>
+</header>
+
+<nav class="tabs" id="tabs"></nav>
+
+<main>
+  <div id="testHost"></div>
+  <div class="toolbar" id="mainToolbar">
+    <button class="btn-primary" id="addBtn">+ Yeni ekle</button>
+    <input type="search" id="qaSearch" placeholder="Soru/cevap içinde ara…" style="display:none" />
+    <div class="grow"></div>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="toolbar" id="convBar" style="display:none">
+    <label class="count" for="convFrom">Tarih</label>
+    <input type="date" id="convFrom" />
+    <span class="count">–</span>
+    <input type="date" id="convTo" />
+    <select id="convStatus">
+      <option value="all">Tümü</option>
+      <option value="answered">Cevaplandı</option>
+      <option value="unanswered">Cevaplanamadı</option>
+    </select>
+    <button id="convApply">Uygula</button>
+    <div class="grow"></div>
+    <span class="count" id="convCount"></span>
+  </div>
+  <div class="card" id="tableHost"></div>
+  <div class="toolbar" id="pager" style="display:none; justify-content:center; gap:14px; margin-top:14px"></div>
+</main>
+
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head" id="modalTitle">Kayıt</div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot">
+      <button class="btn-ghost" id="cancelBtn">Vazgeç</button>
+      <button class="btn-primary" id="saveBtn">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const API = "/api/admin";
+
+// ---- API yardımcıları -------------------------------------------------------
+async function fetchJSON(method, path, body) {
+  const opt = { method, headers: {} };
+  if (body !== undefined) { opt.headers["Content-Type"] = "application/json"; opt.body = JSON.stringify(body); }
+  const res = await fetch(`${API}/${path}`, opt);
+  const text = await res.text();
+  let data = null;
+  if (text) { try { data = JSON.parse(text); } catch (e) { data = null; } }
+  if (!res.ok) throw new Error((data && data.detail) || (text ? text.slice(0, 200) : `HTTP ${res.status}`));
+  return data;
+}
+function toast(msg, kind) {
+  const el = document.getElementById("toast");
+  el.textContent = msg; el.className = "show " + (kind || "");
+  clearTimeout(el._t); el._t = setTimeout(() => (el.className = ""), 2600);
+}
+
+// ---- Sekme tanımları --------------------------------------------------------
+const esc = s => (s == null ? "" : String(s)).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+
+const TABS = {
+  qa: {
+    label: "Soru & Cevap", searchable: true, hasTest: true, paged: true,
+    load: async (t) => {
+      const q = state.qaQuery ? `&text=${encodeURIComponent(state.qaQuery)}` : "";
+      const d = await fetchJSON("GET", `${t}/qa?limit=${state.limit}&offset=${state.offset}${q}`);
+      state.total = d.total; return d.items;
+    },
+    columns: [
+      { k: "id", label: "ID", w: "56px" },
+      { k: "question", label: "Soru" },
+      { k: "answer", label: "Cevap", trunc: true },
+      { k: "intent_category", label: "Intent" },
+      { k: "is_augmented", label: "Aug", bool: true, w: "56px" },
+    ],
+    fields: [
+      { k: "question", label: "Soru", type: "textarea", required: true },
+      { k: "answer", label: "Cevap", type: "textarea", required: true },
+      { k: "intent", label: "Intent", type: "datalist", required: true, get: r => r.intent_category, options: () => state.intentOptions },
+      { k: "is_augmented", label: "Üretilmiş (augmented) kayıt", type: "checkbox" },
+    ],
+    save: (t, row, v) => row
+      ? fetchJSON("PUT", `${t}/qa/${row.id}`, v)
+      : fetchJSON("POST", `${t}/qa`, v),
+    remove: (t, row) => fetchJSON("DELETE", `${t}/qa/${row.id}`),
+    label1: r => `#${r.id}`,
+  },
+  conversations: {
+    label: "Görüşmeler", readonly: true,
+  },
+  intents: {
+    label: "Intent'ler",
+    load: (t) => fetchJSON("GET", `${t}/intents`),
+    columns: [
+      { k: "name", label: "Ad", mono: true },
+      { k: "priority", label: "Öncelik", w: "80px" },
+      { k: "keywords", label: "Kelimeler", arr: true, trunc: true },
+      { k: "static_response", label: "Hazır cevap", trunc: true },
+      { k: "enabled", label: "Aktif", bool: true, w: "64px" },
+    ],
+    fields: [
+      { k: "name", label: "Ad (intent)", type: "text", required: true, pkField: true },
+      { k: "priority", label: "Öncelik", hint: "(küçük = önce kontrol edilir)", type: "number", def: 100 },
+      { k: "keywords", label: "Kelimeler", hint: "(virgül veya satırla ayırın)", type: "tags" },
+      { k: "static_response", label: "Hazır cevap", hint: "(K1 eşleşince döner, boş bırakılabilir)", type: "textarea" },
+      { k: "enabled", label: "Aktif", type: "checkbox", def: true },
+    ],
+    save: (t, row, v) => {
+      const name = v.name; const body = { ...v }; delete body.name;
+      return fetchJSON("PUT", `${t}/intents/${encodeURIComponent(name)}`, body);
+    },
+    remove: (t, row) => fetchJSON("DELETE", `${t}/intents/${encodeURIComponent(row.name)}`),
+    label1: r => r.name,
+  },
+  form_urls: {
+    label: "Form URL'leri",
+    load: (t) => fetchJSON("GET", `${t}/form_urls`),
+    columns: [ { k: "key", label: "Anahtar", mono: true }, { k: "url", label: "URL", trunc: true } ],
+    fields: [
+      { k: "key", label: "Anahtar", type: "text", required: true, pkField: true },
+      { k: "url", label: "URL", type: "text", required: true },
+    ],
+    save: (t, row, v) => fetchJSON("PUT", `${t}/form_urls/${encodeURIComponent(v.key)}`, { url: v.url }),
+    remove: (t, row) => fetchJSON("DELETE", `${t}/form_urls/${encodeURIComponent(row.key)}`),
+    label1: r => r.key,
+  },
+  intent_forms: {
+    label: "Intent Formları",
+    load: (t) => fetchJSON("GET", `${t}/intent_forms`),
+    columns: [
+      { k: "intent", label: "Intent", mono: true },
+      { k: "button_label", label: "Buton etiketi", mono: true },
+      { k: "form_key", label: "Form anahtarı", mono: true },
+    ],
+    fields: [
+      { k: "intent", label: "Intent", hint: "(mevcut intent'lerden seçin)", type: "datalist", required: true, options: () => state.intentOptions },
+      { k: "button_label", label: "Buton etiketi", type: "text", required: true },
+      { k: "form_key", label: "Form anahtarı", hint: "(mevcut form URL'lerinden seçin)", type: "datalist", required: true, options: () => state.formKeyOptions },
+    ],
+    save: (t, row, v) => fetchJSON("PUT", `${t}/intent_forms`, v),
+    remove: (t, row) => fetchJSON("DELETE", `${t}/intent_forms?intent=${encodeURIComponent(row.intent)}&button_label=${encodeURIComponent(row.button_label)}`),
+    label1: r => `${r.intent} / ${r.button_label}`,
+  },
+  messages: {
+    label: "Mesajlar",
+    load: (t) => fetchJSON("GET", `${t}/messages`),
+    columns: [ { k: "key", label: "Anahtar", mono: true }, { k: "text", label: "Metin", trunc: true } ],
+    fields: [
+      { k: "key", label: "Anahtar", type: "text", required: true, pkField: true },
+      { k: "text", label: "Metin", type: "textarea", required: true },
+    ],
+    save: (t, row, v) => fetchJSON("PUT", `${t}/messages/${encodeURIComponent(v.key)}`, { text: v.text }),
+    remove: (t, row) => fetchJSON("DELETE", `${t}/messages/${encodeURIComponent(row.key)}`),
+    label1: r => r.key,
+  },
+  settings: {
+    label: "Ayarlar",
+    load: (t) => fetchJSON("GET", `${t}/settings`),
+    columns: [ { k: "key", label: "Anahtar", mono: true }, { k: "value", label: "Değer (JSON)", json: true, trunc: true } ],
+    fields: [
+      { k: "key", label: "Anahtar", type: "text", required: true, pkField: true },
+      { k: "value", label: "Değer", hint: "(JSON: liste, metin veya sayı)", type: "json" },
+    ],
+    save: (t, row, v) => fetchJSON("PUT", `${t}/settings/${encodeURIComponent(v.key)}`, { value: v.value }),
+    remove: (t, row) => fetchJSON("DELETE", `${t}/settings/${encodeURIComponent(row.key)}`),
+    label1: r => r.key,
+  },
+};
+
+const state = { tenant: null, tab: "qa", rows: [], total: 0, qaQuery: "", intentOptions: [], formKeyOptions: [], limit: 50, offset: 0 };
+
+// ---- Render -----------------------------------------------------------------
+function renderTabs() {
+  const host = document.getElementById("tabs");
+  host.innerHTML = "";
+  for (const [id, cfg] of Object.entries(TABS)) {
+    const b = document.createElement("button");
+    b.textContent = cfg.label;
+    b.className = id === state.tab ? "active" : "";
+    b.onclick = () => { state.tab = id; state.qaQuery = ""; state.offset = 0; loadTab(); };
+    host.appendChild(b);
+  }
+}
+
+function cellHTML(row, col) {
+  let val = row[col.k];
+  if (col.bool) return `<span class="pill ${val ? "on" : "off"}">${val ? "evet" : "hayır"}</span>`;
+  if (col.arr) val = Array.isArray(val) ? val.join(", ") : "";
+  if (col.json) val = JSON.stringify(val);
+  if (val == null || val === "") return `<span class="meta" style="color:var(--faint)">—</span>`;
+  const inner = col.mono ? `<span class="k">${esc(val)}</span>` : esc(val);
+  return col.trunc ? `<span title="${esc(val)}">${inner}</span>` : inner;
+}
+
+function loadTab() {
+  const cfg = TABS[state.tab];
+  if (cfg.readonly) return loadConversations();
+  renderTabs();
+  document.getElementById("mainToolbar").style.display = "";
+  document.getElementById("convBar").style.display = "none";
+  document.getElementById("qaSearch").style.display = cfg.searchable ? "" : "none";
+  renderTestBox(cfg);
+  const host = document.getElementById("tableHost");
+  host.innerHTML = `<div class="empty">Yükleniyor…</div>`;
+  document.getElementById("count").textContent = "";
+
+  cfg.load(state.tenant).then(rows => {
+    state.rows = rows;
+    if (!rows.length) {
+      host.innerHTML = `<div class="empty"><strong>Kayıt yok</strong>Bu chatbot için henüz ${cfg.label.toLowerCase()} eklenmemiş. “Yeni ekle” ile başlayın.</div>`;
+      document.getElementById("count").textContent = "";
+      document.getElementById("pager").style.display = "none";
+      return;
+    }
+    const cols = cfg.columns;
+    const head = cols.map(c => `<th${c.w ? ` style="width:${c.w}"` : ""}>${c.label}</th>`).join("") + "<th></th>";
+    const body = rows.map((r, i) => {
+      const tds = cols.map(c => `<td class="${c.trunc ? "trunc" : ""}">${cellHTML(r, c)}</td>`).join("");
+      return `<tr>${tds}<td class="row-actions">
+        <button class="btn-ghost btn-sm" data-edit="${i}">Düzenle</button>
+        <button class="btn-danger btn-sm" data-del="${i}">Sil</button></td></tr>`;
+    }).join("");
+    host.innerHTML = `<div style="overflow-x:auto"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+    host.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => openModal(rows[+b.dataset.edit]));
+    host.querySelectorAll("[data-del]").forEach(b => b.onclick = () => removeRow(rows[+b.dataset.del]));
+    const c = cfg.searchable ? `${rows.length}${state.total > rows.length ? " / " + state.total : ""} kayıt` : `${rows.length} kayıt`;
+    document.getElementById("count").textContent = c;
+    if (state.tab === "qa" || state.tab === "intent_forms") loadOptions();
+    if (cfg.paged) renderPager(state.total, loadTab);
+    else document.getElementById("pager").style.display = "none";
+  }).catch(err => {
+    host.innerHTML = `<div class="empty"><strong>Yüklenemedi</strong>${esc(err.message)}</div>`;
+  });
+}
+
+// ---- Semantik test kutusu (yalnızca Q&A) ------------------------------------
+function renderTestBox(cfg) {
+  const host = document.getElementById("testHost");
+  if (!cfg.hasTest) { host.innerHTML = ""; return; }
+  host.innerHTML = `
+    <div class="testbox">
+      <h3>Bot ne cevaplar? — semantik test</h3>
+      <p>Bir müşteri sorusu yazın; bu chatbot'un bilgi tabanında en yakın kayıtları benzerlik skoruyla görün.</p>
+      <div class="row">
+        <input type="text" id="testQ" placeholder="ör. yolda kaldım, hasar bildirimi nasıl yapılır…" />
+        <button class="btn-primary" id="testBtn">Test et</button>
+      </div>
+      <div class="test-results" id="testRes"></div>
+    </div>`;
+  const run = async () => {
+    const q = document.getElementById("testQ").value.trim();
+    if (!q) return;
+    const res = document.getElementById("testRes");
+    res.innerHTML = `<div class="meta">Aranıyor…</div>`;
+    try {
+      const hits = await fetchJSON("POST", `${state.tenant}/qa/search`, { query: q, limit: 5 });
+      if (!hits.length) { res.innerHTML = `<div class="meta">Sonuç yok.</div>`; return; }
+      res.innerHTML = hits.map(h => `
+        <div class="test-hit">
+          <span class="sim">${(h.similarity * 100).toFixed(1)}%</span>
+          <div><div class="q">${esc(h.question)}</div>
+          <div class="meta">${esc(h.intent_category)} — ${esc(h.answer)}</div></div>
+        </div>`).join("");
+    } catch (e) { res.innerHTML = `<div class="meta" style="color:var(--danger)">${esc(e.message)}</div>`; }
+  };
+  document.getElementById("testBtn").onclick = run;
+  document.getElementById("testQ").addEventListener("keydown", e => { if (e.key === "Enter") run(); });
+}
+
+// ---- Modal (ekle/düzenle) ---------------------------------------------------
+let editingRow = null;
+function openModal(row) {
+  const cfg = TABS[state.tab];
+  editingRow = row || null;
+  document.getElementById("modalTitle").textContent =
+    (row ? "Düzenle" : "Yeni ekle") + " — " + (row ? cfg.label1(row) : cfg.label);
+  const body = document.getElementById("modalBody");
+  body.innerHTML = cfg.fields.map(f => {
+    const cur = row ? (f.get ? f.get(row) : row[f.k]) : (f.def !== undefined ? f.def : "");
+    const disabled = (row && f.pkField) ? "disabled" : "";
+    const hint = f.hint ? ` <span class="hint">${f.hint}</span>` : "";
+    if (f.type === "checkbox")
+      return `<div class="field"><label class="check"><input type="checkbox" id="f_${f.k}" ${cur ? "checked" : ""}/> ${f.label}${hint}</label></div>`;
+    if (f.type === "textarea")
+      return `<div class="field"><label>${f.label}${hint}</label><textarea id="f_${f.k}">${esc(cur)}</textarea></div>`;
+    if (f.type === "tags") {
+      const v = Array.isArray(cur) ? cur.join(", ") : "";
+      return `<div class="field"><label>${f.label}${hint}</label><textarea id="f_${f.k}">${esc(v)}</textarea></div>`;
+    }
+    if (f.type === "json") {
+      const v = cur === "" ? "" : JSON.stringify(cur, null, 2);
+      return `<div class="field"><label>${f.label}${hint}</label><textarea id="f_${f.k}" class="mono">${esc(v)}</textarea></div>`;
+    }
+    if (f.type === "datalist") {
+      const opts = (f.options ? f.options() : []).map(o => `<option value="${esc(o)}"></option>`).join("");
+      return `<div class="field"><label>${f.label}${hint}</label><input type="text" id="f_${f.k}" list="dl_${f.k}" value="${esc(cur)}" autocomplete="off" ${disabled}/><datalist id="dl_${f.k}">${opts}</datalist></div>`;
+    }
+    const t = f.type === "number" ? "number" : "text";
+    return `<div class="field"><label>${f.label}${hint}</label><input type="${t}" id="f_${f.k}" value="${esc(cur)}" ${disabled}/></div>`;
+  }).join("");
+  document.getElementById("overlay").classList.add("show");
+}
+function closeModal() { document.getElementById("overlay").classList.remove("show"); }
+
+function collectValues() {
+  const cfg = TABS[state.tab];
+  const v = {};
+  for (const f of cfg.fields) {
+    const el = document.getElementById("f_" + f.k);
+    if (f.type === "checkbox") v[f.k] = el.checked;
+    else if (f.type === "number") v[f.k] = el.value === "" ? null : Number(el.value);
+    else if (f.type === "tags") v[f.k] = el.value.split(/[,\n]/).map(s => s.trim()).filter(Boolean);
+    else if (f.type === "json") {
+      const raw = el.value.trim();
+      try { v[f.k] = raw === "" ? null : JSON.parse(raw); }
+      catch (e) { throw new Error(`"${f.label}" geçerli JSON değil.`); }
+    } else v[f.k] = el.value.trim();
+    if (f.required && (v[f.k] === "" || v[f.k] == null)) throw new Error(`"${f.label}" zorunlu.`);
+  }
+  return v;
+}
+
+async function saveModal() {
+  const cfg = TABS[state.tab];
+  let v;
+  try { v = collectValues(); } catch (e) { toast(e.message, "err"); return; }
+  try {
+    await cfg.save(state.tenant, editingRow, v);
+    closeModal();
+    toast("Kaydedildi.", "ok");
+    loadTab();
+  } catch (e) { toast(e.message, "err"); }
+}
+
+async function removeRow(row) {
+  const cfg = TABS[state.tab];
+  if (!confirm(`Silinsin mi?\n\n${cfg.label1(row)}`)) return;
+  try { await cfg.remove(state.tenant, row); toast("Silindi.", "ok"); loadTab(); }
+  catch (e) { toast(e.message, "err"); }
+}
+
+// ---- Sayfalama --------------------------------------------------------------
+function renderPager(total, reload) {
+  const pager = document.getElementById("pager");
+  if (!total || total <= state.limit) { pager.style.display = "none"; return; }
+  const start = state.offset + 1;
+  const end = Math.min(state.offset + state.limit, total);
+  const canPrev = state.offset > 0;
+  const canNext = state.offset + state.limit < total;
+  pager.style.display = "flex";
+  pager.innerHTML =
+    `<button id="pgPrev" ${canPrev ? "" : "disabled"}>‹ Önceki</button>
+     <span class="count">${start}–${end} / ${total}</span>
+     <button id="pgNext" ${canNext ? "" : "disabled"}>Sonraki ›</button>`;
+  document.getElementById("pgPrev").onclick = () => { if (canPrev) { state.offset = Math.max(0, state.offset - state.limit); reload(); } };
+  document.getElementById("pgNext").onclick = () => { if (canNext) { state.offset += state.limit; reload(); } };
+}
+
+// ---- Görüşmeler (salt-okunur izleme) ----------------------------------------
+function loadConversations() {
+  renderTabs();
+  document.getElementById("testHost").innerHTML = "";
+  document.getElementById("mainToolbar").style.display = "none";
+  document.getElementById("convBar").style.display = "";
+  const host = document.getElementById("tableHost");
+  host.innerHTML = `<div class="empty">Yükleniyor…</div>`;
+
+  const qs = new URLSearchParams();
+  const from = document.getElementById("convFrom").value;
+  const to = document.getElementById("convTo").value;
+  const status = document.getElementById("convStatus").value;
+  if (from) qs.set("date_from", from);
+  if (to) qs.set("date_to", to);
+  if (status) qs.set("status", status);
+  qs.set("limit", state.limit);
+  qs.set("offset", state.offset);
+
+  fetchJSON("GET", `${state.tenant}/conversations?${qs}`).then(d => {
+    const rows = d.items;
+    document.getElementById("convCount").textContent =
+      `${rows.length}${d.total > rows.length ? " / " + d.total : ""} görüşme`;
+    if (!rows.length) {
+      host.innerHTML = `<div class="empty"><strong>Görüşme yok</strong>Seçilen filtreye uyan kayıt bulunamadı.</div>`;
+      document.getElementById("pager").style.display = "none";
+      return;
+    }
+    const cards = rows.map(r => {
+      const t = r.ts ? new Date(r.ts).toLocaleString("tr-TR") : "";
+      const cls = r.answered ? "ans" : (r.source === "fallback" ? "unans" : "");
+      const badge = r.answered
+        ? `<span class="pill on">cevaplandı</span>`
+        : (r.source === "fallback"
+            ? `<span class="pill off">cevaplanamadı</span>`
+            : `<span class="pill">${esc(r.source || "—")}</span>`);
+      const intent = r.intent ? `<span class="intent k">${esc(r.intent)}</span>` : "";
+      return `<div class="conv-card ${cls}">
+        <div class="conv-head"><span class="time">${esc(t)}</span> ${badge} ${intent}</div>
+        <div class="conv-line q"><b>Soru</b><span>${esc(r.question || "—")}</span></div>
+        <div class="conv-line a"><b>Cevap</b><span>${esc(r.answer || "—")}</span></div>
+      </div>`;
+    }).join("");
+    host.innerHTML = `<div class="conv-list">${cards}</div>`;
+    renderPager(d.total, loadConversations);
+  }).catch(err => {
+    host.innerHTML = `<div class="empty"><strong>Yüklenemedi</strong>${esc(err.message)}</div>`;
+  });
+}
+
+async function loadOptions() {
+  try {
+    if (state.tab === "qa" || state.tab === "intent_forms") {
+      const intents = await fetchJSON("GET", `${state.tenant}/intents`);
+      const set = new Set(intents.map(i => i.name));
+      if (state.tab === "qa") (state.rows || []).forEach(r => r.intent_category && set.add(r.intent_category));
+      state.intentOptions = [...set].sort();
+    }
+    if (state.tab === "intent_forms") {
+      const forms = await fetchJSON("GET", `${state.tenant}/form_urls`);
+      state.formKeyOptions = forms.map(f => f.key).sort();
+    }
+  } catch (e) { /* sessiz geç */ }
+}
+
+// ---- Başlangıç --------------------------------------------------------------
+async function init() {
+  document.getElementById("addBtn").onclick = () => openModal(null);
+  document.getElementById("saveBtn").onclick = saveModal;
+  document.getElementById("cancelBtn").onclick = closeModal;
+  document.getElementById("overlay").addEventListener("click", e => { if (e.target.id === "overlay") closeModal(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+  document.getElementById("reloadBtn").onclick = async () => {
+    try {
+      await fetchJSON("POST", `${state.tenant}/reload`);
+      toast("Yenilendi.", "ok");
+      loadTab();
+    } catch (e) { toast(e.message, "err"); }
+  };
+  document.getElementById("convApply").onclick = () => { state.offset = 0; loadConversations(); };
+  let searchTimer;
+  document.getElementById("qaSearch").addEventListener("input", e => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => { state.qaQuery = e.target.value.trim(); state.offset = 0; loadTab(); }, 300);
+  });
+
+  try {
+    const tenants = await fetchJSON("GET", "tenants");
+    const sel = document.getElementById("tenant");
+    sel.innerHTML = tenants.map(t => `<option value="${t.id}">${esc(t.label)}</option>`).join("");
+    state.tenant = tenants[0].id;
+    sel.value = state.tenant;
+    sel.onchange = () => { state.tenant = sel.value; state.qaQuery = ""; state.offset = 0; document.getElementById("qaSearch").value = ""; loadTab(); };
+    loadTab();
+  } catch (e) {
+    document.getElementById("tableHost").innerHTML = `<div class="empty"><strong>Bağlanılamadı</strong>${esc(e.message)}</div>`;
+  }
+}
+init();
+</script>
+</body>
+</html>

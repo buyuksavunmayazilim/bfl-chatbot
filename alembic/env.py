@@ -7,6 +7,7 @@ from alembic import context
 
 # Proje importları
 from app.core.config import Settings
+from app.core.tenants import tenant_dbname
 from app.db.database import Base
 from app.models import tables  # noqa: F401
 
@@ -20,8 +21,20 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# Sync URL'yi ver — psycopg2 kullanır
-config.set_main_option("sqlalchemy.url", settings.database_url_sync)
+# Hedef tenant: `alembic -x tenant=kfz upgrade head`. Verilmezse bfl (varsayilan).
+x_args = context.get_x_argument(as_dictionary=True)
+tenant = x_args.get("tenant", "bfl")
+try:
+    dbname = tenant_dbname(tenant, settings)
+except KeyError as exc:
+    raise SystemExit(f"Gecersiz -x tenant ({exc}). Gecerli: bfl, kfz, kfz_lease, bsy")
+
+sync_url = (
+    f"postgresql+psycopg2://{settings.postgres_user}:{settings.postgres_password}"
+    f"@{settings.postgres_host}:{settings.postgres_port}/{dbname}"
+)
+config.set_main_option("sqlalchemy.url", sync_url)
+print(f"[alembic] tenant={tenant} db={dbname}")
 
 target_metadata = Base.metadata
 
