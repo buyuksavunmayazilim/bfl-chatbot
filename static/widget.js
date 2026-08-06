@@ -9,7 +9,7 @@
       .bf-widget-container {
         position: fixed;
         bottom: 20px;
-        right: 20px;
+        left: 20px;
         z-index: 999999;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       }
@@ -34,7 +34,7 @@
       .bf-iframe-container {
         position: fixed;
         bottom: 90px;
-        right: 20px;
+        left: 20px;
         width: 400px;
         height: 600px;
         border-radius: 16px;
@@ -61,7 +61,7 @@
           width: calc(100% - 40px);
           height: calc(100% - 140px);
           bottom: 90px;
-          right: 20px;
+          left: 20px;
         }
       }
     `;
