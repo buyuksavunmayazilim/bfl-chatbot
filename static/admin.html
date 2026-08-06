@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex, nofollow" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title>Chatbot Yönetimi</title>
 <style>
   :root {
@@ -237,7 +240,7 @@ const TABS = {
       { k: "question", label: "Soru", type: "textarea", required: true },
       { k: "answer", label: "Cevap", type: "textarea", required: true },
       { k: "intent", label: "Intent", type: "datalist", required: true, get: r => r.intent_category, options: () => state.intentOptions },
-      { k: "is_augmented", label: "Üretilmiş (augmented) kayıt", type: "checkbox" },
+      { k: "augment", label: "Augmentation yap (benzer soru varyasyonları üret)", type: "checkbox" },
     ],
     save: (t, row, v) => row
       ? fetchJSON("PUT", `${t}/qa/${row.id}`, v)
@@ -301,28 +304,15 @@ const TABS = {
     remove: (t, row) => fetchJSON("DELETE", `${t}/intent_forms?intent=${encodeURIComponent(row.intent)}&button_label=${encodeURIComponent(row.button_label)}`),
     label1: r => `${r.intent} / ${r.button_label}`,
   },
-  messages: {
-    label: "Mesajlar",
-    load: (t) => fetchJSON("GET", `${t}/messages`),
-    columns: [ { k: "key", label: "Anahtar", mono: true }, { k: "text", label: "Metin", trunc: true } ],
-    fields: [
-      { k: "key", label: "Anahtar", type: "text", required: true, pkField: true },
-      { k: "text", label: "Metin", type: "textarea", required: true },
-    ],
-    save: (t, row, v) => fetchJSON("PUT", `${t}/messages/${encodeURIComponent(v.key)}`, { text: v.text }),
-    remove: (t, row) => fetchJSON("DELETE", `${t}/messages/${encodeURIComponent(row.key)}`),
-    label1: r => r.key,
-  },
   settings: {
-    label: "Ayarlar",
-    load: (t) => fetchJSON("GET", `${t}/settings`),
-    columns: [ { k: "key", label: "Anahtar", mono: true }, { k: "value", label: "Değer (JSON)", json: true, trunc: true } ],
+    label: "Ayarlar", noAdd: true, noDelete: true,
+    load: async (t) => (await fetchJSON("GET", `${t}/settings`)).filter(s => String(s.key).startsWith("similarity_threshold")),
+    columns: [ { k: "key", label: "Ayar", mono: true }, { k: "value", label: "Değer" } ],
     fields: [
-      { k: "key", label: "Anahtar", type: "text", required: true, pkField: true },
-      { k: "value", label: "Değer", hint: "(JSON: liste, metin veya sayı)", type: "json" },
+      { k: "key", label: "Ayar", type: "text", required: true, pkField: true },
+      { k: "value", label: "Değer", hint: "(0–1 arası benzerlik eşiği)", type: "number" },
     ],
     save: (t, row, v) => fetchJSON("PUT", `${t}/settings/${encodeURIComponent(v.key)}`, { value: v.value }),
-    remove: (t, row) => fetchJSON("DELETE", `${t}/settings/${encodeURIComponent(row.key)}`),
     label1: r => r.key,
   },
 };
@@ -357,6 +347,7 @@ function loadTab() {
   if (cfg.readonly) return loadConversations();
   renderTabs();
   document.getElementById("mainToolbar").style.display = "";
+  document.getElementById("addBtn").style.display = cfg.noAdd ? "none" : "";
   document.getElementById("convBar").style.display = "none";
   document.getElementById("qaSearch").style.display = cfg.searchable ? "" : "none";
   renderTestBox(cfg);
@@ -376,9 +367,10 @@ function loadTab() {
     const head = cols.map(c => `<th${c.w ? ` style="width:${c.w}"` : ""}>${c.label}</th>`).join("") + "<th></th>";
     const body = rows.map((r, i) => {
       const tds = cols.map(c => `<td class="${c.trunc ? "trunc" : ""}">${cellHTML(r, c)}</td>`).join("");
+      const del = cfg.noDelete ? "" : `<button class="btn-danger btn-sm" data-del="${i}">Sil</button>`;
       return `<tr>${tds}<td class="row-actions">
         <button class="btn-ghost btn-sm" data-edit="${i}">Düzenle</button>
-        <button class="btn-danger btn-sm" data-del="${i}">Sil</button></td></tr>`;
+        ${del}</td></tr>`;
     }).join("");
     host.innerHTML = `<div style="overflow-x:auto"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
     host.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => openModal(rows[+b.dataset.edit]));
@@ -484,12 +476,19 @@ async function saveModal() {
   const cfg = TABS[state.tab];
   let v;
   try { v = collectValues(); } catch (e) { toast(e.message, "err"); return; }
+  const btn = document.getElementById("saveBtn");
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = v.augment ? "Üretiliyor…" : "Kaydediliyor…";
   try {
-    await cfg.save(state.tenant, editingRow, v);
+    const res = await cfg.save(state.tenant, editingRow, v);
     closeModal();
-    toast("Kaydedildi.", "ok");
+    if (res && res.augmented_added) toast(`Kaydedildi. ${res.augmented_added} benzer soru üretildi.`, "ok");
+    else if (res && res.augment_error) toast("Kayıt eklendi ama augmentation başarısız oldu.", "err");
+    else toast("Kaydedildi.", "ok");
     loadTab();
   } catch (e) { toast(e.message, "err"); }
+  finally { btn.disabled = false; btn.textContent = orig; }
 }
 
 async function removeRow(row) {

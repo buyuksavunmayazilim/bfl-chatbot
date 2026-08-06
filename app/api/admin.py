@@ -26,6 +26,7 @@ from app.services import qa_repository as qa
 from app.services.qa_repository import QAError
 from app.services import content_repository as content
 from app.services import conversation_repository as convo
+from app.services import augment_service as augment
 from app.services.content_repository import ContentError
 
 router = APIRouter()
@@ -47,6 +48,7 @@ class QACreate(BaseModel):
     intent: str
     is_augmented: bool = False
     allow_duplicate: bool = False
+    augment: bool = False   # True ise soru LLM ile cogaltilir (varyasyonlar eklenir)
 
 
 class QAUpdate(BaseModel):
@@ -85,12 +87,30 @@ async def qa_list(
 async def qa_create(tenant: str, body: QACreate) -> dict:
     ctx = _tenant(tenant)
     try:
-        return await qa.create_qa(
+        row = await qa.create_qa(
             ctx, body.question, body.answer, body.intent,
-            is_augmented=body.is_augmented, allow_duplicate=body.allow_duplicate,
+            is_augmented=False, allow_duplicate=body.allow_duplicate,
         )
     except QAError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
+
+    added = 0
+    if body.augment:
+        try:
+            variations = augment.generate_variations(body.question)
+            for v in variations:
+                try:
+                    await qa.create_qa(
+                        ctx, v, body.answer, body.intent,
+                        is_augmented=True, allow_duplicate=True,
+                    )
+                    added += 1
+                except QAError:
+                    pass
+        except Exception as exc:
+            row["augment_error"] = str(exc)
+    row["augmented_added"] = added
+    return row
 
 
 @router.get("/{tenant}/qa/{qa_id}")

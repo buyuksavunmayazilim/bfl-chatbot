@@ -9,6 +9,7 @@ Model değiştirmek için sadece config.py güncellenir.
 """
 from dataclasses import dataclass
 from functools import lru_cache
+import re
 
 import asyncpg
 from sentence_transformers import SentenceTransformer
@@ -36,8 +37,19 @@ def get_model() -> SentenceTransformer:
     return model
 
 
+# Embedding oncesi temizlik: soru isareti ve benzeri noktalama, vektore gereksiz
+# etki etmesin diye kaldirilir. Hem Q&A eklerken hem gelen mesajda uygulanir, boylece
+# "Yolda kaldim?" ile "Yolda kaldim" ayni embedding'i uretir.
+_PUNCT_RE = re.compile(r"""[?!.,;:…“”"«»()\[\]{}<>/\\|@#*_~^]+""")
+
+
+def clean_for_embedding(text: str) -> str:
+    text = _PUNCT_RE.sub(" ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
 def embed(text: str) -> list[float]:
-    return get_model().encode(text, normalize_embeddings=True).tolist()
+    return get_model().encode(clean_for_embedding(text), normalize_embeddings=True).tolist()
 
 
 # ─── Similarity sorgusu ───────────────────────────────────────────────────────
@@ -48,7 +60,9 @@ async def search_similar(
     top_k: int = 1,
 ) -> SimilarityResult:
     if threshold is None:
-        threshold = ctx.config.similarity_threshold_high
+        threshold = ctx.content.setting(
+            "similarity_threshold_high", ctx.config.similarity_threshold_high
+        )
 
     col = ctx.similarity_column
     vector_str = str(embed(message))
