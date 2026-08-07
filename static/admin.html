@@ -259,6 +259,7 @@ const TABS = {
       { k: "priority", label: "Öncelik", w: "80px" },
       { k: "keywords", label: "Kelimeler", arr: true, trunc: true },
       { k: "static_response", label: "Hazır cevap", trunc: true },
+      { k: "forms", label: "Form", count: true, w: "60px" },
       { k: "enabled", label: "Aktif", bool: true, w: "64px" },
     ],
     fields: [
@@ -266,43 +267,15 @@ const TABS = {
       { k: "priority", label: "Öncelik", hint: "(küçük = önce kontrol edilir)", type: "number", def: 100 },
       { k: "keywords", label: "Kelimeler", hint: "(virgül veya satırla ayırın)", type: "tags" },
       { k: "static_response", label: "Hazır cevap", hint: "(K1 eşleşince döner, boş bırakılabilir)", type: "textarea" },
+      { k: "forms", label: "Form butonları", hint: "(etiket + URL — bot cevabında buton olarak gösterilir)", type: "formlist", get: r => r.forms },
       { k: "enabled", label: "Aktif", type: "checkbox", def: true },
     ],
-    save: (t, row, v) => {
-      const name = v.name; const body = { ...v }; delete body.name;
-      return fetchJSON("PUT", `${t}/intents/${encodeURIComponent(name)}`, body);
-    },
+    save: (t, row, v) => fetchJSON("PUT", `${t}/intents-full/${encodeURIComponent(v.name)}`, {
+      static_response: v.static_response, priority: v.priority,
+      keywords: v.keywords, enabled: v.enabled, forms: v.forms,
+    }),
     remove: (t, row) => fetchJSON("DELETE", `${t}/intents/${encodeURIComponent(row.name)}`),
     label1: r => r.name,
-  },
-  form_urls: {
-    label: "Form URL'leri",
-    load: (t) => fetchJSON("GET", `${t}/form_urls`),
-    columns: [ { k: "key", label: "Anahtar", mono: true }, { k: "url", label: "URL", trunc: true } ],
-    fields: [
-      { k: "key", label: "Anahtar", type: "text", required: true, pkField: true },
-      { k: "url", label: "URL", type: "text", required: true },
-    ],
-    save: (t, row, v) => fetchJSON("PUT", `${t}/form_urls/${encodeURIComponent(v.key)}`, { url: v.url }),
-    remove: (t, row) => fetchJSON("DELETE", `${t}/form_urls/${encodeURIComponent(row.key)}`),
-    label1: r => r.key,
-  },
-  intent_forms: {
-    label: "Intent Formları",
-    load: (t) => fetchJSON("GET", `${t}/intent_forms`),
-    columns: [
-      { k: "intent", label: "Intent", mono: true },
-      { k: "button_label", label: "Buton etiketi", mono: true },
-      { k: "form_key", label: "Form anahtarı", mono: true },
-    ],
-    fields: [
-      { k: "intent", label: "Intent", hint: "(mevcut intent'lerden seçin)", type: "datalist", required: true, options: () => state.intentOptions },
-      { k: "button_label", label: "Buton etiketi", type: "text", required: true },
-      { k: "form_key", label: "Form anahtarı", hint: "(mevcut form URL'lerinden seçin)", type: "datalist", required: true, options: () => state.formKeyOptions },
-    ],
-    save: (t, row, v) => fetchJSON("PUT", `${t}/intent_forms`, v),
-    remove: (t, row) => fetchJSON("DELETE", `${t}/intent_forms?intent=${encodeURIComponent(row.intent)}&button_label=${encodeURIComponent(row.button_label)}`),
-    label1: r => `${r.intent} / ${r.button_label}`,
   },
   appearance: {
     label: "Görünüm", custom: true,
@@ -320,7 +293,7 @@ const TABS = {
   },
 };
 
-const state = { tenant: null, tab: "qa", rows: [], total: 0, qaQuery: "", intentOptions: [], formKeyOptions: [], limit: 50, offset: 0 };
+const state = { tenant: null, tab: "qa", rows: [], total: 0, qaQuery: "", intentOptions: [], limit: 50, offset: 0 };
 
 // ---- Render -----------------------------------------------------------------
 function renderTabs() {
@@ -338,6 +311,7 @@ function renderTabs() {
 function cellHTML(row, col) {
   let val = row[col.k];
   if (col.bool) return `<span class="pill ${val ? "on" : "off"}">${val ? "evet" : "hayır"}</span>`;
+  if (col.count) return `<span class="pill">${Array.isArray(val) ? val.length : 0}</span>`;
   if (col.arr) val = Array.isArray(val) ? val.join(", ") : "";
   if (col.json) val = JSON.stringify(val);
   if (val == null || val === "") return `<span class="meta" style="color:var(--faint)">—</span>`;
@@ -381,7 +355,7 @@ function loadTab() {
     host.querySelectorAll("[data-del]").forEach(b => b.onclick = () => removeRow(rows[+b.dataset.del]));
     const c = cfg.searchable ? `${rows.length}${state.total > rows.length ? " / " + state.total : ""} kayıt` : `${rows.length} kayıt`;
     document.getElementById("count").textContent = c;
-    if (state.tab === "qa" || state.tab === "intent_forms") loadOptions();
+    if (state.tab === "qa") loadOptions();
     if (cfg.paged) renderPager(state.total, loadTab);
     else document.getElementById("pager").style.display = "none";
   }).catch(err => {
@@ -423,6 +397,23 @@ function renderTestBox(cfg) {
   document.getElementById("testQ").addEventListener("keydown", e => { if (e.key === "Enter") run(); });
 }
 
+// ---- Form butonu satırları (intent editöründe) ------------------------------
+function formRowHTML(label, url) {
+  return `<input type="text" placeholder="Buton etiketi (ör. Hasar Formu)" data-role="label" value="${esc(label || "")}" style="flex:1">
+    <input type="text" placeholder="https://..." data-role="url" value="${esc(url || "")}" style="flex:2">
+    <button type="button" class="btn-danger btn-sm" data-role="rm" title="Kaldır">✕</button>`;
+}
+function addFormRow(label, url) {
+  const list = document.getElementById("formlist");
+  if (!list) return;
+  const row = document.createElement("div");
+  row.className = "formrow";
+  row.style.cssText = "display:flex; gap:8px; margin-bottom:6px; align-items:center";
+  row.innerHTML = formRowHTML(label, url);
+  row.querySelector('[data-role="rm"]').onclick = () => row.remove();
+  list.appendChild(row);
+}
+
 // ---- Modal (ekle/düzenle) ---------------------------------------------------
 let editingRow = null;
 function openModal(row) {
@@ -451,9 +442,21 @@ function openModal(row) {
       const opts = (f.options ? f.options() : []).map(o => `<option value="${esc(o)}"></option>`).join("");
       return `<div class="field"><label>${f.label}${hint}</label><input type="text" id="f_${f.k}" list="dl_${f.k}" value="${esc(cur)}" autocomplete="off" ${disabled}/><datalist id="dl_${f.k}">${opts}</datalist></div>`;
     }
+    if (f.type === "formlist") {
+      return `<div class="field"><label>${f.label}${hint}</label>
+        <div id="formlist"></div>
+        <button type="button" class="btn-sm" id="formlist-add" style="margin-top:8px">+ Buton ekle</button></div>`;
+    }
     const t = f.type === "number" ? "number" : "text";
     return `<div class="field"><label>${f.label}${hint}</label><input type="${t}" id="f_${f.k}" value="${esc(cur)}" ${disabled}/></div>`;
   }).join("");
+  const flField = cfg.fields.find(f => f.type === "formlist");
+  if (flField) {
+    const forms = (row && (flField.get ? flField.get(row) : row[flField.k])) || [];
+    forms.forEach(fm => addFormRow(fm.button_label, fm.url));
+    const addBtn = document.getElementById("formlist-add");
+    if (addBtn) addBtn.onclick = () => addFormRow("", "");
+  }
   document.getElementById("overlay").classList.add("show");
 }
 function closeModal() { document.getElementById("overlay").classList.remove("show"); }
@@ -462,6 +465,14 @@ function collectValues() {
   const cfg = TABS[state.tab];
   const v = {};
   for (const f of cfg.fields) {
+    if (f.type === "formlist") {
+      const rows = [...document.querySelectorAll("#formlist .formrow")];
+      v[f.k] = rows.map(r => ({
+        button_label: r.querySelector('[data-role="label"]').value.trim(),
+        url: r.querySelector('[data-role="url"]').value.trim(),
+      })).filter(x => x.button_label && x.url);
+      continue;
+    }
     const el = document.getElementById("f_" + f.k);
     if (f.type === "checkbox") v[f.k] = el.checked;
     else if (f.type === "number") v[f.k] = el.value === "" ? null : Number(el.value);
@@ -615,16 +626,10 @@ function loadConversations() {
 
 async function loadOptions() {
   try {
-    if (state.tab === "qa" || state.tab === "intent_forms") {
-      const intents = await fetchJSON("GET", `${state.tenant}/intents`);
-      const set = new Set(intents.map(i => i.name));
-      if (state.tab === "qa") (state.rows || []).forEach(r => r.intent_category && set.add(r.intent_category));
-      state.intentOptions = [...set].sort();
-    }
-    if (state.tab === "intent_forms") {
-      const forms = await fetchJSON("GET", `${state.tenant}/form_urls`);
-      state.formKeyOptions = forms.map(f => f.key).sort();
-    }
+    const intents = await fetchJSON("GET", `${state.tenant}/intents`);
+    const set = new Set(intents.map(i => i.name));
+    (state.rows || []).forEach(r => r.intent_category && set.add(r.intent_category));
+    state.intentOptions = [...set].sort();
   } catch (e) { /* sessiz geç */ }
 }
 

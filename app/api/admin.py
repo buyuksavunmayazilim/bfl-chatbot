@@ -171,6 +171,19 @@ class IntentBody(BaseModel):
     enabled: bool = True
 
 
+class FormButton(BaseModel):
+    button_label: str
+    url: str
+
+
+class IntentFullBody(BaseModel):
+    static_response: str | None = None
+    priority: int = 100
+    keywords: list[str] = []
+    enabled: bool = True
+    forms: list[FormButton] = []
+
+
 class FormUrlBody(BaseModel):
     url: str
 
@@ -219,6 +232,20 @@ async def intent_delete(tenant: str, name: str) -> dict:
     _tenant(tenant)
     try:
         row = await content.delete_intent(_tenant(tenant), name)
+    except ContentError as exc:
+        raise _content_err(exc)
+    await reload_content(tenant)
+    return row
+
+
+# Intent'i form butonlariyla birlikte tek istekte kaydet (panelde tek ekran)
+@router.put("/{tenant}/intents-full/{name}")
+async def intent_full_upsert(tenant: str, name: str, body: IntentFullBody) -> dict:
+    try:
+        row = await content.upsert_intent_with_forms(
+            _tenant(tenant), name, body.static_response, body.priority,
+            body.keywords, body.enabled, [f.model_dump() for f in body.forms],
+        )
     except ContentError as exc:
         raise _content_err(exc)
     await reload_content(tenant)

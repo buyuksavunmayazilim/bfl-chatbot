@@ -7,6 +7,7 @@ bellekteki TenantContent tazelenir ve degisiklik aninda etkili olur.
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 
 from app.core.context import TenantContext
@@ -20,10 +21,29 @@ class ContentError(Exception):
 async def list_intents(ctx: TenantContext) -> list[dict]:
     async with ctx.pool.acquire() as conn:
         rows = await conn.fetch(
-            "SELECT name, static_response, priority, keywords, enabled "
-            "FROM intents ORDER BY priority, name"
+            """
+            SELECT i.name, i.static_response, i.priority, i.keywords, i.enabled,
+                   COALESCE(
+                       json_agg(
+                           json_build_object('button_label', f.button_label, 'url', fu.url)
+                           ORDER BY f.button_label
+                       ) FILTER (WHERE f.button_label IS NOT NULL),
+                       '[]'
+                   ) AS forms
+            FROM intents i
+            LEFT JOIN intent_forms f ON f.intent = i.name
+            LEFT JOIN form_urls fu ON fu.key = f.form_key
+            GROUP BY i.name, i.static_response, i.priority, i.keywords, i.enabled
+            ORDER BY i.priority, i.name
+            """
         )
-    return [dict(r) for r in rows]
+    out = []
+    for r in rows:
+        d = dict(r)
+        forms = d.get("forms")
+        d["forms"] = json.loads(forms) if isinstance(forms, str) else (forms or [])
+        out.append(d)
+    return out
 
 
 async def upsert_intent(
@@ -62,6 +82,88 @@ async def delete_intent(ctx: TenantContext, name: str) -> dict:
     if row is None:
         raise ContentError(f"intent bulunamadi: {name}")
     return {"deleted": True, "name": row["name"]}
+
+
+_TR = str.maketrans("çğıöşüÇĞİÖŞÜ", "cgiosucgiosu")
+
+
+def _slug(text: str) -> str:
+    text = text.translate(_TR).lower()
+    text = re.sub(r"[^a-z0-9]+", "_", text).strip("_")
+    return text or "buton"
+
+
+async def upsert_intent_with_forms(
+    ctx: TenantContext,
+    name: str,
+    static_response: str | None,
+    priority: int,
+    keywords: list[str],
+    enabled: bool,
+    forms: list[dict],
+) -> dict:
+    """Intent'i VE form butonlarini tek islemde kaydeder (tek yerden yonetim).
+
+    Her buton {button_label, url} olarak gelir. Arka planda form_urls ve
+    intent_forms otomatik yonetilir; bu intent'in eski butonlari (replace) silinip
+    yenileri yazilir. form_urls anahtari intent'e ozeldir: '<intent>__<slug>'.
+    """
+    name = name.strip()
+    if not name:
+        raise ContentError("intent adi bos olamaz.")
+
+    # Butonlari temizle/dogrula (bos olanlari at, ayni etiketi tekille)
+    clean: list[dict] = []
+    seen_labels: set[str] = set()
+    for f in forms or []:
+        label = (f.get("button_label") or "").strip()
+        url = (f.get("url") or "").strip()
+        if not label or not url:
+            continue
+        if label.lower() in seen_labels:
+            continue
+        seen_labels.add(label.lower())
+        clean.append({"button_label": label, "url": url})
+
+    async with ctx.pool.acquire() as conn:
+        async with conn.transaction():
+            await conn.execute(
+                """
+                INSERT INTO intents (name, static_response, priority, keywords, enabled)
+                VALUES ($1, $2, $3, $4, $5)
+                ON CONFLICT (name) DO UPDATE SET
+                    static_response = EXCLUDED.static_response,
+                    priority = EXCLUDED.priority,
+                    keywords = EXCLUDED.keywords,
+                    enabled = EXCLUDED.enabled
+                """,
+                name, static_response, priority, list(keywords or []), enabled,
+            )
+
+            # Bu intent'in eski butonlarini ve ona ozel form_url'lerini temizle
+            await conn.execute("DELETE FROM intent_forms WHERE intent=$1", name)
+            await conn.execute(
+                "DELETE FROM form_urls WHERE key LIKE $1", f"{name}__%"
+            )
+
+            for f in clean:
+                key = f"{name}__{_slug(f['button_label'])}"
+                await conn.execute(
+                    """
+                    INSERT INTO form_urls (key, url) VALUES ($1, $2)
+                    ON CONFLICT (key) DO UPDATE SET url = EXCLUDED.url
+                    """,
+                    key, f["url"],
+                )
+                await conn.execute(
+                    """
+                    INSERT INTO intent_forms (intent, button_label, form_key)
+                    VALUES ($1, $2, $3)
+                    """,
+                    name, f["button_label"], key,
+                )
+
+    return {"name": name, "forms": clean}
 
 
 # ─── form_urls ───────────────────────────────────────────────────────────────
