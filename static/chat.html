@@ -472,7 +472,7 @@
   <div class="chat-container">
 
     <header class="header">
-      <div class="header-avatar" id="bf-avatar">BF</div>
+      <div class="header-avatar" id="bf-avatar"></div>
 
       <div class="header-info">
         <h1 id="bf-title">Büyük Filo Asistan</h1>
@@ -507,7 +507,7 @@
       aria-label="Sohbet mesajları"
     >
       <div class="msg bot">
-        <div class="msg-av" id="bf-welcome-av">BF</div>
+        <div class="msg-av" id="bf-welcome-av"></div>
 
         <div class="msg-body">
           <div class="bubble" id="bf-greeting">
@@ -574,6 +574,15 @@
       globalConfig.tenantId ||
       "bfl";
 
+    // Tenant -> avatar kısaltması
+    const TENANT_ABBR = {
+      kfz_lease: "KL",    // KFZ Lease
+      bsy:       "BSY",   // Büyük Savunma Yazılım
+      bfl:       "BFL",   // Büyük Filo
+      kfz:       "KFZ",   // KFZ sitesi
+    };
+    const WIDGET_AVATAR_DEFAULT = TENANT_ABBR[TENANT_ID] || "BFL";
+
     const API_BASE_URL = (
       queryParams.get("api_base") ||
       globalConfig.apiBaseUrl ||
@@ -585,7 +594,10 @@
       : `/api/${TENANT_ID}/chat`;
 
     // Widget branding'i sunucudan cek (baslik/alt baslik/avatar/karsilama/renk)
-    let WIDGET_AVATAR = "BF";
+    let WIDGET_AVATAR = WIDGET_AVATAR_DEFAULT;
+    // Config gelmeden de dogru kisaltma gorunsun
+    { const h = document.getElementById("bf-avatar"); if (h) h.textContent = WIDGET_AVATAR;
+      const w = document.getElementById("bf-welcome-av"); if (w) w.textContent = WIDGET_AVATAR; }
     const CONFIG_URL = API_BASE_URL
       ? `${API_BASE_URL}/api/${TENANT_ID}/config`
       : `/api/${TENANT_ID}/config`;
@@ -884,7 +896,7 @@
       element.id = "typing";
 
       element.innerHTML = `
-        <div class="typing-avatar">BF</div>
+        <div class="typing-avatar">${WIDGET_AVATAR}</div>
 
         <div class="typing-bubble">
           <div class="dot"></div>
