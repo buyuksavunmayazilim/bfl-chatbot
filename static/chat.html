@@ -738,12 +738,11 @@
     function formatKey(key) {
       return String(key ?? "")
         .replace(/_/g, " ")
-        .replace(
-          /\b\w/g,
-          function (character) {
-            return character.toUpperCase();
-          }
-        );
+        .split(" ")
+        .map(w => w
+          ? w.charAt(0).toLocaleUpperCase("tr") + w.slice(1)
+          : w)
+        .join(" ");
     }
 
     function sanitizeUrl(value) {
