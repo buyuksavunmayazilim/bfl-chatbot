@@ -346,13 +346,17 @@ function loadTab() {
     const body = rows.map((r, i) => {
       const tds = cols.map(c => `<td class="${c.trunc ? "trunc" : ""}">${cellHTML(r, c)}</td>`).join("");
       const del = cfg.noDelete ? "" : `<button class="btn-danger btn-sm" data-del="${i}">Sil</button>`;
+      const aug = state.tab === "qa"
+        ? `<button class="btn-ghost btn-sm" data-aug="${i}">Augment</button>` : "";
       return `<tr>${tds}<td class="row-actions">
+        ${aug}
         <button class="btn-ghost btn-sm" data-edit="${i}">Düzenle</button>
         ${del}</td></tr>`;
     }).join("");
     host.innerHTML = `<div style="overflow-x:auto"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
     host.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => openModal(rows[+b.dataset.edit]));
     host.querySelectorAll("[data-del]").forEach(b => b.onclick = () => removeRow(rows[+b.dataset.del]));
+    host.querySelectorAll("[data-aug]").forEach(b => b.onclick = () => augmentRow(rows[+b.dataset.aug]));
     const c = cfg.searchable ? `${rows.length}${state.total > rows.length ? " / " + state.total : ""} kayıt` : `${rows.length} kayıt`;
     document.getElementById("count").textContent = c;
     if (state.tab === "qa") loadOptions();
@@ -504,6 +508,18 @@ async function saveModal() {
     loadTab();
   } catch (e) { toast(e.message, "err"); }
   finally { btn.disabled = false; btn.textContent = orig; }
+}
+
+async function augmentRow(row) {
+  if (!confirm(`Bu soru için benzer varyasyonlar üretilsin mi?\n\n#${row.id} — ${row.question}`)) return;
+  try {
+    const res = await fetchJSON("POST", `${state.tenant}/qa/${row.id}/augment`);
+    if (res && res.augmented_added)
+      toast(`${res.augmented_added} benzer soru üretildi.`, "ok");
+    else
+      toast("Yeni varyasyon üretilemedi (zaten var olabilir).", "err");
+    loadTab();
+  } catch (e) { toast(e.message, "err"); }
 }
 
 async function removeRow(row) {

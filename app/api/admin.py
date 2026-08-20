@@ -136,6 +136,34 @@ async def qa_update(tenant: str, qa_id: int, body: QAUpdate) -> dict:
         code = 404 if "bulunamadi" in str(exc) else 400
         raise HTTPException(status_code=code, detail=str(exc))
 
+@router.post("/{tenant}/qa/{qa_id}/augment")
+async def qa_augment(tenant: str, qa_id: int) -> dict:
+    ctx = _tenant(tenant)
+    # mevcut kaydı al
+    try:
+        base = await qa.get_qa(ctx, qa_id)
+    except QAError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
+
+    added = 0
+    skipped = 0
+    try:
+        variations = augment.generate_variations(base["question"])
+        for v in variations:
+            try:
+                await qa.create_qa(
+                    ctx, v, base["answer"], base["intent_category"],
+                    is_augmented=True, allow_duplicate=True,
+                )
+                added += 1
+            except QAError:
+                skipped += 1
+    except Exception as exc:
+        import traceback; traceback.print_exc()   # <-- tam hatayı loga bas
+        raise HTTPException(status_code=500, detail=f"augment hatasi: {exc}")
+
+    return {"qa_id": qa_id, "augmented_added": added, "skipped": skipped}
+
 
 @router.delete("/{tenant}/qa/{qa_id}")
 async def qa_delete(tenant: str, qa_id: int) -> dict:
