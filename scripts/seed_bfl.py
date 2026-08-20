@@ -5,7 +5,8 @@ keyword_service/fallback_service/chat.py icinde kodda gomulu olan tum BFL'e ozel
 icerigi (intent kelimeleri, hazir cevaplar, form URL'leri, guard listeleri,
 fallback metinleri, esikler, branding) tenant'in kendi veritabanina yazar.
 
-- Idempotent: ON CONFLICT DO UPDATE -> tekrar calistirmak guvenli.
+- Idempotent: ON CONFLICT DO NOTHING -> tekrar calistirmak guvenli, mevcut (panelden
+  duzenlenmis) kayitlari EZMEZ.
 - Hedef DB, .env(.local)'deki POSTGRES_DB'dir (BFL dagitiminda BFL veritabani).
 - Yeni tenant'lar (kfz vb.) BOS baslar; iceriklerini panelden girersiniz.
 
@@ -604,7 +605,7 @@ def main() -> int:
             for key, url in DATA["form_urls"].items():
                 cur.execute(
                     "INSERT INTO form_urls (key, url) VALUES (%s, %s) "
-                    "ON CONFLICT (key) DO UPDATE SET url = EXCLUDED.url",
+                    "ON CONFLICT (key) DO NOTHING",
                     (key, url),
                 )
             # 2) intents
@@ -612,11 +613,7 @@ def main() -> int:
                 cur.execute(
                     "INSERT INTO intents (name, static_response, priority, keywords, enabled) "
                     "VALUES (%s, %s, %s, %s, %s) "
-                    "ON CONFLICT (name) DO UPDATE SET "
-                    "static_response = EXCLUDED.static_response, "
-                    "priority = EXCLUDED.priority, "
-                    "keywords = EXCLUDED.keywords, "
-                    "enabled = EXCLUDED.enabled",
+                    "ON CONFLICT (name) DO NOTHING",
                     (it["name"], it["static_response"], it["priority"], it["keywords"], it["enabled"]),
                 )
             # 3) intent_forms
@@ -624,21 +621,21 @@ def main() -> int:
                 cur.execute(
                     "INSERT INTO intent_forms (intent, button_label, form_key) "
                     "VALUES (%s, %s, %s) "
-                    "ON CONFLICT (intent, button_label) DO UPDATE SET form_key = EXCLUDED.form_key",
+                    "ON CONFLICT (intent, button_label) DO NOTHING",
                     (f["intent"], f["button_label"], f["form_key"]),
                 )
             # 4) bot_messages
             for key, text in DATA["bot_messages"].items():
                 cur.execute(
                     "INSERT INTO bot_messages (key, text) VALUES (%s, %s) "
-                    "ON CONFLICT (key) DO UPDATE SET text = EXCLUDED.text",
+                    "ON CONFLICT (key) DO NOTHING",
                     (key, text),
                 )
             # 5) bot_settings (JSONB)
             for key, value in DATA["bot_settings"].items():
                 cur.execute(
                     "INSERT INTO bot_settings (key, value) VALUES (%s, %s) "
-                    "ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value",
+                    "ON CONFLICT (key) DO NOTHING",
                     (key, Json(value)),
                 )
         print(

@@ -826,34 +826,34 @@
 
       let metaHtml = "Asistan";
 
-      if (meta && meta.source) {
-        const badgeInfo =
-          BADGE[meta.source] || ["", ""];
+      // if (meta && meta.source) {
+      //   const badgeInfo =
+      //     BADGE[meta.source] || ["", ""];
 
-        const label = badgeInfo[0];
-        const className = badgeInfo[1];
+      //   const label = badgeInfo[0];
+      //   const className = badgeInfo[1];
 
-        const badge = label
-          ? `
-            <span class="badge ${className}">
-              ${label}
-            </span>
-          `
-          : "";
+      //   const badge = label
+      //     ? `
+      //       <span class="badge ${className}">
+      //         ${label}
+      //       </span>
+      //     `
+      //     : "";
 
-        const confidence =
-          typeof meta.confidence === "number"
-            ? ` · %${Math.round(meta.confidence * 100)}`
-            : "";
+      //   const confidence =
+      //     typeof meta.confidence === "number"
+      //       ? ` · %${Math.round(meta.confidence * 100)}`
+      //       : "";
 
-        const responseMs =
-          typeof meta.response_ms === "number"
-            ? ` · ${Math.round(meta.response_ms)}ms`
-            : "";
+      //   const responseMs =
+      //     typeof meta.response_ms === "number"
+      //       ? ` · ${Math.round(meta.response_ms)}ms`
+      //       : "";
 
-        metaHtml =
-          `Asistan ${badge}${confidence}${responseMs}`;
-      }
+      //   metaHtml =
+      //     `Asistan ${badge}${confidence}${responseMs}`;
+      // }
 
       wrap.innerHTML = `
         <div class="msg-av">${WIDGET_AVATAR}</div>
