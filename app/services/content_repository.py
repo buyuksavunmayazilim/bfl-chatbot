@@ -141,10 +141,25 @@ async def upsert_intent_with_forms(
             )
 
             # Bu intent'in eski butonlarini ve ona ozel form_url'lerini temizle
-            await conn.execute("DELETE FROM intent_forms WHERE intent=$1", name)
-            await conn.execute(
-                "DELETE FROM form_urls WHERE key LIKE $1", f"{name}__%"
+            #await conn.execute("DELETE FROM intent_forms WHERE intent=$1", name)
+            # Bu intent'in form_key'lerini intent_forms'tan al
+            old_keys = await conn.fetch(
+                "SELECT form_key FROM intent_forms WHERE intent=$1", name
             )
+            # Once child (intent_forms) sil
+            await conn.execute("DELETE FROM intent_forms WHERE intent=$1", name)
+            # Sonra SADECE bu intent'e ait, baska intent'in kullanmadigi form_url'leri sil
+            for k in [r["form_key"] for r in old_keys]:
+                await conn.execute(
+                    """
+                    DELETE FROM form_urls fu
+                    WHERE fu.key = $1
+                      AND NOT EXISTS (
+                          SELECT 1 FROM intent_forms f WHERE f.form_key = $1
+                      )
+                    """,
+                    k,
+                )
 
             for f in clean:
                 key = f"{name}__{_slug(f['button_label'])}"
