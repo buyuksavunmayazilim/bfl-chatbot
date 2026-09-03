@@ -153,6 +153,7 @@
   <div class="tenant-wrap">
     <label for="tenant">Chatbot</label>
     <select id="tenant"></select>
+    <button id="newTenantBtn" class="btn-ghost btn-sm" title="Yeni chatbot ekle">+ Yeni</button>
   </div>
   <button id="reloadBtn" class="btn-ghost" title="Sunucu önbelleğini ve tabloyu yenile">↻ Yenile</button>
 </header>
@@ -184,6 +185,21 @@
   <div class="card" id="tableHost"></div>
   <div class="toolbar" id="pager" style="display:none; justify-content:center; gap:14px; margin-top:14px"></div>
 </main>
+
+<div class="overlay" id="tenantOverlay">
+  <div class="modal" role="dialog" aria-modal="true" style="width:460px">
+    <div class="modal-head">Yeni chatbot ekle</div>
+    <div class="modal-body">
+      <div class="field"><label>id <span class="hint">(küçük harf/rakam/alt çizgi, örn. acme)</span></label><input type="text" id="nt_id" placeholder="acme" autocomplete="off"></div>
+      <div class="field"><label>Görünen ad</label><input type="text" id="nt_label" placeholder="Acme A.Ş." autocomplete="off"></div>
+      <p class="count" style="margin:0">Veritabanı, şema ve varsayılan içerik (mesajlar, branding, eşikler) otomatik oluşturulur — birkaç saniye sürebilir.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-ghost" id="nt_cancel">Vazgeç</button>
+      <button class="btn-primary" id="nt_create">Oluştur</button>
+    </div>
+  </div>
+</div>
 
 <div class="overlay" id="overlay">
   <div class="modal" role="dialog" aria-modal="true">
@@ -670,17 +686,46 @@ async function init() {
     searchTimer = setTimeout(() => { state.qaQuery = e.target.value.trim(); state.offset = 0; loadTab(); }, 300);
   });
 
+  // Yeni chatbot ekleme
+  const tOverlay = document.getElementById("tenantOverlay");
+  document.getElementById("newTenantBtn").onclick = () => {
+    document.getElementById("nt_id").value = "";
+    document.getElementById("nt_label").value = "";
+    tOverlay.classList.add("show");
+    document.getElementById("nt_id").focus();
+  };
+  document.getElementById("nt_cancel").onclick = () => tOverlay.classList.remove("show");
+  tOverlay.addEventListener("click", e => { if (e.target.id === "tenantOverlay") tOverlay.classList.remove("show"); });
+  document.getElementById("nt_create").onclick = async () => {
+    const id = document.getElementById("nt_id").value.trim().toLowerCase();
+    const label = document.getElementById("nt_label").value.trim();
+    if (!id || !label) { toast("id ve görünen ad zorunlu.", "err"); return; }
+    const btn = document.getElementById("nt_create");
+    btn.disabled = true; btn.textContent = "Oluşturuluyor…";
+    try {
+      const res = await fetchJSON("POST", "tenants", { id, label });
+      tOverlay.classList.remove("show");
+      toast(`"${res.label}" oluşturuldu.`, "ok");
+      await refreshTenants(res.id);
+    } catch (e) { toast(e.message, "err"); }
+    finally { btn.disabled = false; btn.textContent = "Oluştur"; }
+  };
+
   try {
-    const tenants = await fetchJSON("GET", "tenants");
-    const sel = document.getElementById("tenant");
-    sel.innerHTML = tenants.map(t => `<option value="${t.id}">${esc(t.label)}</option>`).join("");
-    state.tenant = tenants[0].id;
-    sel.value = state.tenant;
-    sel.onchange = () => { state.tenant = sel.value; state.qaQuery = ""; state.offset = 0; document.getElementById("qaSearch").value = ""; loadTab(); };
-    loadTab();
+    await refreshTenants();
   } catch (e) {
     document.getElementById("tableHost").innerHTML = `<div class="empty"><strong>Bağlanılamadı</strong>${esc(e.message)}</div>`;
   }
+}
+
+async function refreshTenants(selectId) {
+  const tenants = await fetchJSON("GET", "tenants");
+  const sel = document.getElementById("tenant");
+  sel.innerHTML = tenants.map(t => `<option value="${t.id}">${esc(t.label)}</option>`).join("");
+  state.tenant = (selectId && tenants.some(t => t.id === selectId)) ? selectId : tenants[0].id;
+  sel.value = state.tenant;
+  sel.onchange = () => { state.tenant = sel.value; state.qaQuery = ""; state.offset = 0; document.getElementById("qaSearch").value = ""; loadTab(); };
+  loadTab();
 }
 init();
 </script>

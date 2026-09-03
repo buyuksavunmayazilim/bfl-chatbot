@@ -22,7 +22,7 @@ import psycopg2
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.core.config import Settings  # noqa: E402
-from app.core.tenants import TENANTS, tenant_dbname  # noqa: E402
+from app.core.tenants import TENANTS, load_registry, tenant_dbname  # noqa: E402
 
 _env_file = ".env.local" if os.path.exists(".env.local") else ".env"
 settings = Settings(_env_file=_env_file)
@@ -84,6 +84,9 @@ def seed() -> None:
 
 
 def main() -> int:
+    # Tenant listesini kayit tablosundan yukle (tablo yoksa olusturur, yerlesikleri ekler).
+    load_registry()
+    print(f"[bootstrap] tenant'lar: {', '.join(TENANTS)}")
     ensure_databases()
     migrate()
     seed()

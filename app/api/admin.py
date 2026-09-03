@@ -15,13 +15,15 @@ Uclar:
 """
 from __future__ import annotations
 
+import asyncio
 from typing import Any
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from app.core.context import TenantContext, get_tenant, reload_content
-from app.core.tenants import TENANTS
+from app.core import provision
+from app.core.context import TenantContext, add_tenant, get_tenant, reload_content
+from app.core.tenants import TENANTS, add_tenant_row, valid_tenant_id
 from app.services import qa_repository as qa
 from app.services.qa_repository import QAError
 from app.services import content_repository as content
@@ -68,6 +70,43 @@ class QASearch(BaseModel):
 @router.get("/tenants")
 async def list_tenants() -> list[dict]:
     return [{"id": t.id, "label": t.label} for t in TENANTS.values()]
+
+
+class TenantCreate(BaseModel):
+    id: str
+    label: str
+
+
+@router.post("/tenants")
+async def tenant_create(body: TenantCreate) -> dict:
+    """Yeni chatbot (tenant) olusturur: kayit + DB + sema + varsayilan icerik + canliya alma."""
+    tid = body.id.strip().lower()
+    label = body.label.strip()
+    if not valid_tenant_id(tid):
+        raise HTTPException(
+            status_code=400,
+            detail="Geçersiz id. Küçük harf, rakam ve alt çizgi kullanın; harfle başlasın (ör. 'acme').",
+        )
+    if not label:
+        raise HTTPException(status_code=400, detail="Görünen ad boş olamaz.")
+
+    # 1) Kayit tablosuna ekle (zaten varsa 409)
+    try:
+        await asyncio.to_thread(add_tenant_row, tid, label)
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc))
+
+    # 2) Altyapiyi hazirla (DB + migration + seed) ve canliya al
+    try:
+        await asyncio.to_thread(provision.provision_tenant, tid)
+        await add_tenant(tid)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Tenant kaydı oluştu ancak hazırlanamadı: {exc}. "
+                   "Sunucu yeniden başlatıldığında otomatik tamamlanır.",
+        )
+    return {"id": tid, "label": label}
 
 
 # ─── Q&A CRUD ────────────────────────────────────────────────────────────────

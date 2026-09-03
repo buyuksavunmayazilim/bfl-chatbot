@@ -15,7 +15,12 @@ from dataclasses import dataclass
 import asyncpg
 
 from app.core.content import TenantContent, load_content
-from app.core.tenants import TENANTS, TenantConfig, get_tenant_config
+from app.core.tenants import (
+    TENANTS,
+    TenantConfig,
+    get_tenant_config,
+    load_registry,
+)
 
 
 @dataclass
@@ -44,6 +49,7 @@ async def init_tenants(min_size: int = 1, max_size: int = 10) -> None:
 
     Idempotent — daha once acilmis tenant'lar tekrar acilmaz.
     """
+    load_registry()  # Tenant listesini kayit tablosundan (DB) yukle
     for tenant_id, cfg in TENANTS.items():
         if tenant_id in _registry:
             continue
@@ -88,6 +94,29 @@ async def reload_content(tenant_id: str) -> None:
         raise RuntimeError(f"Tenant {tenant_id!r} yuklu degil; reload edilemez.")
     ctx.content = await load_content(ctx.pool)
     print(f"[Tenants] Icerik yeniden yuklendi: {tenant_id}")
+
+
+async def add_tenant(tenant_id: str, min_size: int = 1, max_size: int = 10) -> None:
+    """Yeni olusturulmus bir tenant'i canli registry'ye ekler (restart'siz).
+
+    Kayit tablosunu tazeler, havuz acar ve icerigi yukler.
+    """
+    load_registry()
+    cfg = TENANTS.get(tenant_id)
+    if cfg is None:
+        raise RuntimeError(f"Tenant {tenant_id!r} kayit tablosunda bulunamadi.")
+    if tenant_id in _registry:
+        # Zaten yukluyse icerigi tazele, yeni havuz acma.
+        await reload_content(tenant_id)
+        return
+    pool = await asyncpg.create_pool(
+        host=cfg.db.host, port=cfg.db.port, database=cfg.db.dbname,
+        user=cfg.db.user, password=cfg.db.password,
+        min_size=min_size, max_size=max_size,
+    )
+    content = await load_content(pool)
+    _registry[tenant_id] = TenantContext(config=cfg, pool=pool, content=content)
+    print(f"[Tenants] Canliya eklendi: {tenant_id} -> {cfg.db.dbname}")
 
 
 def get_tenant(tenant_id: str) -> TenantContext:

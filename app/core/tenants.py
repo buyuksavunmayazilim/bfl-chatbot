@@ -1,28 +1,28 @@
-"""Tenant kayit defteri.
+"""Tenant kayit defteri — dinamik (veritabani destekli).
 
-Her chatbot bir "tenant"tir (bfl, kfz, kfz_lease, bsy). Bu dosya her tenant'in
-statik yapilandirmasini tutar: hangi veritabanina baglanacagi, hangi embedding
-sutununu ve benzerlik esiklerini kullanacagi.
+Her chatbot bir "tenant"tir. Tenant listesi ARTIK kodda sabit degil; varsayilan
+veritabanindaki (settings.postgres_db) 'tenants' tablosunda tutulur. Boylece yeni
+tenant panelden acilir, kod degisikligi ve restart gerekmez.
 
-Adim 1: Sadece "bfl" tanimli ve tum degerleri mevcut Settings'ten turetiliyor,
-boylece davranis birebir ayni kalir. Yeni tenant'lar buraya eklenecek.
-
-Icerik paketleri (keyword kurallari, form URL'leri, hazir metinler) Adim 2'de
-bu yapiya eklenecek.
+Bir tenant tamamen (id, label) ile tanimlidir; gerisi turer:
+  - dbname: '<id>_chatbot' (bfl icin settings.postgres_db) — POSTGRES_DB_<ID> ile override
+  - host/port/user/password: tum tenant'larda ortak (tek Postgres)
+  - similarity_column ve varsayilan esikler: Settings'ten
 """
 
 from __future__ import annotations
 
 import os
+import re
 from dataclasses import dataclass
+
+import psycopg2
 
 from app.core.config import settings
 
 
 @dataclass(frozen=True)
 class DBConfig:
-    """Bir tenant'in Postgres baglanti bilgisi."""
-
     host: str
     port: int
     dbname: str
@@ -32,8 +32,6 @@ class DBConfig:
 
 @dataclass(frozen=True)
 class TenantConfig:
-    """Bir chatbot'un statik yapilandirmasi."""
-
     id: str
     label: str
     db: DBConfig
@@ -42,35 +40,38 @@ class TenantConfig:
     similarity_threshold_low: float
 
 
-# Uygulama genelinde varsayilan tenant (geriye donuk uyumluluk / fallback icin).
 DEFAULT_TENANT_ID = "bfl"
 
+# Ilk kurulumda 'tenants' tablosu bossa eklenecek yerlesik tenant'lar.
+BUILTIN_TENANTS: list[tuple[str, str]] = [
+    ("bfl", "Buyuk Filo"),
+    ("kfz", "KFZ"),
+    ("kfz_lease", "KFZ Lease"),
+    ("bsy", "BSY"),
+]
 
-# Tenant -> veritabani adi.
-# Tumu ayni Postgres konteynerinde, farkli veritabanlarinda durur.
-# Isimler POSTGRES_DB_<TENANT> env degiskeni ile override edilebilir.
-_DBNAME_DEFAULTS = {
-    "kfz": "kfz_chatbot",
-    "kfz_lease": "kfz_lease_chatbot",
-    "bsy": "bsy_chatbot",
-}
+# Calisma zamani registry (startup'ta load_registry ile doldurulur).
+TENANTS: dict[str, TenantConfig] = {}
+
+
+# ─── id / dbname yardimcilari ────────────────────────────────────────────────
+_ID_RE = re.compile(r"^[a-z][a-z0-9_]{1,30}$")
+
+
+def valid_tenant_id(tenant_id: str) -> bool:
+    """Kucuk harf, rakam, alt cizgi; harfle baslar (guvenli DB/URL adi)."""
+    return bool(_ID_RE.match(tenant_id))
 
 
 def tenant_dbname(tenant_id: str, s=settings) -> str:
-    """Bir tenant'in veritabani adini doner (bfl mevcut ayardan, digerleri konvansiyon)."""
+    """Bir tenant'in veritabani adi (bfl varsayilan DB, digerleri '<id>_chatbot')."""
     if tenant_id == "bfl":
         return s.postgres_db
-    if tenant_id not in _DBNAME_DEFAULTS:
-        raise KeyError(f"Bilinmeyen tenant: {tenant_id!r}")
-    return os.getenv(f"POSTGRES_DB_{tenant_id.upper()}", _DBNAME_DEFAULTS[tenant_id])
+    return os.getenv(f"POSTGRES_DB_{tenant_id.upper()}", f"{tenant_id}_chatbot")
 
 
-def _make_tenant(tenant_id: str, label: str) -> TenantConfig:
-    """Ayni konteynerde farkli DB'ye bakan bir TenantConfig kurar.
-
-    Host/port/user/password tum tenant'larda ortaktir (tek Postgres); yalnizca
-    dbname degisir. Embedding modeli ve esikler de simdilik BFL ile ayni.
-    """
+def build_config(tenant_id: str, label: str) -> TenantConfig:
+    """Ayni konteynerde farkli DB'ye bakan bir TenantConfig kurar."""
     return TenantConfig(
         id=tenant_id,
         label=label,
@@ -87,16 +88,82 @@ def _make_tenant(tenant_id: str, label: str) -> TenantConfig:
     )
 
 
-TENANTS: dict[str, TenantConfig] = {
-    "bfl": _make_tenant("bfl", "Buyuk Filo"),
-    "kfz": _make_tenant("kfz", "KFZ"),
-    "kfz_lease": _make_tenant("kfz_lease", "KFZ Lease"),
-    "bsy": _make_tenant("bsy", "BSY"),
-}
+# ─── Kayit tablosu (varsayilan DB icinde) ────────────────────────────────────
+def _meta_connect():
+    return psycopg2.connect(
+        host=settings.postgres_host,
+        port=settings.postgres_port,
+        dbname=settings.postgres_db,
+        user=settings.postgres_user,
+        password=settings.postgres_password,
+    )
+
+
+def ensure_meta() -> None:
+    """'tenants' tablosunu olusturur (yoksa) ve bossa yerlesik tenant'lari ekler."""
+    conn = _meta_connect()
+    try:
+        with conn, conn.cursor() as cur:
+            cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS tenants (
+                    id         TEXT PRIMARY KEY,
+                    label      TEXT NOT NULL,
+                    enabled    BOOLEAN NOT NULL DEFAULT TRUE,
+                    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+                )
+                """
+            )
+            cur.execute("SELECT COUNT(*) FROM tenants")
+            if cur.fetchone()[0] == 0:
+                for tid, label in BUILTIN_TENANTS:
+                    cur.execute(
+                        "INSERT INTO tenants (id, label) VALUES (%s, %s) "
+                        "ON CONFLICT (id) DO NOTHING",
+                        (tid, label),
+                    )
+    finally:
+        conn.close()
+
+
+def list_tenant_rows() -> list[tuple[str, str]]:
+    conn = _meta_connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT id, label FROM tenants WHERE enabled ORDER BY created_at, id"
+            )
+            return [(r[0], r[1]) for r in cur.fetchall()]
+    finally:
+        conn.close()
+
+
+def add_tenant_row(tenant_id: str, label: str) -> None:
+    """Yeni tenant'i kayit tablosuna ekler; zaten varsa hata."""
+    conn = _meta_connect()
+    try:
+        with conn, conn.cursor() as cur:
+            cur.execute("SELECT 1 FROM tenants WHERE id = %s", (tenant_id,))
+            if cur.fetchone():
+                raise ValueError(f"Tenant zaten var: {tenant_id}")
+            cur.execute(
+                "INSERT INTO tenants (id, label) VALUES (%s, %s)",
+                (tenant_id, label),
+            )
+    finally:
+        conn.close()
+
+
+def load_registry() -> None:
+    """Kayit tablosunu okuyup TENANTS'i (bellek) yeniden doldurur."""
+    ensure_meta()
+    rows = list_tenant_rows()
+    TENANTS.clear()
+    for tid, label in rows:
+        TENANTS[tid] = build_config(tid, label)
 
 
 def get_tenant_config(tenant_id: str) -> TenantConfig:
-    """tenant_id'ye karsilik gelen yapilandirmayi doner, yoksa KeyError."""
     try:
         return TENANTS[tenant_id]
     except KeyError:
