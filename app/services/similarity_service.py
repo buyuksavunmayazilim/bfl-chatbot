@@ -93,6 +93,18 @@ async def search_similar(
     best = rows[0]
     score = float(best["score"])
 
+    print("========== SIMILARITY DEBUG ==========")
+    print("input          :", message)
+    print("clean input    :", clean_for_embedding(message))
+    print("tenant         :", ctx.id)
+    print("database       :", ctx.config.db.dbname)
+    print("column         :", col)
+    print("threshold      :", threshold)
+    print("best question  :", best["question"])
+    print("best intent    :", best["intent_category"])
+    print("score          :", score)
+    print("======================================")
+
     print(
         f"[SimilarityService] model={settings.similarity_model.split('/')[-1]} "
         f"score={score:.4f} threshold={threshold} "
