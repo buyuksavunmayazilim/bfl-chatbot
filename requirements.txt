@@ -3,7 +3,7 @@ uvicorn
 #ollama
 redis
 psycopg2-binary
-sqlalchemy
+sqlalchemy[asyncio]>=2.0
 python-dotenv
 scikit-learn
 faker

@@ -145,20 +145,90 @@
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
   @media (max-width: 640px) { th { position: static; } td.trunc { max-width: 160px; } }
 </style>
+
+<!-- ============ BÜYÜK IK temalı modern kabuk (palet + sol menü) ============ -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+:root{
+  --bg:#f3f4f8; --card:#ffffff; --line:#e8eaf1; --line-2:#f0f1f6;
+  --ink:#2f3b4d; --muted:#7a8296; --faint:#aab2c0;
+  --accent:#6c4cf1; --accent-d:#5a3ee0; --accent-tint:#efecfe;
+  --side:#2d2b55; --side-ink:#d6d5ee; --side-muted:#9593c0;
+  --radius:12px;
+}
+body{ background:var(--bg); font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+nav.tabs{ display:none !important; }            /* eski yatay sekmeler gizli */
+
+.app{ display:flex; min-height:100vh; align-items:stretch; }
+.sidebar{ width:252px; flex:0 0 252px; background:var(--side); color:var(--side-ink);
+  display:flex; flex-direction:column; position:sticky; top:0; height:100vh; padding:14px 12px; }
+.side-brand{ display:flex; align-items:center; gap:11px; padding:8px 8px 16px; }
+.side-logo{ width:38px; height:38px; border-radius:11px; background:linear-gradient(135deg,#7d5cf5,#6c4cf1);
+  color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center; font-size:14px; }
+.side-title{ font-weight:700; font-size:15px; color:#fff; line-height:1.15; }
+.side-title span{ display:block; font-weight:500; font-size:12px; color:var(--side-muted); }
+.nav{ display:flex; flex-direction:column; gap:3px; margin-top:4px; flex:1; overflow:auto; }
+.nav button{ display:flex; align-items:center; gap:11px; width:100%; text-align:left; border:0; border-radius:10px;
+  background:transparent; color:var(--side-ink); padding:11px 12px; font:inherit; font-weight:500; cursor:pointer;
+  transition:background .15s,color .15s; }
+.nav button:hover{ background:rgba(255,255,255,.07); color:#fff; }
+.nav button.active{ background:var(--accent); color:#fff; box-shadow:0 6px 16px rgba(108,76,241,.35); }
+.nav button svg{ width:18px; height:18px; flex:0 0 auto; }
+.nav button span{ flex:1; }
+.side-foot{ border-top:1px solid rgba(255,255,255,.08); padding-top:12px; margin-top:8px; display:flex; flex-direction:column; gap:7px; }
+.side-lbl{ font-size:10px; letter-spacing:.06em; color:var(--side-muted); font-weight:600; padding-left:4px; }
+#tenant{ width:100%; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); color:#fff; border-radius:9px; padding:9px 10px; font-weight:600; }
+#tenant option{ color:#1f2430; }
+.side-new{ width:100%; background:rgba(255,255,255,.06); border:1px dashed rgba(255,255,255,.22); color:var(--side-ink);
+  border-radius:9px; padding:9px; cursor:pointer; font:inherit; transition:background .15s,color .15s; }
+.side-new:hover{ background:rgba(255,255,255,.12); color:#fff; }
+
+.content{ flex:1; min-width:0; display:flex; flex-direction:column; }
+.topbar{ position:sticky; top:0; z-index:20; height:64px; background:var(--card); border-bottom:1px solid var(--line);
+  display:flex; align-items:center; gap:16px; padding:0 24px; }
+.page-title{ font-size:18px; font-weight:700; color:var(--ink); letter-spacing:-.01em; }
+.topbar .spacer{ flex:1; }
+main{ padding:24px; max-width:1200px; margin:0; width:100%; }
+
+.card{ border-radius:var(--radius); box-shadow:0 1px 3px rgba(20,30,60,.05); }
+.modal{ border-radius:16px; }
+.testbox{ border-radius:var(--radius); background:var(--accent-tint); border-color:#e0dafc; }
+.btn-primary{ box-shadow:0 6px 16px rgba(108,76,241,.22); }
+th{ background:#faf9ff; }
+
+@media (max-width:860px){
+  .app{ flex-direction:column; }
+  .sidebar{ width:100%; flex:none; height:auto; position:static; flex-direction:row; flex-wrap:wrap; align-items:center; gap:10px; padding:10px 14px; }
+  .side-brand{ padding:0; }
+  .nav{ flex-direction:row; flex:1 1 100%; order:3; overflow-x:auto; gap:4px; }
+  .nav button{ white-space:nowrap; width:auto; }
+  .side-foot{ border:0; margin:0; padding:0; flex-direction:row; align-items:center; gap:8px; }
+  .side-lbl{ display:none; }
+  #tenant{ width:auto; min-width:150px; }
+  .side-new{ width:auto; }
+}
+</style>
 </head>
 <body>
-<header>
-  <div class="brand">Chatbot <span>Yönetimi</span></div>
-  <div class="spacer"></div>
-  <div class="tenant-wrap">
-    <label for="tenant">Chatbot</label>
-    <select id="tenant"></select>
-    <button id="newTenantBtn" class="btn-ghost btn-sm" title="Yeni chatbot ekle">+ Yeni</button>
-  </div>
-  <button id="reloadBtn" class="btn-ghost" title="Sunucu önbelleğini ve tabloyu yenile">↻ Yenile</button>
-</header>
-
-<nav class="tabs" id="tabs"></nav>
+<div class="app">
+  <aside class="sidebar">
+    <div class="side-brand">
+      <div class="side-logo">BK</div>
+      <div class="side-title">Chatbot<span>Yönetimi</span></div>
+    </div>
+    <nav class="nav" id="tabs"></nav>
+    <div class="side-foot">
+      <label class="side-lbl" for="tenant">CHATBOT</label>
+      <select id="tenant"></select>
+      <button id="newTenantBtn" class="side-new" title="Yeni chatbot ekle">+ Yeni chatbot</button>
+    </div>
+  </aside>
+  <div class="content">
+    <header class="topbar">
+      <div class="page-title" id="pageTitle">Yönetim</div>
+      <div class="spacer"></div>
+      <button id="reloadBtn" class="btn-ghost" title="Sunucu önbelleğini ve tabloyu yenile">↻ Yenile</button>
+    </header>
 
 <main>
   <div id="testHost"></div>
@@ -185,6 +255,8 @@
   <div class="card" id="tableHost"></div>
   <div class="toolbar" id="pager" style="display:none; justify-content:center; gap:14px; margin-top:14px"></div>
 </main>
+  </div><!-- /.content -->
+</div><!-- /.app -->
 
 <div class="overlay" id="tenantOverlay">
   <div class="modal" role="dialog" aria-modal="true" style="width:460px">
@@ -312,16 +384,26 @@ const TABS = {
 const state = { tenant: null, tab: "qa", rows: [], total: 0, qaQuery: "", intentOptions: [], limit: 50, offset: 0 };
 
 // ---- Render -----------------------------------------------------------------
+const TAB_ICONS = {
+  qa: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  conversations: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 3V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v9l-4-3h-6a2 2 0 0 1-2-2v-1"/></svg>',
+  intents: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.4" fill="currentColor" stroke="none"/></svg>',
+  appearance: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.4"/><circle cx="17.5" cy="10.5" r="1.4"/><circle cx="8.5" cy="7.5" r="1.4"/><circle cx="6.5" cy="12.5" r="1.4"/><path d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.2 0-1 .8-1.8 1.8-1.8H17a5 5 0 0 0 5-5c0-4.4-4.5-8-10-8z"/></svg>',
+  settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+};
 function renderTabs() {
   const host = document.getElementById("tabs");
   host.innerHTML = "";
   for (const [id, cfg] of Object.entries(TABS)) {
     const b = document.createElement("button");
-    b.textContent = cfg.label;
+    b.innerHTML = (TAB_ICONS[id] || "") + `<span>${esc(cfg.label)}</span>`;
     b.className = id === state.tab ? "active" : "";
     b.onclick = () => { state.tab = id; state.qaQuery = ""; state.offset = 0; loadTab(); };
     host.appendChild(b);
   }
+  const cur = TABS[state.tab];
+  const pt = document.getElementById("pageTitle");
+  if (pt && cur) pt.textContent = cur.label;
 }
 
 function cellHTML(row, col) {
@@ -557,22 +639,88 @@ async function loadAppearance() {
   try {
     const rows = await fetchJSON("GET", `${state.tenant}/settings`);
     const val = k => { const r = rows.find(x => x.key === k); return r && r.value != null ? r.value : ""; };
+    const parseArr = v => { if (Array.isArray(v)) return v; if (typeof v === "string" && v.trim()) { try { return JSON.parse(v); } catch (e) { return []; } } return []; };
+    const QUICK_ICONS = [["car","Araç / Ürün"],["doc","Belge / Teklif"],["head","Destek"],["dots","Diğer"]];
+    const QUICK_MAX = 4, FAQ_MAX = 6;
+    const quick = parseArr(val("widget_quick_actions"));
+    const faq = parseArr(val("widget_faq"));
+
     host.innerHTML = `
-      <div style="padding:20px; display:grid; gap:14px; max-width:600px">
+      <div style="padding:20px; display:grid; gap:18px; max-width:660px">
         <div class="field"><label>Başlık</label><input type="text" id="ap_title" value="${esc(val("widget_title"))}"></div>
         <div class="field"><label>Alt başlık</label><input type="text" id="ap_subtitle" value="${esc(val("widget_subtitle"))}"></div>
         <div class="field"><label>Avatar <span class="hint">(kısa harf, örn. BF)</span></label><input type="text" id="ap_avatar" maxlength="4" value="${esc(val("widget_avatar"))}" style="width:90px"></div>
         <div class="field"><label>Karşılama mesajı</label><textarea id="ap_greeting">${esc(val("widget_greeting"))}</textarea></div>
         <div class="field"><label>Renk</label><input type="color" id="ap_color" value="${esc(val("widget_color") || "#537286")}" style="width:64px;height:38px;padding:2px"></div>
+
+        <div class="field">
+          <label>Hızlı işlem butonları <span class="hint">(en fazla ${QUICK_MAX} — sohbet açılışında kutucuk olarak görünür)</span></label>
+          <div id="ap_quick"></div>
+          <button type="button" class="btn-sm" id="ap_quick_add" style="margin-top:8px">+ Buton ekle</button>
+        </div>
+
+        <div class="field">
+          <label>Sık sorulan sorular <span class="hint">(en fazla ${FAQ_MAX} — tıklanınca bota gönderilir)</span></label>
+          <div id="ap_faq"></div>
+          <button type="button" class="btn-sm" id="ap_faq_add" style="margin-top:8px">+ Soru ekle</button>
+        </div>
+
         <div><button class="btn-primary" id="ap_save">Kaydet</button></div>
       </div>`;
+
+    const quickHost = document.getElementById("ap_quick");
+    const faqHost = document.getElementById("ap_faq");
+    const optsHtml = sel => QUICK_ICONS.map(([v,l]) => `<option value="${v}" ${v===sel?"selected":""}>${l}</option>`).join("");
+    const syncQuickBtn = () => { document.getElementById("ap_quick_add").disabled = quickHost.children.length >= QUICK_MAX; };
+    const syncFaqBtn = () => { document.getElementById("ap_faq_add").disabled = faqHost.children.length >= FAQ_MAX; };
+
+    function addQuick(item) {
+      if (quickHost.children.length >= QUICK_MAX) return;
+      const d = document.createElement("div");
+      d.className = "ap-qrow";
+      d.style.cssText = "display:flex; gap:8px; margin-bottom:6px; align-items:center";
+      d.innerHTML =
+        `<select data-role="icon" style="flex:0 0 130px">${optsHtml(item && item.icon)}</select>
+         <input type="text" data-role="label" placeholder="Etiket (ör. Ürün Bilgisi)" value="${esc(item && item.label || "")}" style="flex:1">
+         <input type="text" data-role="query" placeholder="Gönderilecek soru" value="${esc(item && item.query || "")}" style="flex:1.4">
+         <button type="button" class="btn-danger btn-sm" data-role="rm" title="Kaldır">✕</button>`;
+      d.querySelector('[data-role="rm"]').onclick = () => { d.remove(); syncQuickBtn(); };
+      quickHost.appendChild(d); syncQuickBtn();
+    }
+    function addFaq(text) {
+      if (faqHost.children.length >= FAQ_MAX) return;
+      const d = document.createElement("div");
+      d.className = "ap-frow";
+      d.style.cssText = "display:flex; gap:8px; margin-bottom:6px; align-items:center";
+      d.innerHTML =
+        `<input type="text" data-role="q" placeholder="Soru metni" value="${esc(text || "")}" style="flex:1">
+         <button type="button" class="btn-danger btn-sm" data-role="rm" title="Kaldır">✕</button>`;
+      d.querySelector('[data-role="rm"]').onclick = () => { d.remove(); syncFaqBtn(); };
+      faqHost.appendChild(d); syncFaqBtn();
+    }
+
+    quick.forEach(addQuick);
+    faq.forEach(addFaq);
+    syncQuickBtn(); syncFaqBtn();
+    document.getElementById("ap_quick_add").onclick = () => addQuick(null);
+    document.getElementById("ap_faq_add").onclick = () => addFaq("");
+
     document.getElementById("ap_save").onclick = async () => {
+      const quickArr = [...quickHost.querySelectorAll(".ap-qrow")].map(r => ({
+        icon: r.querySelector('[data-role="icon"]').value,
+        label: r.querySelector('[data-role="label"]').value.trim(),
+        query: r.querySelector('[data-role="query"]').value.trim(),
+      })).filter(x => x.label && x.query).slice(0, QUICK_MAX);
+      const faqArr = [...faqHost.querySelectorAll(".ap-frow")]
+        .map(r => r.querySelector('[data-role="q"]').value.trim()).filter(Boolean).slice(0, FAQ_MAX);
       const items = {
         widget_title: document.getElementById("ap_title").value.trim(),
         widget_subtitle: document.getElementById("ap_subtitle").value.trim(),
         widget_avatar: document.getElementById("ap_avatar").value.trim(),
         widget_greeting: document.getElementById("ap_greeting").value.trim(),
         widget_color: document.getElementById("ap_color").value.trim(),
+        widget_quick_actions: JSON.stringify(quickArr),
+        widget_faq: JSON.stringify(faqArr),
       };
       const btn = document.getElementById("ap_save");
       btn.disabled = true; btn.textContent = "Kaydediliyor…";
@@ -580,6 +728,7 @@ async function loadAppearance() {
         for (const [k, v] of Object.entries(items)) {
           await fetchJSON("PUT", `${state.tenant}/settings/${k}`, { value: v });
         }
+        try { await fetchJSON("POST", `${state.tenant}/reload`); } catch (_) {}
         toast("Görünüm kaydedildi. Widget'ta anında geçerli.", "ok");
       } catch (e) { toast(e.message, "err"); }
       finally { btn.disabled = false; btn.textContent = "Kaydet"; }

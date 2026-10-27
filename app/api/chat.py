@@ -9,6 +9,7 @@ Akış (her mesajda):
 """
 import time
 import uuid
+import json
 
 import asyncpg
 from fastapi import APIRouter, HTTPException
@@ -241,10 +242,22 @@ async def chat(tenant: str, req: ChatRequest) -> ChatResponse:
 async def public_config(tenant: str) -> dict:
     ctx = _resolve(tenant)
     s = ctx.content.settings
+
+    def _as_list(v):
+        if isinstance(v, list):
+            return v
+        if isinstance(v, str) and v.strip():
+            try:
+                return json.loads(v)
+            except Exception:
+                return []
+        return []
     return {
         "title": s.get("widget_title") or ctx.config.label,
         "subtitle": s.get("widget_subtitle") or "",
         "avatar": s.get("widget_avatar") or "",
         "greeting": s.get("widget_greeting") or "",
         "color": s.get("widget_color") or "#537286",
+        "quick_actions": _as_list(ctx.content.setting("widget_quick_actions", [])),
+        "faq": _as_list(ctx.content.setting("widget_faq", [])),
     }

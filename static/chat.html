@@ -1,1069 +1,230 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>Büyük Filo — Asistan</title>
-
-  <style>
-    :root { --brand: #537286; }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-    }
-
-    body {
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-
-      background: transparent;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 0;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    .chat-container {
-      width: 100%;
-      height: 100vh;
-      max-width: 100%;
-      background: #fff;
-      border-radius: 0;
-      box-shadow: none;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* ───────────────── Header ───────────────── */
-
-    .header {
-      background: var(--brand);
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
-    }
-
-    .header-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: #fff;
-      font-weight: 600;
-      flex-shrink: 0;
-    }
-
-    .header-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .header-info h1 {
-      font-size: 15px;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .header-info p {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.7);
-      margin-top: 1px;
-    }
-
-    .online-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #4ade80;
-      flex-shrink: 0;
-    }
-
-    .new-session-btn {
-      width: 34px;
-      height: 34px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition:
-        background 0.15s,
-        transform 0.1s;
-    }
-
-    .new-session-btn:hover {
-      background: rgba(255, 255, 255, 0.22);
-    }
-
-    .new-session-btn:active {
-      transform: scale(0.95);
-    }
-
-    .new-session-btn svg {
-      width: 17px;
-      height: 17px;
-      fill: currentColor;
-    }
-
-    /* ───────────────── Messages ───────────────── */
-
-    .messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      scroll-behavior: smooth;
-    }
-
-    .msg {
-      display: flex;
-      gap: 8px;
-      max-width: 88%;
-    }
-
-    .msg.user {
-      align-self: flex-end;
-      flex-direction: row-reverse;
-    }
-
-    .msg.bot {
-      align-self: flex-start;
-    }
-
-    .msg-av {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .bot .msg-av {
-      background: #e8eef6;
-      color: var(--brand);
-    }
-
-    .user .msg-av {
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
-
-    .msg-body {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      min-width: 0;
-    }
-
-    .bubble {
-      padding: 10px 14px;
-      border-radius: 16px;
-      font-size: 14px;
-      line-height: 1.55;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-    }
-
-    .bot .bubble {
-      background: #f1f3f5;
-      color: #212529;
-      border-radius: 4px 16px 16px 16px;
-    }
-
-    .user .bubble {
-      background: var(--brand);
-      color: #fff;
-      border-radius: 16px 4px 16px 16px;
-    }
-
-    /* ───────────────── Form linkleri ───────────────── */
-
-    .form-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .form-link {
-      display: inline-block;
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      background: #e8eef6;
-      color: var(--brand);
-      text-decoration: none;
-      border: 1px solid #c5d4e8;
-      transition: background 0.15s;
-    }
-
-    .form-link:hover {
-      background: #d0dff0;
-    }
-
-    /* ───────────────── Meta ───────────────── */
-
-    .meta {
-      font-size: 11px;
-      color: #adb5bd;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .user .meta {
-      justify-content: flex-end;
-    }
-
-    .badge {
-      font-size: 10px;
-      padding: 1px 5px;
-      border-radius: 4px;
-      font-weight: 600;
-    }
-
-    .badge.k1 {
-      background: #d4edda;
-      color: #155724;
-    }
-
-    .badge.k2 {
-      background: #cce5ff;
-      color: #004085;
-    }
-
-    .badge.fb {
-      background: #fff3cd;
-      color: #856404;
-    }
-
-    /* ───────────────── Typing ───────────────── */
-
-    .typing-wrap {
-      display: flex;
-      gap: 8px;
-      align-self: flex-start;
-      max-width: 88%;
-    }
-
-    .typing-avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: #e8eef6;
-      color: var(--brand);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .typing-bubble {
-      padding: 10px 16px;
-      background: #f1f3f5;
-      border-radius: 4px 16px 16px 16px;
-      display: flex;
-      gap: 5px;
-      align-items: center;
-    }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #adb5bd;
-      animation: bounce 1.2s infinite;
-    }
-
-    .dot:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-
-    .dot:nth-child(3) {
-      animation-delay: 0.4s;
-    }
-
-    @keyframes bounce {
-      0%,
-      60%,
-      100% {
-        transform: translateY(0);
-      }
-
-      30% {
-        transform: translateY(-5px);
-      }
-    }
-
-    /* ───────────────── Input ───────────────── */
-
-    .input-area {
-      padding: 12px 16px;
-      border-top: 1px solid #e9ecef;
-      background: #fff;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .input-area input {
-      flex: 1;
-      min-width: 0;
-      font-size: 14px;
-      padding: 10px 14px;
-      border: 1px solid #dee2e6;
-      border-radius: 24px;
-      outline: none;
-      color: #212529;
-      background: #f8f9fa;
-      transition:
-        border-color 0.15s,
-        background 0.15s;
-    }
-
-    .input-area input:focus {
-      border-color: var(--brand);
-      background: #fff;
-    }
-
-    .send-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--brand);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition:
-        background 0.15s,
-        transform 0.1s;
-    }
-
-    .send-btn:hover {
-      background: #425b6b;
-    }
-
-    .send-btn:active {
-      transform: scale(0.95);
-    }
-
-    .send-btn:disabled {
-      background: #adb5bd;
-      cursor: default;
-    }
-
-    .send-btn svg {
-      width: 18px;
-      height: 18px;
-      fill: #fff;
-    }
-
-    /* ───────────────── Hata ───────────────── */
-
-    .error-avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: #ffe3e3;
-      color: #c92a2a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .error-bubble {
-      padding: 10px 14px;
-      background: #fff3f3;
-      border: 1px solid #ffc9c9;
-      color: #c92a2a;
-      border-radius: 4px 16px 16px 16px;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    /* ───────────────── Scrollbar ───────────────── */
-
-    .messages::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .messages::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .messages::-webkit-scrollbar-thumb {
-      background: #dee2e6;
-      border-radius: 4px;
-    }
-
-    /* ───────────────── Mobil ───────────────── */
-
-    @media (max-width: 480px) {
-      .header {
-        padding: 12px 14px;
-      }
-
-      .messages {
-        padding: 14px 12px;
-      }
-
-      .input-area {
-        padding: 10px 12px;
-      }
-
-      .msg {
-        max-width: 92%;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Asistan</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+:root{--brand:#274a9c;--brand-2:#1d336f;--ink:#10283e;--bot:#f0f4f7;--line:#e6ecf4;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:#fff;}
+button,input{font:inherit;}
+.chat{position:fixed;inset:0;display:flex;flex-direction:column;background:#fff;overflow:hidden;}
+
+/* header */
+.top{padding:14px 15px;color:#fff;display:flex;align-items:center;gap:11px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));}
+.mini{width:50px;height:50px;border-radius:15px;background:rgba(255,255,255,.14);position:relative;overflow:hidden;flex:0 0 auto;}
+.mini .bflw-bot3d{position:absolute;left:0;top:3px;transform:scale(.44);transform-origin:0 0;}
+.title{flex:1;min-width:0;}
+.title b{font-size:16px;font-weight:600;display:block;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.status{margin-top:3px;font-size:12px;opacity:.9;display:flex;align-items:center;gap:6px;}
+.live{width:7px;height:7px;border-radius:50%;background:#4ce08a;box-shadow:0 0 0 0 rgba(76,224,138,.5);animation:pulse 2.6s infinite;flex:0 0 auto;}
+.hbtn{width:34px;height:34px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;border-radius:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .1s;flex:0 0 auto;}
+.hbtn:hover{background:rgba(255,255,255,.2);} .hbtn:active{transform:scale(.93);}
+.hbtn svg{width:17px;height:17px;}
+
+/* messages */
+.msgs{flex:1;overflow:auto;padding:18px 16px 8px;background:linear-gradient(#fbfdff,#fff);display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;}
+.msgs::-webkit-scrollbar{width:7px;} .msgs::-webkit-scrollbar-thumb{background:#d8e1ec;border-radius:10px;}
+.row{display:flex;animation:in .38s cubic-bezier(.2,.8,.2,1) both;}
+.row.me{justify-content:flex-end;}
+.bubble{padding:11px 14px;border-radius:16px 16px 16px 5px;background:var(--bot);max-width:80%;font-size:14px;line-height:1.55;overflow-wrap:anywhere;word-break:break-word;color:#223247;}
+.row.me .bubble{border-radius:16px 16px 5px 16px;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand-2));}
+.row.err .bubble{background:#fff3f3;border:1px solid #ffc9c9;color:#c92a2a;font-size:13px;}
+.cursor{display:inline-block;width:2px;height:1em;background:currentColor;opacity:.45;vertical-align:-2px;margin-left:1px;animation:caret 1s steps(1) infinite;}
+
+.qtitle{font-size:12px;font-weight:600;color:#6b7e92;margin:4px 2px -2px;}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.quick button{border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 5px;cursor:pointer;color:#33465d;transition:.2s;}
+.quick button:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(39,74,156,.12);border-color:#d3deef;}
+.quick .ic{width:32px;height:32px;border-radius:10px;background:color-mix(in srgb,var(--brand) 11%,#fff);color:var(--brand);margin:0 auto 7px;display:flex;align-items:center;justify-content:center;}
+.quick .ic svg{width:18px;height:18px;}
+.quick span{font-size:11px;font-weight:500;line-height:1.2;display:block;}
+
+.faq{display:flex;flex-direction:column;gap:7px;}
+.faq button{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 13px;text-align:left;color:#30455c;cursor:pointer;font-size:13px;transition:.18s;}
+.faq button:hover{border-color:var(--brand);color:var(--brand);background:#f7faff;}
+.faq .ch{margin-left:auto;color:#aab6ca;} .faq button:hover .ch{color:var(--brand);}
+.faq svg{width:15px;height:15px;flex:0 0 auto;}
+
+.forms{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px;}
+.forms a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:12.4px;font-weight:600;color:var(--brand);background:#fff;border:1.5px solid #dbe3f0;border-radius:999px;padding:7px 14px;transition:.2s;}
+.forms a:hover{background:var(--brand);color:#fff;border-color:var(--brand);}
+.forms svg{width:13px;height:13px;}
+
+.typing{display:none;} .typing.show{display:flex;}
+.dots{padding:12px 15px;border-radius:16px 16px 16px 5px;background:var(--bot);display:inline-flex;gap:4px;}
+.dots i{width:7px;height:7px;border-radius:50%;background:#aeb9cd;animation:dot 1.2s infinite;}
+.dots i:nth-child(2){animation-delay:.16s;} .dots i:nth-child(3){animation-delay:.32s;}
+
+.entry{padding:11px 13px 13px;border-top:1px solid #eef2f6;flex-shrink:0;}
+.ewrap{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid #dde6f0;border-radius:999px;padding:5px 5px 5px 16px;transition:.2s;}
+.ewrap:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 15%,transparent);}
+.entry input{flex:1;min-width:0;border:0;outline:0;font-size:13.5px;background:transparent;color:var(--ink);}
+.entry input::placeholder{color:#9aa6ba;}
+.send{width:40px;height:40px;border:0;border-radius:50%;cursor:pointer;flex:0 0 auto;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:flex;align-items:center;justify-content:center;transition:transform .2s;box-shadow:0 6px 15px rgba(39,74,156,.28);}
+.send:hover{transform:scale(1.07);} .send:active{transform:scale(.93);} .send:disabled{opacity:.55;cursor:default;transform:none;} .send svg{width:17px;height:17px;}
+.brandline{text-align:center;font-size:10px;color:#aeb8c6;margin-top:8px;}
+
+/* ---- 3D CSS maskot (header mini, statik) ---- */
+.bflw-bot3d{position:relative;width:104px;height:116px;}
+.bflw-ant-stick{position:absolute;z-index:2;left:49px;top:3px;width:7px;height:18px;border-radius:7px;background:linear-gradient(90deg,#083d86,#1681eb,#073675);}
+.bflw-ant-ball{position:absolute;z-index:3;left:43px;top:-7px;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 34% 28%,#8feeff 0 7%,#1496f4 25%,#0069d9 62%,#064496 100%);box-shadow:inset -2px -3px 4px rgba(0,31,91,.28),0 2px 5px rgba(0,64,130,.25);}
+.bflw-head{position:absolute;z-index:5;left:9px;top:16px;width:86px;height:68px;border-radius:33px 32px 29px 31px;background:radial-gradient(circle at 32% 19%,#fff 0 13%,transparent 14%),linear-gradient(145deg,#fff,#fbfdff 46%,#e4edf5 75%,#cbdbe7 100%);box-shadow:inset 2px 3px 5px rgba(255,255,255,.95),inset -3px -5px 8px rgba(65,101,132,.16),0 6px 11px rgba(13,48,78,.16);}
+.bflw-face{position:absolute;z-index:7;left:18px;top:27px;width:68px;height:44px;border-radius:24px;background:radial-gradient(circle at 35% 15%,rgba(82,157,255,.5),transparent 28%),linear-gradient(160deg,#114c9b,#06285d 65%,#031d47);border:2px solid rgba(5,55,119,.85);box-shadow:inset 0 1px 2px rgba(113,190,255,.6),inset 0 -7px 14px rgba(0,13,48,.26);animation:bflw-blink 5.4s infinite;}
+.bflw-eye{position:absolute;top:13px;width:11px;height:11px;border-radius:50%;background:#fff;box-shadow:0 0 5px rgba(255,255,255,.45);transform-origin:center;transform:scaleY(var(--blink,1));}
+.bflw-eye.l{left:16px;} .bflw-eye.r{right:16px;}
+.bflw-smile{position:absolute;left:24px;top:26px;width:13px;height:7px;border:3px solid #fff;border-top:0;border-left-color:transparent;border-right-color:transparent;border-radius:0 0 14px 14px;}
+.bflw-ear{position:absolute;z-index:4;top:38px;width:17px;height:32px;border-radius:50%;background:linear-gradient(90deg,#064897,#087ce6 58%,#00dfff);box-shadow:inset -3px 0 4px rgba(0,31,92,.35);}
+.bflw-ear.l{left:1px;transform:rotate(4deg);} .bflw-ear.r{right:1px;transform:rotate(-4deg) scaleX(-1);}
+.bflw-neck{position:absolute;z-index:3;left:39px;top:77px;width:28px;height:11px;border-radius:50%;background:linear-gradient(#082d68,#041d48);}
+.bflw-torso{position:absolute;z-index:4;left:27px;top:79px;width:52px;height:34px;border-radius:50% 50% 42% 42%;background:radial-gradient(circle at 35% 20%,#fff 0 19%,transparent 20%),linear-gradient(145deg,#fff,#edf3f8 64%,#cad9e5);}
+.bflw-chest{position:absolute;z-index:6;left:43px;top:86px;width:22px;height:12px;border-radius:5px 5px 10px 10px;background:linear-gradient(#0b438d,#072c68);}
+.bflw-chest:after{content:"";position:absolute;left:5px;top:4px;width:12px;height:4px;border-radius:8px;background:#72edff;box-shadow:0 0 7px #43d9ff;}
+.bflw-arm{position:absolute;z-index:8;top:80px;width:16px;height:30px;border-radius:12px;background:linear-gradient(135deg,#fff,#e1ebf2);box-shadow:inset -2px -2px 4px rgba(65,101,132,.18);}
+.bflw-arm.l{left:19px;transform:rotate(22deg);} .bflw-arm.r{right:19px;transform:rotate(-16deg);}
+.bflw-fist{position:absolute;left:1px;bottom:-4px;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 34% 28%,#ff8178 0 18%,#e23b34 62%,#c02a23);box-shadow:inset -1px -2px 3px rgba(120,10,10,.3);}
+
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(76,224,138,.5);}70%{box-shadow:0 0 0 6px rgba(76,224,138,0);}100%{box-shadow:0 0 0 0 rgba(76,224,138,0);}}
+@keyframes in{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes dot{50%{transform:translateY(-4px);}}
+@keyframes caret{50%{opacity:0;}}
+@property --blink{syntax:"<number>";inherits:true;initial-value:1;}
+@keyframes bflw-blink{0%,45%,48%,100%{--blink:1;}46.5%{--blink:.08;}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
 </head>
-
 <body>
-
-  <div class="chat-container">
-
-    <header class="header">
-      <div class="header-avatar" id="bf-avatar"></div>
-
-      <div class="header-info">
-        <h1 id="bf-title">Büyük Filo Asistan</h1>
-        <p id="bf-subtitle">Araç kiralama &amp; destek</p>
-      </div>
-
-      <div
-        class="online-dot"
-        title="Çevrimiçi"
-        aria-label="Çevrimiçi"
-      ></div>
-
-      <button
-        type="button"
-        class="new-session-btn"
-        id="new-session-btn"
-        title="Yeni konuşma başlat"
-        aria-label="Yeni konuşma başlat"
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path
-            d="M12 5V2L8 6l4 4V7c3.31 0 6 2.69 6 6a6 6 0 0 1-10.9 3.48l-1.46 1.36A8 8 0 1 0 12 5z"
-          />
-        </svg>
-      </button>
-    </header>
-
-    <main
-      class="messages"
-      id="messages"
-      aria-live="polite"
-      aria-label="Sohbet mesajları"
-    >
-      <div class="msg bot">
-        <div class="msg-av" id="bf-welcome-av"></div>
-
-        <div class="msg-body">
-          <div class="bubble" id="bf-greeting">
-            Merhaba! Büyük Filo'ya hoş geldiniz 👋
-            <br><br>
-            Araç arızası, hasar bildirimi, servis, lastik değişimi,
-            teklif alma veya genel sorularınız için buradayım.
-          </div>
-
-          <div class="meta">Asistan</div>
-        </div>
-      </div>
-    </main>
-
-    <div class="input-area">
-      <input
-        type="text"
-        id="msg-input"
-        placeholder="Mesajınızı yazın..."
-        autocomplete="off"
-        maxlength="2000"
-        aria-label="Mesajınızı yazın"
-      >
-
-      <button
-        type="button"
-        class="send-btn"
-        id="send-btn"
-        aria-label="Mesaj gönder"
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-        </svg>
-      </button>
-    </div>
-
+<div class="chat">
+  <div class="top">
+    <div class="mini" id="mini"></div>
+    <div class="title"><b id="t-title">Asistan</b><div class="status"><span class="live"></span> <span id="t-sub">Her zaman yanınızda</span></div></div>
+    <button class="hbtn" id="refresh" title="Yeni konuşma başlat" aria-label="Yeni konuşma başlat"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 5V2L8 6l4 4V7c3.31 0 6 2.69 6 6a6 6 0 0 1-10.9 3.48l-1.46 1.36A8 8 0 1 0 12 5z"/></svg></button>
+    <button class="hbtn" id="close" title="Kapat" aria-label="Kapat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
   </div>
-
-  <script>
-    "use strict";
-
-    /*
-     * Kullanım seçenekleri:
-     *
-     * 1. Aynı domain:
-     *    /chat
-     *
-     * 2. URL parametresi:
-     *    /chat?tenant_id=buyuk-filo
-     *
-     * 3. Farklı API domain'i:
-     *    /chat?tenant_id=buyuk-filo
-     *         &api_base=https://chat-api.example.com
-     *
-     * Daha sonra widget.js iframe URL'sini bu bilgilerle oluşturabilir.
-     */
-
-    const queryParams = new URLSearchParams(window.location.search);
-
-    const globalConfig = window.BFLChatConfig || {};
-
-    const TENANT_ID =
-      queryParams.get("tenant_id") ||
-      globalConfig.tenantId ||
-      "bfl";
-
-    // Tenant -> avatar kısaltması
-    const TENANT_ABBR = {
-      kfz_lease: "KL",    // KFZ Lease
-      bsy:       "BSY",   // Büyük Savunma Yazılım
-      bfl:       "BFL",   // Büyük Filo
-      kfz:       "KFZ",   // KFZ sitesi
-    };
-    const WIDGET_AVATAR_DEFAULT = TENANT_ABBR[TENANT_ID] || "BFL";
-
-    const API_BASE_URL = (
-      queryParams.get("api_base") ||
-      globalConfig.apiBaseUrl ||
-      ""
-    ).replace(/\/+$/, "");
-
-    const API = API_BASE_URL
-      ? `${API_BASE_URL}/api/${TENANT_ID}/chat`
-      : `/api/${TENANT_ID}/chat`;
-
-    // Widget branding'i sunucudan cek (baslik/alt baslik/avatar/karsilama/renk)
-    let WIDGET_AVATAR = WIDGET_AVATAR_DEFAULT;
-    // Config gelmeden de dogru kisaltma gorunsun
-    { const h = document.getElementById("bf-avatar"); if (h) h.textContent = WIDGET_AVATAR;
-      const w = document.getElementById("bf-welcome-av"); if (w) w.textContent = WIDGET_AVATAR; }
-    const CONFIG_URL = API_BASE_URL
-      ? `${API_BASE_URL}/api/${TENANT_ID}/config`
-      : `/api/${TENANT_ID}/config`;
-    fetch(CONFIG_URL).then(r => r.json()).then(cfg => {
-      if (!cfg) return;
-      if (cfg.color) document.documentElement.style.setProperty("--brand", cfg.color);
-      if (cfg.title) { const e = document.getElementById("bf-title"); if (e) e.textContent = cfg.title; document.title = cfg.title; }
-      if (cfg.subtitle) { const e = document.getElementById("bf-subtitle"); if (e) e.textContent = cfg.subtitle; }
-      if (cfg.avatar) {
-        WIDGET_AVATAR = cfg.avatar;
-        const h = document.getElementById("bf-avatar"); if (h) h.textContent = cfg.avatar;
-        const w = document.getElementById("bf-welcome-av"); if (w) w.textContent = cfg.avatar;
-      }
-      if (cfg.greeting) { const g = document.getElementById("bf-greeting"); if (g) g.textContent = cfg.greeting; }
-    }).catch(() => {});
-
-    const SESSION_STORAGE_KEY =
-      `bfl_chat_session:${TENANT_ID}`;
-
-    const msgsEl =
-      document.getElementById("messages");
-
-    const inputEl =
-      document.getElementById("msg-input");
-
-    const sendBtn =
-      document.getElementById("send-btn");
-
-    const newSessionBtn =
-      document.getElementById("new-session-btn");
-
-    const BADGE = {
-      k1_keyword: ["K1", "k1"],
-      k2_similarity: ["K2", "k2"],
-      fallback: ["FB", "fb"]
-    };
-
-    function generateSessionId() {
-      if (
-        window.crypto &&
-        typeof window.crypto.randomUUID === "function"
-      ) {
-        return window.crypto.randomUUID();
-      }
-
-      /*
-       * Eski tarayıcılar için yedek yöntem.
-       * Modern production tarayıcılarında crypto.randomUUID kullanılır.
-       */
-      return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
-        .replace(/[xy]/g, function (character) {
-          const randomValue =
-            Math.random() * 16 | 0;
-
-          const value =
-            character === "x"
-              ? randomValue
-              : (randomValue & 0x3) | 0x8;
-
-          return value.toString(16);
-        });
-    }
-
-    function getSessionId() {
-      let sessionId = null;
-
-      try {
-        sessionId =
-          localStorage.getItem(SESSION_STORAGE_KEY);
-      } catch (error) {
-        console.warn(
-          "[Chat] localStorage okunamadı:",
-          error
-        );
-      }
-
-      if (!sessionId) {
-        sessionId = generateSessionId();
-
-        try {
-          localStorage.setItem(
-            SESSION_STORAGE_KEY,
-            sessionId
-          );
-        } catch (error) {
-          console.warn(
-            "[Chat] Session localStorage'a yazılamadı:",
-            error
-          );
-        }
-      }
-
-      return sessionId;
-    }
-
-    function createNewSession() {
-      const sessionId = generateSessionId();
-
-      try {
-        localStorage.setItem(
-          SESSION_STORAGE_KEY,
-          sessionId
-        );
-      } catch (error) {
-        console.warn(
-          "[Chat] Yeni session kaydedilemedi:",
-          error
-        );
-      }
-
-      msgsEl.innerHTML = "";
-
-      addBotMsg(
-        "Yeni konuşma başlatıldı. Size nasıl yardımcı olabilirim?",
-        null
-      );
-
-      inputEl.value = "";
-      inputEl.focus();
-    }
-
-    function scrollDown() {
-      requestAnimationFrame(function () {
-        msgsEl.scrollTop = msgsEl.scrollHeight;
-      });
-    }
-
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;")
-        .replace(/\n/g, "<br>");
-    }
-
-    function formatKey(key) {
-      return String(key ?? "")
-        .replace(/_/g, " ")
-        .split(" ")
-        .map(w => w
-          ? w.charAt(0).toLocaleUpperCase("tr") + w.slice(1)
-          : w)
-        .join(" ");
-    }
-
-    function sanitizeUrl(value) {
-      if (!value) {
-        return null;
-      }
-
-      try {
-        const url = new URL(
-          value,
-          window.location.origin
-        );
-
-        if (
-          url.protocol !== "http:" &&
-          url.protocol !== "https:"
-        ) {
-          return null;
-        }
-
-        return url.href;
-      } catch (error) {
-        return null;
-      }
-    }
-
-    function addUserMsg(text) {
-      const wrap =
-        document.createElement("div");
-
-      wrap.className = "msg user";
-
-      wrap.innerHTML = `
-        <div class="msg-av">Siz</div>
-
-        <div class="msg-body">
-          <div class="bubble">
-            ${escapeHtml(text)}
-          </div>
-
-          <div class="meta">Siz</div>
-        </div>
-      `;
-
-      msgsEl.appendChild(wrap);
-      scrollDown();
-    }
-
-    function addBotMsg(text, meta) {
-      const wrap =
-        document.createElement("div");
-
-      wrap.className = "msg bot";
-
-      let linksHtml = "";
-
-      if (
-        meta &&
-        meta.form_urls &&
-        typeof meta.form_urls === "object"
-      ) {
-        const links = Object.entries(meta.form_urls)
-          .map(function ([key, value]) {
-            const safeUrl = sanitizeUrl(value);
-
-            if (!safeUrl) {
-              return "";
-            }
-
-            return `
-              <a
-                class="form-link"
-                href="${escapeHtml(safeUrl)}"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                ${escapeHtml(formatKey(key))}
-              </a>
-            `;
-          })
-          .filter(Boolean)
-          .join("");
-
-        if (links) {
-          linksHtml = `
-            <div class="form-links">
-              ${links}
-            </div>
-          `;
-        }
-      }
-
-      let metaHtml = "Asistan";
-
-      // if (meta && meta.source) {
-      //   const badgeInfo =
-      //     BADGE[meta.source] || ["", ""];
-
-      //   const label = badgeInfo[0];
-      //   const className = badgeInfo[1];
-
-      //   const badge = label
-      //     ? `
-      //       <span class="badge ${className}">
-      //         ${label}
-      //       </span>
-      //     `
-      //     : "";
-
-      //   const confidence =
-      //     typeof meta.confidence === "number"
-      //       ? ` · %${Math.round(meta.confidence * 100)}`
-      //       : "";
-
-      //   const responseMs =
-      //     typeof meta.response_ms === "number"
-      //       ? ` · ${Math.round(meta.response_ms)}ms`
-      //       : "";
-
-      //   metaHtml =
-      //     `Asistan ${badge}${confidence}${responseMs}`;
-      // }
-
-      wrap.innerHTML = `
-        <div class="msg-av">${WIDGET_AVATAR}</div>
-
-        <div class="msg-body">
-          <div class="bubble">
-            ${escapeHtml(text)}
-            ${linksHtml}
-          </div>
-
-          <div class="meta">
-            ${metaHtml}
-          </div>
-        </div>
-      `;
-
-      msgsEl.appendChild(wrap);
-      scrollDown();
-    }
-
-    function addTyping() {
-      removeTyping();
-
-      const element =
-        document.createElement("div");
-
-      element.className = "typing-wrap";
-      element.id = "typing";
-
-      element.innerHTML = `
-        <div class="typing-avatar">${WIDGET_AVATAR}</div>
-
-        <div class="typing-bubble">
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
-      `;
-
-      msgsEl.appendChild(element);
-      scrollDown();
-    }
-
-    function removeTyping() {
-      const element =
-        document.getElementById("typing");
-
-      if (element) {
-        element.remove();
-      }
-    }
-
-    function addError(text) {
-      const wrap =
-        document.createElement("div");
-
-      wrap.className = "msg bot";
-
-      wrap.innerHTML = `
-        <div class="error-avatar">!</div>
-
-        <div class="msg-body">
-          <div class="error-bubble">
-            ${escapeHtml(text)}
-          </div>
-        </div>
-      `;
-
-      msgsEl.appendChild(wrap);
-      scrollDown();
-    }
-
-    async function sendMessage() {
-      const text = inputEl.value.trim();
-
-      if (!text || sendBtn.disabled) {
-        return;
-      }
-
-      const sessionId = getSessionId();
-
-      inputEl.value = "";
-      sendBtn.disabled = true;
-
-      addUserMsg(text);
-      addTyping();
-
-      const requestBody = {
-        session_id: sessionId,
-        message: text
-      };
-
-      /*
-       * Mevcut backend tenant_id beklemese bile Pydantic'in
-       * varsayılan davranışında ekstra alan genellikle yok sayılır.
-       *
-       * Backend tenant desteği eklendiğinde bu alan hazır olacak.
-       */
-      if (TENANT_ID) {
-        requestBody.tenant_id = TENANT_ID;
-      }
-
-      try {
-        const response = await fetch(API, {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify(requestBody)
-        });
-
-        removeTyping();
-
-        if (!response.ok) {
-          let serverError = "";
-
-          try {
-            serverError = await response.text();
-          } catch (error) {
-            serverError = "";
-          }
-
-          console.error(
-            "[Chat] API hatası:",
-            response.status,
-            serverError
-          );
-
-          addError(
-            "İşleminiz şu anda tamamlanamadı. Lütfen tekrar deneyin."
-          );
-
-          return;
-        }
-
-        const data = await response.json();
-
-        if (
-          !data ||
-          typeof data.message !== "string"
-        ) {
-          throw new Error(
-            "API yanıt formatı geçersiz."
-          );
-        }
-
-        addBotMsg(
-          data.message,
-          data
-        );
-      } catch (error) {
-        removeTyping();
-
-        console.error(
-          "[Chat] Bağlantı hatası:",
-          error
-        );
-
-        addError(
-          "Sunucuya bağlanılamadı. Lütfen bağlantınızı kontrol edip tekrar deneyin."
-        );
-      } finally {
-        sendBtn.disabled = false;
-        inputEl.focus();
-      }
-    }
-
-    sendBtn.addEventListener(
-      "click",
-      sendMessage
-    );
-
-    newSessionBtn.addEventListener(
-      "click",
-      createNewSession
-    );
-
-    inputEl.addEventListener(
-      "keydown",
-      function (event) {
-        if (
-          event.key === "Enter" &&
-          !event.shiftKey
-        ) {
-          event.preventDefault();
-          sendMessage();
-        }
-      }
-    );
-
-    /*
-     * Sayfa açıldığında session oluşturulur veya
-     * önceki session localStorage'dan alınır.
-     */
-    getSessionId();
-    inputEl.focus();
-  </script>
-
+  <div class="msgs" id="msgs" aria-live="polite"><div class="typing" id="typing"><div class="dots"><i></i><i></i><i></i></div></div></div>
+  <div class="entry">
+    <form class="ewrap" id="form">
+      <input id="field" placeholder="Mesajınızı yazın…" autocomplete="off" maxlength="2000" aria-label="Mesajınızı yazın">
+      <button class="send" type="submit" id="send" aria-label="Gönder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></button>
+    </form>
+    <div class="brandline" id="brandline"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var MASCOT='<div class="bflw-bot3d"><div class="bflw-ant-stick"></div><div class="bflw-ant-ball"></div><div class="bflw-ear l"></div><div class="bflw-ear r"></div><div class="bflw-head"></div><div class="bflw-face"><div class="bflw-eye l"></div><div class="bflw-eye r"></div><div class="bflw-smile"></div></div><div class="bflw-neck"></div><div class="bflw-torso"></div><div class="bflw-chest"></div><div class="bflw-arm l"><div class="bflw-fist"></div></div><div class="bflw-arm r"><div class="bflw-fist"></div></div></div>';
+  document.getElementById('mini').innerHTML=MASCOT;
+
+  var ICON={
+    car:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><path d="M3 11h18v5H3z"/><circle cx="7" cy="16.5" r="1.6"/><circle cx="17" cy="16.5" r="1.6"/></svg>',
+    doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>',
+    head:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M20 18v1a3 3 0 0 1-3 3h-3"/></svg>',
+    dots:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="18" cy="12" r="1.8"/></svg>',
+    chev:'<svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>',
+    arr:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>'
+  };
+  var qp=new URLSearchParams(location.search), g=window.BFLChatConfig||{};
+  var TENANT=qp.get('tenant_id')||g.tenantId||'bfl';
+  var API_BASE=(qp.get('api_base')||g.apiBaseUrl||'').replace(/\/+$/,'');
+  var CHAT_URL=(API_BASE?API_BASE:'')+'/api/'+TENANT+'/chat';
+  var CONFIG_URL=(API_BASE?API_BASE:'')+'/api/'+TENANT+'/config';
+  var SKEY='bfl_chat_session:'+TENANT;
+  var CFG=null;
+
+  var msgs=document.getElementById('msgs'),typing=document.getElementById('typing'),
+      form=document.getElementById('form'),field=document.getElementById('field'),send=document.getElementById('send');
+  var busy=false;
+
+  function uuid(){try{if(crypto&&crypto.randomUUID)return crypto.randomUUID();}catch(e){}
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=Math.random()*16|0;return (c==='x'?r:(r&0x3|0x8)).toString(16);});}
+  function getSession(){var s=null;try{s=localStorage.getItem(SKEY);}catch(e){}if(!s){s=uuid();try{localStorage.setItem(SKEY,s);}catch(e){}}return s;}
+  function newSession(){var s=uuid();try{localStorage.setItem(SKEY,s);}catch(e){}return s;}
+  var session=getSession();
+
+  var scroll=function(){requestAnimationFrame(function(){msgs.scrollTop=msgs.scrollHeight;});};
+  var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+  function safeUrl(v){if(!v)return null;try{var u=new URL(v,location.origin);if(u.protocol!=='http:'&&u.protocol!=='https:')return null;return u.href;}catch(e){return null;}}
+
+  function row(cls){var r=document.createElement('div');r.className='row '+cls;var b=document.createElement('div');b.className='bubble';r.appendChild(b);msgs.insertBefore(r,typing);scroll();return b;}
+  function block(cls){var d=document.createElement('div');d.className=cls;msgs.insertBefore(d,typing);scroll();return d;}
+  function showTyping(on){typing.classList.toggle('show',on);if(on)scroll();}
+
+  function quickTiles(items){var d=block('quick');
+    d.innerHTML=items.map(function(t){return '<button type="button" data-q="'+esc(t[2])+'"><span class="ic">'+(ICON[t[0]]||ICON.dots)+'</span><span>'+esc(t[1])+'</span></button>';}).join('');}
+  function faqList(items){block('qtitle').textContent='Sık sorulan sorular';var d=block('faq');
+    d.innerHTML=items.map(function(q){return '<button type="button" data-q="'+esc(q)+'">'+esc(q)+ICON.chev+'</button>';}).join('');}
+  function formButtons(fu){if(!fu||typeof fu!=='object')return null;
+    var html=Object.keys(fu).map(function(k){var u=safeUrl(fu[k]);if(!u)return '';return '<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+esc(k)+' '+ICON.arr+'</a>';}).filter(Boolean).join('');
+    if(html){var d=document.createElement('div');d.className='forms';d.innerHTML=html;return d;}return null;}
+
+  function typeInto(el,text,done){
+    var lines=String(text==null?'':text).split('\n'), c=document.createElement('span');c.className='cursor';el.appendChild(c);
+    var li=0,ci=0;
+    (function step(){
+      if(li>=lines.length){c.remove();done&&done();return;}
+      var line=lines[li];
+      if(ci>=line.length){el.insertBefore(document.createElement('br'),c);li++;ci=0;return setTimeout(step,20);}
+      var ch=line[ci++];c.insertAdjacentText('beforebegin',ch);scroll();
+      var d=16+Math.random()*34;if(ch===' ')d=8+Math.random()*18;if('.,!?'.indexOf(ch)>=0)d+=200;
+      setTimeout(step,Math.min(d,90));
+    })();
+  }
+
+  function userMsg(t){var b=row('me');b.textContent=t;}
+  function botStream(text,fu){var b=row('bot');typeInto(b,text||'',function(){var f=formButtons(fu);if(f)b.appendChild(f);busy=false;send.disabled=false;field.focus();});}
+  function botError(text){showTyping(false);var b=row('err');b.textContent=text;busy=false;send.disabled=false;field.focus();}
+
+  async function sendMessage(text){
+    if(busy)return;busy=true;send.disabled=true;userMsg(text);showTyping(true);
+    var body={session_id:session,message:text};if(TENANT)body.tenant_id=TENANT;
+    try{
+      var res=await fetch(CHAT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      if(!res.ok){botError('İşleminiz şu anda tamamlanamadı. Lütfen tekrar deneyin.');return;}
+      var data=await res.json();showTyping(false);
+      if(!data||typeof data.message!=='string'){botError('Beklenmeyen bir yanıt alındı. Lütfen tekrar deneyin.');return;}
+      botStream(data.message,data.form_urls);
+    }catch(e){botError('Sunucuya bağlanılamadı. Lütfen bağlantınızı kontrol edip tekrar deneyin.');}
+  }
+
+  msgs.addEventListener('click',function(e){var el=e.target.closest('[data-q]');if(el)sendMessage(el.getAttribute('data-q'));});
+  form.addEventListener('submit',function(e){e.preventDefault();var t=field.value.trim();if(!t||busy)return;field.value='';sendMessage(t);});
+  field.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(form.requestSubmit)form.requestSubmit();else form.dispatchEvent(new Event('submit',{cancelable:true}));}});
+  document.getElementById('close').onclick=function(){try{parent.postMessage({type:'bfl-widget',action:'close'},'*');}catch(_){}};
+  document.getElementById('refresh').onclick=function(){
+    if(busy)return;session=newSession();
+    Array.prototype.slice.call(msgs.querySelectorAll('.row,.quick,.faq,.qtitle')).forEach(function(n){n.remove();});
+    greet(CFG,true);field.focus();
+  };
+
+  function greet(cfg,isNew){
+    var greeting=isNew?'Yeni konuşma başlatıldı. Size nasıl yardımcı olabilirim?':((cfg&&cfg.greeting)||'Merhaba! Size nasıl yardımcı olabilirim?');
+    var b=row('bot');
+    typeInto(b,greeting,function(){
+      var quick=(cfg&&Array.isArray(cfg.quick_actions))?cfg.quick_actions.map(function(x){return [x.icon,x.label,x.query];}):[];
+      var faq=(cfg&&Array.isArray(cfg.faq))?cfg.faq:[];
+      if(quick.length)quickTiles(quick);
+      if(faq.length)faqList(faq);
+    });
+  }
+
+  function applyConfig(cfg){
+    CFG=cfg||{};
+    if(cfg&&cfg.color){document.documentElement.style.setProperty('--brand',cfg.color);document.documentElement.style.setProperty('--brand-2',cfg.color);}
+    document.getElementById('t-title').textContent=(cfg&&cfg.title)||'Asistan';
+    document.getElementById('t-sub').textContent=(cfg&&cfg.subtitle)||'Her zaman yanınızda';
+    document.getElementById('brandline').textContent=((cfg&&cfg.title)?cfg.title+' tarafından sağlanmaktadır':'');
+    document.title=(cfg&&cfg.title)||'Asistan';
+    greet(cfg,false);
+  }
+  fetch(CONFIG_URL).then(function(r){return r.json();}).then(applyConfig).catch(function(){applyConfig(null);});
+})();
+</script>
 </body>
 </html>
