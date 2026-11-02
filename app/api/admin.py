@@ -18,12 +18,21 @@ from __future__ import annotations
 import asyncio
 from typing import Any
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 from app.core import provision
-from app.core.context import TenantContext, add_tenant, get_tenant, reload_content
-from app.core.tenants import TENANTS, add_tenant_row, valid_tenant_id
+from app.core import admin_auth
+from app.core.admin_auth import (
+    get_current_user,
+    require_super_admin,
+    tenant_guard,
+)
+from app.core.context import TenantContext, add_tenant, get_tenant, reload_content, remove_tenant
+from app.core.tenants import (
+    TENANTS, add_tenant_row, valid_tenant_id,
+    list_all_tenant_rows, set_tenant_enabled,
+)
 from app.services import qa_repository as qa
 from app.services.qa_repository import QAError
 from app.services import content_repository as content
@@ -31,7 +40,88 @@ from app.services import conversation_repository as convo
 from app.services import augment_service as augment
 from app.services.content_repository import ContentError
 
-router = APIRouter()
+# ── Korumasiz router: giris + "ben kimim". /api/admin altinda ayri include edilir.
+auth_router = APIRouter()
+
+# ── Korumali router: TUM uclar once kimlik + (varsa) tenant yetkisi kontrolunden gecer.
+router = APIRouter(dependencies=[Depends(tenant_guard)])
+
+
+# ─── Kimlik dogrulama uclari ──────────────────────────────────────────────────
+class LoginBody(BaseModel):
+    email: str
+    password: str
+
+
+@auth_router.post("/auth/login")
+async def auth_login(body: LoginBody) -> dict:
+    user = admin_auth.authenticate(body.email, body.password)
+    if not user:
+        raise HTTPException(status_code=401, detail="E-posta veya şifre hatalı.")
+    token = admin_auth.make_token(user["id"], user["role"])
+    tenant_ids = (
+        admin_auth.list_user_tenant_ids(user["id"])
+        if user["role"] == admin_auth.ROLE_MANAGER else []
+    )
+    return {"token": token, "user": {**user, "tenant_ids": tenant_ids}}
+
+
+@auth_router.get("/auth/me")
+async def auth_me(user: dict = Depends(get_current_user)) -> dict:
+    return user
+
+
+# ─── Kullanici yonetimi (yalnizca super admin) ────────────────────────────────
+class UserCreate(BaseModel):
+    email: str
+    password: str
+    display_name: str = ""
+    role: str = "manager"
+    tenant_ids: list[str] = []
+
+
+class UserUpdate(BaseModel):
+    display_name: str | None = None
+    role: str | None = None
+    password: str | None = None
+    is_active: bool | None = None
+    tenant_ids: list[str] | None = None
+
+
+@auth_router.get("/users", dependencies=[Depends(require_super_admin)])
+async def users_list() -> list[dict]:
+    return admin_auth.list_users()
+
+
+@auth_router.post("/users", dependencies=[Depends(require_super_admin)])
+async def users_create(body: UserCreate) -> dict:
+    try:
+        return admin_auth.create_user(
+            body.email, body.password, body.display_name, body.role, body.tenant_ids
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+@auth_router.put("/users/{uid}", dependencies=[Depends(require_super_admin)])
+async def users_update(uid: int, body: UserUpdate) -> dict:
+    try:
+        return admin_auth.update_user(
+            uid, display_name=body.display_name, role=body.role,
+            password=body.password, is_active=body.is_active, tenant_ids=body.tenant_ids,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+@auth_router.delete("/users/{uid}", dependencies=[Depends(require_super_admin)])
+async def users_delete(uid: int, me: dict = Depends(require_super_admin)) -> dict:
+    if uid == me["id"]:
+        raise HTTPException(status_code=400, detail="Kendi hesabınızı silemezsiniz.")
+    try:
+        return admin_auth.delete_user(uid)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
 
 
 def _tenant(tenant: str) -> TenantContext:
@@ -68,8 +158,47 @@ class QASearch(BaseModel):
 
 # ─── Tenant listesi ──────────────────────────────────────────────────────────
 @router.get("/tenants")
-async def list_tenants() -> list[dict]:
-    return [{"id": t.id, "label": t.label} for t in TENANTS.values()]
+async def list_tenants(user: dict = Depends(get_current_user)) -> list[dict]:
+    rows = [{"id": t.id, "label": t.label} for t in TENANTS.values()]
+    if user["role"] != admin_auth.ROLE_SUPER:
+        allowed = set(user.get("tenant_ids") or [])
+        rows = [r for r in rows if r["id"] in allowed]
+    return rows
+
+
+@router.get("/tenants/all", dependencies=[Depends(require_super_admin)])
+async def list_tenants_all() -> list[dict]:
+    """Pasifler dahil tum tenant'lar (yonetim ekrani)."""
+    live = set(TENANTS.keys())
+    return [
+        {"id": tid, "label": label, "enabled": enabled, "live": tid in live}
+        for (tid, label, enabled) in await asyncio.to_thread(list_all_tenant_rows)
+    ]
+
+
+class TenantEnabled(BaseModel):
+    enabled: bool
+
+
+class ContactStatus(BaseModel):
+    status: str  # new | contacted | closed
+
+
+@router.put("/tenants/{tenant}/enabled", dependencies=[Depends(require_super_admin)])
+async def tenant_set_enabled(tenant: str, body: TenantEnabled) -> dict:
+    """Bir chatbot'u aktif/pasif yapar. Pasif: widget hizmet vermez; Aktif: tekrar yüklenir."""
+    try:
+        await asyncio.to_thread(set_tenant_enabled, tenant, body.enabled)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
+    if body.enabled:
+        try:
+            await add_tenant(tenant)
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Aktifleştirilemedi: {exc}")
+    else:
+        await remove_tenant(tenant)
+    return {"id": tenant, "enabled": body.enabled}
 
 
 class TenantCreate(BaseModel):
@@ -77,7 +206,7 @@ class TenantCreate(BaseModel):
     label: str
 
 
-@router.post("/tenants")
+@router.post("/tenants", dependencies=[Depends(require_super_admin)])
 async def tenant_create(body: TenantCreate) -> dict:
     """Yeni chatbot (tenant) olusturur: kayit + DB + sema + varsayilan icerik + canliya alma."""
     tid = body.id.strip().lower()
@@ -432,6 +561,7 @@ async def conversations_list(
     date_from: str | None = None,
     date_to: str | None = None,
     status: str = "all",
+    intent: str | None = None,
     limit: int = 100,
     offset: int = 0,
 ) -> dict:
@@ -439,7 +569,32 @@ async def conversations_list(
     try:
         return await convo.list_conversations(
             ctx, date_from=date_from, date_to=date_to,
-            status=status, limit=limit, offset=offset,
+            status=status, intent=intent, limit=limit, offset=offset,
         )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+@router.get("/{tenant}/conversation-intents")
+async def conversation_intents_list(tenant: str) -> list[str]:
+    """Gorusmelerde gecen intent degerleri (filtre acilir listesi)."""
+    return await convo.list_conversation_intents(_tenant(tenant))
+
+
+# ─── İletişim talepleri (fallback_contacts) ──────────────────────────────────
+@router.get("/{tenant}/contacts")
+async def contacts_list(
+    tenant: str,
+    status: str = "all",
+    limit: int = 100,
+    offset: int = 0,
+) -> dict:
+    return await convo.list_contacts(_tenant(tenant), status=status, limit=limit, offset=offset)
+
+
+@router.put("/{tenant}/contacts/{contact_id}/status")
+async def contact_set_status(tenant: str, contact_id: str, body: ContactStatus) -> dict:
+    try:
+        return await convo.set_contact_status(_tenant(tenant), contact_id, body.status)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))

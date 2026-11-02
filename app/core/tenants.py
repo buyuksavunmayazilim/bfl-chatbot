@@ -154,6 +154,30 @@ def add_tenant_row(tenant_id: str, label: str) -> None:
         conn.close()
 
 
+def list_all_tenant_rows() -> list[tuple[str, str, bool]]:
+    """Tum tenant'lar (pasifler dahil) — yonetim ekrani icin."""
+    conn = _meta_connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("SELECT id, label, enabled FROM tenants ORDER BY created_at, id")
+            return [(r[0], r[1], bool(r[2])) for r in cur.fetchall()]
+    finally:
+        conn.close()
+
+
+def set_tenant_enabled(tenant_id: str, enabled: bool) -> None:
+    """Bir tenant'i aktif/pasif yapar (kayit tablosu)."""
+    conn = _meta_connect()
+    try:
+        with conn, conn.cursor() as cur:
+            cur.execute("SELECT 1 FROM tenants WHERE id = %s", (tenant_id,))
+            if not cur.fetchone():
+                raise ValueError(f"Bilinmeyen tenant: {tenant_id}")
+            cur.execute("UPDATE tenants SET enabled = %s WHERE id = %s", (enabled, tenant_id))
+    finally:
+        conn.close()
+
+
 def load_registry() -> None:
     """Kayit tablosunu okuyup TENANTS'i (bellek) yeniden doldurur."""
     ensure_meta()

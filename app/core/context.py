@@ -119,6 +119,21 @@ async def add_tenant(tenant_id: str, min_size: int = 1, max_size: int = 10) -> N
     print(f"[Tenants] Canliya eklendi: {tenant_id} -> {cfg.db.dbname}")
 
 
+async def remove_tenant(tenant_id: str) -> None:
+    """Bir tenant'i canli registry'den cikarir (havuzu kapatir). Pasife alma icin.
+
+    DB/kayit silinmez; yalnizca bellekteki canli baglam kaldirilir, boylece
+    /api/{tenant}/chat artik hizmet vermez.
+    """
+    ctx = _registry.pop(tenant_id, None)
+    if ctx is not None:
+        try:
+            await ctx.pool.close()
+        except Exception:
+            pass
+        print(f"[Tenants] Canlidan cikarildi (pasif): {tenant_id}")
+
+
 def get_tenant(tenant_id: str) -> TenantContext:
     """tenant_id'ye karsilik gelen canli baglami doner.
 

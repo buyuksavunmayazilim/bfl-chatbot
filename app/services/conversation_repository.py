@@ -34,6 +34,7 @@ async def list_conversations(
     date_from: str | None = None,
     date_to: str | None = None,
     status: str = "all",
+    intent: str | None = None,
     limit: int = 100,
     offset: int = 0,
 ) -> dict[str, Any]:
@@ -55,6 +56,11 @@ async def list_conversations(
         status_sql = "AND t.source IN ('k1_keyword', 'k2_similarity')"
     elif status == "unanswered":
         status_sql = "AND t.source = 'fallback'"
+
+    intent_sql = ""
+    if intent:
+        params.append(intent)
+        intent_sql = f"AND t.intent = ${len(params)}"
 
     params.append(limit)
     limit_idx = len(params)
@@ -89,7 +95,7 @@ async def list_conversations(
                 ORDER BY m.created_at, m.role DESC
             )
         ) t
-        WHERE t.role = 'bot' {status_sql}
+        WHERE t.role = 'bot' {status_sql} {intent_sql}
         ORDER BY t.ts DESC
         LIMIT ${limit_idx} OFFSET ${offset_idx}
     """
@@ -104,3 +110,82 @@ async def list_conversations(
         d["answered"] = d.get("source") in _ANSWERED
         items.append(d)
     return {"items": items, "total": total, "limit": limit, "offset": offset}
+
+
+async def list_conversation_intents(ctx: TenantContext) -> list[str]:
+    """Gorusmelerde fiilen gecen intent (kategori) degerleri — filtre acilir listesi icin."""
+    query = """
+        SELECT DISTINCT intent
+        FROM messages
+        WHERE role = 'bot' AND intent IS NOT NULL AND intent <> ''
+        ORDER BY intent
+    """
+    async with ctx.pool.acquire() as conn:
+        rows = await conn.fetch(query)
+    return [r["intent"] for r in rows]
+
+
+# ─── İletişim talepleri (fallback_contacts) — panelde gösterim/yönetim ──────────
+_CONTACT_STATUSES = ("new", "contacted", "closed")
+
+
+async def list_contacts(
+    ctx: TenantContext,
+    status: str = "all",
+    limit: int = 100,
+    offset: int = 0,
+) -> dict[str, Any]:
+    """Bot cevap bulamayinca toplanan iletisim taleplerini listeler (yeni once)."""
+    params: list[Any] = []
+    where = ""
+    if status in _CONTACT_STATUSES:
+        params.append(status)
+        where = f"WHERE status = ${len(params)}::contact_status"
+    params.append(limit)
+    li = len(params)
+    params.append(offset)
+    oi = len(params)
+    query = f"""
+        SELECT id, session_id, name, contact_type, contact_value, status, created_at,
+               COUNT(*) OVER() AS total
+        FROM fallback_contacts
+        {where}
+        ORDER BY created_at DESC
+        LIMIT ${li} OFFSET ${oi}
+    """
+    async with ctx.pool.acquire() as conn:
+        rows = await conn.fetch(query, *params)
+    total = rows[0]["total"] if rows else 0
+    items = []
+    for r in rows:
+        d = dict(r)
+        d.pop("total", None)
+        d["id"] = str(d["id"])
+        items.append(d)
+    return {"items": items, "total": total, "limit": limit, "offset": offset}
+
+
+async def count_contacts(ctx: TenantContext, status: str | None = None) -> int:
+    """Belirli durumdaki (veya tum) iletisim talebi sayisi — istatistik kartlari icin."""
+    if status in _CONTACT_STATUSES:
+        q = "SELECT COUNT(*) FROM fallback_contacts WHERE status = $1::contact_status"
+        args = (status,)
+    else:
+        q = "SELECT COUNT(*) FROM fallback_contacts"
+        args = ()
+    async with ctx.pool.acquire() as conn:
+        return int(await conn.fetchval(q, *args) or 0)
+
+
+async def set_contact_status(ctx: TenantContext, contact_id: str, status: str) -> dict[str, Any]:
+    """Bir iletisim talebinin durumunu gunceller (new/contacted/closed)."""
+    if status not in _CONTACT_STATUSES:
+        raise ValueError(f"Gecersiz durum: {status!r}")
+    async with ctx.pool.acquire() as conn:
+        res = await conn.execute(
+            "UPDATE fallback_contacts SET status = $2::contact_status WHERE id = $1::uuid",
+            contact_id, status,
+        )
+    if res.endswith(" 0"):
+        raise ValueError("Kayit bulunamadi")
+    return {"ok": True, "id": contact_id, "status": status}

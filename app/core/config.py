@@ -34,6 +34,13 @@ class Settings(BaseSettings):
     # Redis TTL (saniye)
     session_ttl: int = 1800
 
+    # Admin panel kimlik dogrulama (RBAC)
+    admin_jwt_secret: str = ""          # bos ise postgres_password'tan turetilir (asagida)
+    admin_email: str = ""               # ilk super admin e-postasi (giris e-posta iledir)
+    admin_user: str = "admin"           # geriye donuk uyum (e-posta ise kullanilir)
+    admin_pass: str = ""                # ilk super admin sifresi (bos ise 'admin123' + uyari)
+    admin_token_ttl: int = 86400        # JWT omru (saniye) — 24 saat
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
@@ -58,6 +65,15 @@ class Settings(BaseSettings):
     @property
     def redis_url(self) -> str:
         return f"redis://{self.redis_host}:{self.redis_port}"
+
+    @property
+    def admin_secret(self) -> str:
+        """JWT imza anahtari. admin_jwt_secret verilmemisse DB sifresinden turetilir
+        (restart'lar arasinda stabil). Uretimde ADMIN_JWT_SECRET env ayarlanmasi onerilir."""
+        if self.admin_jwt_secret:
+            return self.admin_jwt_secret
+        import hashlib
+        return hashlib.sha256(f"bfl-admin::{self.postgres_password}".encode()).hexdigest()
 
 
 @lru_cache()

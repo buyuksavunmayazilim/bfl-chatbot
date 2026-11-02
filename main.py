@@ -3,10 +3,12 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from app.core.config import settings
 from app.api.chat import router as chat_router
-from app.api.admin import router as admin_router
+from app.api.admin import router as admin_router, auth_router as admin_auth_router
 from app.core.context import init_tenants, close_tenants, get_tenant
 from app.core.tenants import DEFAULT_TENANT_ID
+from app.core.admin_auth import ensure_admin_tables
 from contextlib import asynccontextmanager
+import asyncio
 import asyncpg
 import redis.asyncio as aioredis
 import httpx
@@ -14,7 +16,8 @@ import os
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: her tenant icin asyncpg havuzu ac
+    # Startup: admin kullanici tablolari (yoksa) + ilk super admin, sonra tenant havuzlari
+    await asyncio.to_thread(ensure_admin_tables)
     await init_tenants()
     yield
     # Shutdown: havuzlari kapat
@@ -25,6 +28,8 @@ app = FastAPI(title="BFL Chatbot API", version="0.1.0", lifespan=lifespan)
 
 # Chat router
 app.include_router(chat_router, prefix="/api", tags=["chat"])
+# Admin: once korumasiz auth uclari (login/me/users), sonra korumali admin router
+app.include_router(admin_auth_router, prefix="/api/admin", tags=["admin-auth"])
 app.include_router(admin_router, prefix="/api/admin", tags=["admin"])
 
 # Static files

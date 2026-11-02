@@ -83,6 +83,13 @@ def seed() -> None:
         subprocess.run([sys.executable, script], check=True)
 
 
+def ensure_admin() -> None:
+    """Admin kullanici tablolarini olusturur + ilk super admin'i seed'ler (idempotent)."""
+    from app.core.admin_auth import ensure_admin_tables
+    ensure_admin_tables()
+    print("[bootstrap] admin kullanici tablolari hazir.")
+
+
 def main() -> int:
     # Tenant listesini kayit tablosundan yukle (tablo yoksa olusturur, yerlesikleri ekler).
     load_registry()
@@ -90,6 +97,7 @@ def main() -> int:
     ensure_databases()
     migrate()
     seed()
+    ensure_admin()
     print("[bootstrap] tamam.")
     return 0
 

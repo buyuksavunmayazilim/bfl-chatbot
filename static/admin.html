@@ -163,8 +163,9 @@ nav.tabs{ display:none !important; }            /* eski yatay sekmeler gizli */
 .sidebar{ width:252px; flex:0 0 252px; background:var(--side); color:var(--side-ink);
   display:flex; flex-direction:column; position:sticky; top:0; height:100vh; padding:14px 12px; }
 .side-brand{ display:flex; align-items:center; gap:11px; padding:8px 8px 16px; }
-.side-logo{ width:38px; height:38px; border-radius:11px; background:linear-gradient(135deg,#7d5cf5,#6c4cf1);
-  color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center; font-size:14px; }
+.side-logo{ width:40px; height:40px; border-radius:12px; background:#fff; overflow:hidden;
+  display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,.18); flex:0 0 auto; }
+.side-logo img{ width:100%; height:100%; object-fit:contain; display:block; }
 .side-title{ font-weight:700; font-size:15px; color:#fff; line-height:1.15; }
 .side-title span{ display:block; font-weight:500; font-size:12px; color:var(--side-muted); }
 .nav{ display:flex; flex-direction:column; gap:3px; margin-top:4px; flex:1; overflow:auto; }
@@ -188,7 +189,8 @@ nav.tabs{ display:none !important; }            /* eski yatay sekmeler gizli */
   display:flex; align-items:center; gap:16px; padding:0 24px; }
 .page-title{ font-size:18px; font-weight:700; color:var(--ink); letter-spacing:-.01em; }
 .topbar .spacer{ flex:1; }
-main{ padding:24px; max-width:1200px; margin:0; width:100%; }
+main{ padding:26px 24px; max-width:1320px; margin:0 auto; width:100%; }
+.wide-col{ max-width:100%; margin:0 auto; }
 
 .card{ border-radius:var(--radius); box-shadow:0 1px 3px rgba(20,30,60,.05); }
 .modal{ border-radius:16px; }
@@ -196,35 +198,264 @@ main{ padding:24px; max-width:1200px; margin:0; width:100%; }
 .btn-primary{ box-shadow:0 6px 16px rgba(108,76,241,.22); }
 th{ background:#faf9ff; }
 
+/* mobil menü (hamburger + çekmece) */
+.hamburger{ display:none; align-items:center; justify-content:center; width:38px; height:38px; border:1px solid var(--line); background:#fff; border-radius:10px; cursor:pointer; color:var(--ink); flex:0 0 auto; }
+.hamburger svg{ width:18px; height:18px; }
+.side-backdrop{ display:none; }
 @media (max-width:860px){
-  .app{ flex-direction:column; }
-  .sidebar{ width:100%; flex:none; height:auto; position:static; flex-direction:row; flex-wrap:wrap; align-items:center; gap:10px; padding:10px 14px; }
-  .side-brand{ padding:0; }
-  .nav{ flex-direction:row; flex:1 1 100%; order:3; overflow-x:auto; gap:4px; }
-  .nav button{ white-space:nowrap; width:auto; }
-  .side-foot{ border:0; margin:0; padding:0; flex-direction:row; align-items:center; gap:8px; }
-  .side-lbl{ display:none; }
-  #tenant{ width:auto; min-width:150px; }
-  .side-new{ width:auto; }
+  .hamburger{ display:flex; }
+  .sidebar{ position:fixed; top:0; left:0; height:100vh; width:280px; max-width:84vw; z-index:120;
+    transform:translateX(-100%); transition:transform .25s ease; }
+  .sidebar.open{ transform:none; box-shadow:0 0 50px rgba(10,15,35,.4); }
+  .side-backdrop{ display:block; position:fixed; inset:0; background:rgba(15,20,40,.45); z-index:110; opacity:0; pointer-events:none; transition:opacity .25s; }
+  .side-backdrop.show{ opacity:1; pointer-events:auto; }
+  main{ padding:18px 14px; }
+  .topbar{ padding:0 14px; gap:10px; }
+  .ap-grid{ grid-template-columns:1fr; }
+  .stat-grid{ grid-template-columns:1fr 1fr; }
+  .cards-grid{ grid-template-columns:1fr; }
 }
+@media (max-width:420px){
+  .stat-grid{ grid-template-columns:1fr; }
+  .lc-actions{ width:100%; }
+  .lc-search{ min-width:0; flex:1; }
+  .rec-actions{ gap:4px; }
+}
+
+/* kullanici kutusu (sol menu alti) */
+.side-user{ display:flex; align-items:center; gap:10px; margin-top:4px; padding:9px 8px; border-radius:10px; background:rgba(255,255,255,.05); }
+.su-av{ width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,#7d5cf5,#6c4cf1); color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+.su-info{ flex:1; min-width:0; }
+.su-name{ color:#fff; font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.su-role{ color:var(--side-muted); font-size:11px; }
+.su-logout{ background:transparent; border:0; color:var(--side-muted); cursor:pointer; padding:6px; border-radius:8px; display:flex; }
+.su-logout:hover{ background:rgba(255,255,255,.1); color:#fff; }
+.su-logout svg{ width:17px; height:17px; }
+#appRoot{ display:none; }   /* boot() karar verene kadar gizli */
+
+/* giris ekrani */
+.login-wrap{ position:fixed; inset:0; z-index:200; display:none; }
+.login-wrap.show{ display:flex; }
+.login-left{ flex:1; background:radial-gradient(900px 600px at 25% 20%, #3a376f, transparent 60%), linear-gradient(160deg,#2d2b55,#17162e); color:#fff; display:flex; flex-direction:column; justify-content:center; padding:64px; gap:14px; }
+.login-logo{ width:64px; height:64px; border-radius:18px; background:#fff; overflow:hidden; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(0,0,0,.28); }
+.login-logo img{ width:100%; height:100%; object-fit:contain; display:block; }
+.login-fulllogo{ width:230px; max-width:78%; display:block; margin:0 auto 26px; }
+.login-brand{ font-size:26px; font-weight:800; letter-spacing:-.02em; }
+.login-tag{ color:#b9b7e0; max-width:360px; line-height:1.6; margin:0; }
+.login-right{ flex:1; display:flex; align-items:center; justify-content:center; background:#f8f9fc; padding:40px; }
+.login-card{ width:360px; max-width:100%; display:flex; flex-direction:column; }
+.login-card h1{ font-size:26px; font-weight:800; color:var(--ink); margin:0 0 4px; letter-spacing:-.02em; }
+.login-sub{ color:var(--muted); margin:0 0 22px; }
+.login-card label{ font-size:11px; letter-spacing:.06em; color:var(--muted); font-weight:700; margin:14px 0 6px; }
+.login-card input{ padding:12px 14px; border:1px solid var(--line); border-radius:10px; font-size:14px; background:#fff; color:var(--ink); }
+.login-card input:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
+.login-card .btn-primary{ margin-top:22px; padding:13px; border-radius:10px; font-size:15px; justify-content:center; display:flex; }
+.login-msg{ color:var(--danger); background:var(--danger-tint); border-radius:8px; padding:10px 12px; font-size:13px; margin-top:14px; }
+@media (max-width:760px){ .login-left{ display:none; } }
+
+/* alt menü grubu */
+.nav-bottom{ flex:0 0 auto; margin-top:6px; padding-top:10px; border-top:1px solid rgba(255,255,255,.08); overflow:visible; }
+
+/* tableHost düz (kart kabuğu olmadan) — ana sayfa / görüşmeler */
+.card.plain{ background:transparent; border:0; box-shadow:none; overflow:visible; }
+
+/* istatistik kartları */
+.stat-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:16px; margin-bottom:20px; }
+.stat-card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px; display:flex; align-items:center; gap:15px; box-shadow:0 1px 3px rgba(20,30,60,.04); }
+.stat-ic{ width:50px; height:50px; border-radius:14px; display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+.stat-ic svg{ width:23px; height:23px; color:#fff; }
+.stat-ic.v1{ background:linear-gradient(135deg,#7d5cf5,#6c4cf1); }
+.stat-ic.v2{ background:linear-gradient(135deg,#f6ad4e,#ef8f2a); }
+.stat-ic.v3{ background:linear-gradient(135deg,#4aa6f5,#2a7fe0); }
+.stat-ic.v4{ background:linear-gradient(135deg,#34d1a8,#16b089); }
+.stat-ic.v5{ background:linear-gradient(135deg,#f2748a,#e5486a); }
+.stat-meta{ min-width:0; }
+.stat-label{ font-size:12.5px; color:var(--muted); }
+.stat-value{ font-size:25px; font-weight:800; color:var(--ink); line-height:1.1; margin-top:3px; }
+
+/* varlık (chatbot) kartları */
+.cards-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:16px; }
+.ent-card{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; box-shadow:0 1px 3px rgba(20,30,60,.04); transition:box-shadow .18s,transform .18s; display:flex; flex-direction:column; gap:14px; }
+.ent-card:hover{ box-shadow:0 12px 28px rgba(20,30,60,.10); transform:translateY(-2px); }
+.ent-top{ display:flex; align-items:center; gap:12px; }
+.ent-av{ width:46px; height:46px; border-radius:13px; color:#fff; font-weight:700; font-size:15px; display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+.ent-name{ font-weight:700; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ent-id{ font-size:12px; color:var(--muted); font-family:var(--mono); }
+.ent-badge{ margin-left:auto; }
+.ent-stats{ display:flex; gap:22px; border-top:1px solid var(--line-2); padding-top:12px; }
+.ent-stat{ font-size:12.5px; color:var(--muted); }
+.ent-stat b{ display:block; font-size:19px; color:var(--ink); font-weight:800; }
+.ent-foot{ display:flex; }
+.ent-foot .btn-primary{ flex:1; justify-content:center; display:flex; }
+
+/* liste kartı başlığı (Soru&Cevap/Intent/Ayarlar) */
+.lc-head{ display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid var(--line-2); flex-wrap:wrap; }
+.lc-title{ font-size:15px; font-weight:700; color:var(--ink); }
+.lc-title .count{ font-weight:500; color:var(--faint); font-size:13px; margin-left:6px; }
+.lc-actions{ margin-left:auto; display:flex; align-items:center; gap:10px; }
+.lc-search{ border:1px solid var(--line); border-radius:10px; padding:9px 12px 9px 34px; min-width:240px; font:inherit; font-size:13.5px; color:var(--ink);
+  background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%237a8296' stroke-width='2' stroke-linecap='round'><circle cx='7' cy='7' r='5'/><line x1='15' y1='15' x2='11' y2='11'/></svg>") 11px center no-repeat; }
+.lc-search:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
+.card table{ table-layout:fixed; width:100%; }
+.card table td{ padding:13px 16px; overflow:hidden; word-break:break-word; vertical-align:top; }
+.card table th{ padding:11px 16px; overflow:hidden; }
+.card td.trunc{ max-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; word-break:normal; }
+.pill{ white-space:nowrap; }
+.card td .k{ display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+/* aksiyon sütunu her zaman görünür */
+.card table th:last-child, .card table td:last-child{ width:184px; }
+.card .row-actions{ white-space:nowrap; text-align:right; }
+
+/* ana sayfa araç çubuğu + switch + pasif kart */
+.home-toolbar{ display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.ent-card.is-off{ opacity:.68; }
+.ent-card.is-off .ent-av{ filter:grayscale(.4); }
+.btn-code{ font-family:var(--mono); font-size:12px; }
+.ent-foot{ gap:8px; }
+.ent-foot .btn-primary{ flex:1; }
+.switch{ position:relative; display:inline-block; width:40px; height:22px; flex:0 0 auto; }
+.switch input{ opacity:0; width:0; height:0; }
+.switch .slider{ position:absolute; inset:0; background:#cbd2de; border-radius:999px; transition:.2s; cursor:pointer; }
+.switch .slider:before{ content:""; position:absolute; height:16px; width:16px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 2px rgba(0,0,0,.2); }
+.switch input:checked + .slider{ background:var(--accent); }
+.switch input:checked + .slider:before{ transform:translateX(18px); }
+
+/* kayıt kartları (Soru&Cevap / Intent'ler) */
+.rec-list{ display:flex; flex-direction:column; gap:10px; padding:14px 16px; }
+.rec-card{ border:1px solid var(--line); border-radius:12px; padding:13px 15px; background:var(--card); transition:box-shadow .15s,border-color .15s; }
+.rec-card:hover{ border-color:#d7ddea; box-shadow:0 6px 16px rgba(20,30,60,.06); }
+.rec-head{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
+.rec-id{ font-family:var(--mono); font-size:12px; color:var(--faint); font-weight:600; }
+.rec-name{ font-weight:700; color:var(--ink); }
+.rec-actions{ margin-left:auto; display:flex; gap:2px; flex-wrap:wrap; }
+.pill.muted{ background:var(--line-2); color:var(--faint); }
+.rec-line{ display:flex; gap:10px; padding:2px 0; align-items:baseline; }
+.rec-line b{ color:var(--muted); font-weight:600; min-width:46px; font-size:11px; text-transform:uppercase; letter-spacing:.03em; flex:0 0 auto; }
+.rec-line span{ color:var(--ink); min-width:0; }
+.rec-line .clamp{ display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.rec-kw{ display:flex; flex-wrap:wrap; gap:5px; margin-bottom:6px; }
+.chip{ display:inline-block; background:var(--line-2); color:#44566d; border-radius:7px; padding:3px 9px; font-size:12px; }
+.chip.accent{ background:var(--accent-tint); color:var(--accent-d); font-family:var(--mono); }
+.btn-danger-solid{ font:inherit; cursor:pointer; border:1px solid var(--danger); background:var(--danger); color:#fff; padding:8px 14px; border-radius:8px; font-weight:600; }
+.btn-danger-solid:hover{ filter:brightness(.94); }
+.rec-card.is-off{ opacity:.6; }
+.rec-card.is-off .rec-name{ text-decoration:line-through; text-decoration-color:var(--faint); }
+.u-av{ width:30px; height:30px; border-radius:8px; background:var(--accent-tint); color:var(--accent-d); font-weight:700; font-size:12px; display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto; }
+.ct-ic{ width:30px; height:30px; border-radius:8px; background:var(--accent-tint); color:var(--accent-d); display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto; }
+.ct-ic svg{ width:18px; height:18px; }
+.ct-link{ color:var(--accent-d); text-decoration:none; font-weight:600; }
+.ct-link:hover{ text-decoration:underline; }
+/* hızlı erişim ikon seçici */
+.icnpick{ position:relative; flex:0 0 auto; }
+.icnpick-btn{ width:46px; height:40px; border:1px solid var(--line); border-radius:9px; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--accent); transition:border-color .15s, box-shadow .15s; }
+.icnpick-btn:hover{ border-color:var(--accent); }
+.icnpick.open .icnpick-btn{ border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-tint); }
+.icnpick-btn svg{ width:22px; height:22px; }
+.icnpick-pop{ position:absolute; z-index:60; top:46px; left:0; background:#fff; border:1px solid var(--line); border-radius:12px; box-shadow:0 14px 34px rgba(20,30,60,.18); padding:8px; display:none; grid-template-columns:repeat(6,36px); gap:4px; }
+.icnpick.open .icnpick-pop{ display:grid; }
+.icnpick-pop button{ width:36px; height:36px; border:1px solid transparent; border-radius:9px; background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#44566d; transition:.12s; }
+.icnpick-pop button:hover{ background:var(--accent-tint); color:var(--accent-d); }
+.icnpick-pop button.sel{ border-color:var(--accent); color:var(--accent); background:var(--accent-tint); }
+.icnpick-pop button svg{ width:20px; height:20px; }
+/* inline switch (intent aktif/pasif) */
+.sw-wrap{ display:inline-flex; align-items:center; gap:7px; margin-right:6px; }
+.sw-lbl{ font-size:12px; font-weight:600; color:var(--faint); min-width:34px; text-align:right; }
+.sw-lbl.on{ color:var(--ok); }
+.switch.sm{ width:36px; height:20px; }
+.switch.sm input:checked + .slider:before{ transform:translateX(16px); }
+
+/* Görünüm: 2 sütun + widget önizleme */
+.ap-grid{ display:grid; grid-template-columns:1fr 340px; gap:18px; align-items:start; }
+@media (max-width:820px){ .ap-grid{ grid-template-columns:1fr; } }
+.wprev{ margin-top:10px; border:1px solid var(--line); border-radius:16px; overflow:hidden; box-shadow:0 10px 26px rgba(9,46,98,.10); }
+.wprev-top{ background:var(--accent); color:#fff; padding:14px 15px; display:flex; align-items:center; gap:11px; }
+.wprev-av{ width:42px; height:42px; border-radius:12px; background:#fff; color:var(--accent); font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+.wprev-title{ font-weight:600; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wprev-sub{ font-size:12px; opacity:.9; display:flex; align-items:center; gap:6px; margin-top:2px; }
+.wprev-dot{ width:7px; height:7px; border-radius:50%; background:#4ce08a; flex:0 0 auto; }
+.wprev-body{ background:linear-gradient(#fbfdff,#fff); padding:14px; display:flex; flex-direction:column; gap:9px; min-height:120px; }
+.wprev-bubble{ align-self:flex-start; background:#f0f4f7; color:#223247; padding:9px 12px; border-radius:14px 14px 14px 5px; font-size:13px; max-width:85%; }
+.wprev-bubble.me{ align-self:flex-end; color:#fff; background:var(--accent); border-radius:14px 14px 5px 14px; }
+.wprev-input{ display:flex; align-items:center; gap:8px; padding:10px 12px; border-top:1px solid #eef2f6; }
+.wprev-input > span:first-child{ flex:1; color:#9aa6ba; font-size:13px; }
+.wprev-send{ width:30px; height:30px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+
+/* görüşmeler ortalanmış sütun */
+.center-col{ max-width:960px; margin:0 auto; }
+.conv-head-bar{ padding:14px 16px; font-weight:700; color:var(--ink); border-bottom:1px solid var(--line-2); display:flex; align-items:center; gap:8px; }
+.conv-head-bar .count{ font-weight:500; }
+
+/* bölüm başlığı (kart içi) */
+.sec-title{ font-size:14px; font-weight:700; color:var(--ink); }
+.sec-title .hint{ font-weight:400; color:var(--faint); font-size:12px; }
+
+/* modern filtre çubuğu */
+.filterbar{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin-bottom:18px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; box-shadow:0 1px 3px rgba(20,30,60,.04); }
+.filterbar .fb-spacer{ flex:1; }
+.filterbar .fb-dates{ display:flex; align-items:center; gap:7px; }
+.filterbar .fb-dash{ color:var(--faint); }
+.filterbar input[type=date]{ border:1px solid var(--line); border-radius:9px; padding:7px 10px; color:var(--ink); background:#fff; font:inherit; font-size:13px; }
+.filterbar .fb-intent{ display:flex; align-items:center; gap:7px; }
+.filterbar .fb-ilabel{ font-size:12px; font-weight:600; color:var(--faint); text-transform:uppercase; letter-spacing:.03em; }
+.filterbar .fb-select{ border:1px solid var(--line); border-radius:9px; padding:7px 30px 7px 11px; color:var(--ink); background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a93a6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>") no-repeat right 10px center; font:inherit; font-size:13px; font-weight:500; cursor:pointer; appearance:none; -webkit-appearance:none; max-width:220px; }
+.filterbar .fb-select:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-tint); }
+.seg{ display:inline-flex; background:#f0f1f6; border:1px solid var(--line); border-radius:10px; padding:3px; gap:2px; }
+.seg button{ border:0; background:transparent; color:var(--muted); padding:6px 12px; border-radius:7px; cursor:pointer; font:inherit; font-size:13px; font-weight:500; transition:.15s; }
+.seg button:hover{ color:var(--ink); }
+.seg button.on{ background:#fff; color:var(--accent); box-shadow:0 1px 3px rgba(20,30,60,.12); font-weight:600; }
+
+/* arama kutusu (Soru&Cevap) */
+.toolbar input[type=search]{ border-radius:10px; padding-left:34px;
+  background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%237a8296' stroke-width='2' stroke-linecap='round'><circle cx='7' cy='7' r='5'/><line x1='15' y1='15' x2='11' y2='11'/></svg>") 11px center no-repeat; }
 </style>
 </head>
 <body>
-<div class="app">
+<div class="login-wrap" id="loginScreen">
+  <div class="login-left">
+    <div class="login-logo"><img src="logo-mark.png" alt="Büyük Asistan"></div>
+    <div class="login-brand">Büyük Asistan</div>
+    <p class="login-tag">Büyük Holding · çok-kiracılı chatbot yönetim paneli</p>
+  </div>
+  <div class="login-right">
+    <form class="login-card" id="loginForm">
+      <img class="login-fulllogo" src="logo.png" alt="Büyük Asistan">
+      <h1>Hoş Geldiniz</h1>
+      <p class="login-sub">Devam etmek için giriş yapın.</p>
+      <label>E-POSTA</label>
+      <input type="email" id="lg_email" autocomplete="username" placeholder="ornek@sirket.com" />
+      <label>ŞİFRE</label>
+      <input type="password" id="lg_pass" autocomplete="current-password" placeholder="••••••••" />
+      <div class="login-msg" id="loginMsg" style="display:none"></div>
+      <button class="btn-primary" id="lg_btn" type="submit">Giriş Yap</button>
+    </form>
+  </div>
+</div>
+
+<div class="app" id="appRoot">
   <aside class="sidebar">
     <div class="side-brand">
-      <div class="side-logo">BK</div>
-      <div class="side-title">Chatbot<span>Yönetimi</span></div>
+      <div class="side-logo"><img src="logo-mark.png" alt="Büyük Asistan"></div>
+      <div class="side-title">Büyük Asistan<span>Yönetim Paneli</span></div>
     </div>
     <nav class="nav" id="tabs"></nav>
+    <nav class="nav nav-bottom" id="tabsBottom"></nav>
     <div class="side-foot">
-      <label class="side-lbl" for="tenant">CHATBOT</label>
+      <label class="side-lbl" for="tenant">AKTİF CHATBOT</label>
       <select id="tenant"></select>
       <button id="newTenantBtn" class="side-new" title="Yeni chatbot ekle">+ Yeni chatbot</button>
+      <div class="side-user" id="userBox" style="display:none">
+        <div class="su-av" id="suAv"></div>
+        <div class="su-info"><div class="su-name" id="suName"></div><div class="su-role" id="suRole"></div></div>
+        <button class="su-logout" id="logoutBtn" title="Çıkış yap" aria-label="Çıkış">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+        </button>
+      </div>
     </div>
   </aside>
+  <div class="side-backdrop" id="sideBackdrop"></div>
   <div class="content">
     <header class="topbar">
+      <button class="hamburger" id="hamburger" aria-label="Menü"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
       <div class="page-title" id="pageTitle">Yönetim</div>
       <div class="spacer"></div>
       <button id="reloadBtn" class="btn-ghost" title="Sunucu önbelleğini ve tabloyu yenile">↻ Yenile</button>
@@ -284,16 +515,66 @@ th{ background:#faf9ff; }
   </div>
 </div>
 
+<div class="overlay" id="userOverlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head" id="userModalTitle">Kullanıcı</div>
+    <div class="modal-body" id="userModalBody"></div>
+    <div class="modal-foot">
+      <button class="btn-ghost" id="userCancelBtn">Vazgeç</button>
+      <button class="btn-primary" id="userSaveBtn">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="confirmOverlay">
+  <div class="modal" role="dialog" aria-modal="true" style="width:420px">
+    <div class="modal-head" id="confirmTitle">Onay</div>
+    <div class="modal-body">
+      <p id="confirmMsg" style="margin:0;color:var(--ink);font-size:14.5px"></p>
+      <p id="confirmDetail" class="meta" style="margin:8px 0 0;word-break:break-word"></p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-ghost" id="confirmNo">Vazgeç</button>
+      <button class="btn-primary" id="confirmYes">Evet</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="embedOverlay">
+  <div class="modal" role="dialog" aria-modal="true" style="width:600px">
+    <div class="modal-head" id="embedTitle">Siteye yerleştirme kodu</div>
+    <div class="modal-body">
+      <div class="field"><label>Site / API adresi <span class="hint">(widget bu adresten yüklenir)</span></label>
+        <input type="text" id="emb_base" placeholder="https://bfl-chat.buyukfilo.com"></div>
+      <div class="field"><label>Konum</label>
+        <select id="emb_side"><option value="left">Sol alt</option><option value="right">Sağ alt</option></select></div>
+      <div class="field"><label>Kod <span class="hint">(sitenizin &lt;body&gt; sonuna yapıştırın)</span></label>
+        <textarea id="emb_out" class="mono" readonly style="min-height:70px"></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-ghost" id="embedClose">Kapat</button>
+      <button class="btn-primary" id="embedCopy">Kodu kopyala</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
 const API = "/api/admin";
 
+// ---- Oturum --------------------------------------------------------------
+let AUTH_TOKEN = null, CURRENT_USER = null, editingUser = null;
+try { AUTH_TOKEN = localStorage.getItem("bfl_admin_token"); } catch (e) {}
+const isSuper = () => CURRENT_USER && CURRENT_USER.role === "super_admin";
+
 // ---- API yardımcıları -------------------------------------------------------
 async function fetchJSON(method, path, body) {
   const opt = { method, headers: {} };
+  if (AUTH_TOKEN) opt.headers["Authorization"] = "Bearer " + AUTH_TOKEN;
   if (body !== undefined) { opt.headers["Content-Type"] = "application/json"; opt.body = JSON.stringify(body); }
   const res = await fetch(`${API}/${path}`, opt);
+  if (res.status === 401) { doLogout(true); throw new Error("Oturum sona erdi. Lütfen tekrar giriş yapın."); }
   const text = await res.text();
   let data = null;
   if (text) { try { data = JSON.parse(text); } catch (e) { data = null; } }
@@ -306,10 +587,34 @@ function toast(msg, kind) {
   clearTimeout(el._t); el._t = setTimeout(() => (el.className = ""), 2600);
 }
 
+// Uygulama içi onay modalı (tarayıcı confirm'i yerine)
+function confirmDialog(opts) {
+  opts = typeof opts === "string" ? { message: opts } : (opts || {});
+  const ov = document.getElementById("confirmOverlay");
+  document.getElementById("confirmTitle").textContent = opts.title || "Onay";
+  document.getElementById("confirmMsg").textContent = opts.message || "Emin misiniz?";
+  document.getElementById("confirmDetail").textContent = opts.detail || "";
+  const yes = document.getElementById("confirmYes"), no = document.getElementById("confirmNo");
+  yes.textContent = opts.okLabel || (opts.danger ? "Sil" : "Evet");
+  yes.className = opts.danger ? "btn-danger-solid" : "btn-primary";
+  ov.classList.add("show");
+  return new Promise(res => {
+    const done = v => { ov.classList.remove("show"); yes.onclick = no.onclick = ov.onclick = null; document.removeEventListener("keydown", onKey); res(v); };
+    const onKey = e => { if (e.key === "Escape") done(false); };
+    yes.onclick = () => done(true);
+    no.onclick = () => done(false);
+    ov.onclick = e => { if (e.target.id === "confirmOverlay") done(false); };
+    document.addEventListener("keydown", onKey);
+  });
+}
+
 // ---- Sekme tanımları --------------------------------------------------------
 const esc = s => (s == null ? "" : String(s)).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
 
 const TABS = {
+  home: {
+    label: "Ana Sayfa", custom: true,
+  },
   qa: {
     label: "Soru & Cevap", searchable: true, hasTest: true, paged: true,
     load: async (t) => {
@@ -322,7 +627,7 @@ const TABS = {
       { k: "question", label: "Soru" },
       { k: "answer", label: "Cevap", trunc: true },
       { k: "intent_category", label: "Intent" },
-      { k: "is_augmented", label: "Aug", bool: true, w: "56px" },
+      { k: "is_augmented", label: "Aug", bool: true, w: "84px" },
     ],
     fields: [
       { k: "question", label: "Soru", type: "textarea", required: true },
@@ -335,9 +640,27 @@ const TABS = {
       : fetchJSON("POST", `${t}/qa`, v),
     remove: (t, row) => fetchJSON("DELETE", `${t}/qa/${row.id}`),
     label1: r => `#${r.id}`,
+    renderCard: (r, i) => `
+      <div class="rec-card">
+        <div class="rec-head">
+          <span class="rec-id">#${esc(r.id)}</span>
+          ${r.intent_category ? `<span class="chip accent">${esc(r.intent_category)}</span>` : ""}
+          <span class="pill ${r.is_augmented ? "" : "muted"}">${r.is_augmented ? "augment" : "özgün"}</span>
+          <div class="rec-actions">
+            <button class="btn-ghost btn-sm" data-aug="${i}">Augment</button>
+            <button class="btn-ghost btn-sm" data-edit="${i}">Düzenle</button>
+            <button class="btn-danger btn-sm" data-del="${i}">Sil</button>
+          </div>
+        </div>
+        <div class="rec-line"><b>Soru</b><span>${esc(r.question || "—")}</span></div>
+        <div class="rec-line"><b>Cevap</b><span class="clamp">${esc(r.answer || "—")}</span></div>
+      </div>`,
   },
   conversations: {
     label: "Görüşmeler", readonly: true,
+  },
+  contacts: {
+    label: "İletişim Talepleri", custom: true,
   },
   intents: {
     label: "Intent'ler",
@@ -347,8 +670,8 @@ const TABS = {
       { k: "priority", label: "Öncelik", w: "80px" },
       { k: "keywords", label: "Kelimeler", arr: true, trunc: true },
       { k: "static_response", label: "Hazır cevap", trunc: true },
-      { k: "forms", label: "Form", count: true, w: "60px" },
-      { k: "enabled", label: "Aktif", bool: true, w: "64px" },
+      { k: "forms", label: "Form", count: true, w: "70px" },
+      { k: "enabled", label: "Aktif", bool: true, w: "90px" },
     ],
     fields: [
       { k: "name", label: "Ad (intent)", type: "text", required: true, pkField: true },
@@ -364,12 +687,37 @@ const TABS = {
     }),
     remove: (t, row) => fetchJSON("DELETE", `${t}/intents/${encodeURIComponent(row.name)}`),
     label1: r => r.name,
+    renderCard: (r, i) => {
+      const kw = Array.isArray(r.keywords) && r.keywords.length
+        ? r.keywords.map(k => `<span class="chip">${esc(k)}</span>`).join("")
+        : `<span class="meta" style="color:var(--faint)">kelime yok</span>`;
+      const forms = Array.isArray(r.forms) ? r.forms.length : 0;
+      return `
+      <div class="rec-card ${r.enabled ? "" : "is-off"}">
+        <div class="rec-head">
+          <span class="rec-name k">${esc(r.name)}</span>
+          <span class="pill">öncelik ${esc(r.priority)}</span>
+          <span class="pill">${forms} form</span>
+          <div class="rec-actions">
+            <span class="sw-wrap"><span class="sw-lbl ${r.enabled ? "on" : ""}">${r.enabled ? "aktif" : "pasif"}</span>
+              <label class="switch" title="Aktif / Pasif"><input type="checkbox" data-itoggle="${i}" ${r.enabled ? "checked" : ""}><span class="slider"></span></label></span>
+            <button class="btn-ghost btn-sm" data-edit="${i}">Düzenle</button>
+            <button class="btn-danger btn-sm" data-del="${i}">Sil</button>
+          </div>
+        </div>
+        <div class="rec-kw">${kw}</div>
+        ${r.static_response ? `<div class="rec-line"><b>Cevap</b><span class="clamp">${esc(r.static_response)}</span></div>` : ""}
+      </div>`;
+    },
   },
   appearance: {
     label: "Görünüm", custom: true,
   },
+  content: {
+    label: "Karşılama & SSS", custom: true,
+  },
   settings: {
-    label: "Ayarlar", noAdd: true, noDelete: true,
+    label: "Ayarlar", noAdd: true, noDelete: true, bottom: true,
     load: async (t) => (await fetchJSON("GET", `${t}/settings`)).filter(s => String(s.key).startsWith("similarity_threshold")),
     columns: [ { k: "key", label: "Ayar", mono: true }, { k: "value", label: "Değer" } ],
     fields: [
@@ -379,27 +727,40 @@ const TABS = {
     save: (t, row, v) => fetchJSON("PUT", `${t}/settings/${encodeURIComponent(v.key)}`, { value: v.value }),
     label1: r => r.key,
   },
+  users: {
+    label: "Kullanıcılar", custom: true, superOnly: true, bottom: true,
+  },
 };
+const DEFAULT_TAB = "home";
 
-const state = { tenant: null, tab: "qa", rows: [], total: 0, qaQuery: "", intentOptions: [], limit: 50, offset: 0 };
+const state = { tenant: null, tab: "home", rows: [], total: 0, qaQuery: "", intentOptions: [], limit: 50, offset: 0, conv: { from: "", to: "", status: "all", preset: "all" } };
+// Sayfa yenilendiginde son sekme/chatbot'ta kal (ana sayfaya atma)
+try { const _t = localStorage.getItem("bfl_admin_tab"); if (_t && TABS[_t]) state.tab = _t; } catch (e) {}
+try { const _v = localStorage.getItem("bfl_admin_tenant"); if (_v) state.tenant = _v; } catch (e) {}
 
 // ---- Render -----------------------------------------------------------------
 const TAB_ICONS = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>',
   qa: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
   conversations: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 3V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v9l-4-3h-6a2 2 0 0 1-2-2v-1"/></svg>',
+  contacts: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.5a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></svg>',
   intents: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.4" fill="currentColor" stroke="none"/></svg>',
   appearance: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.4"/><circle cx="17.5" cy="10.5" r="1.4"/><circle cx="8.5" cy="7.5" r="1.4"/><circle cx="6.5" cy="12.5" r="1.4"/><path d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.2 0-1 .8-1.8 1.8-1.8H17a5 5 0 0 0 5-5c0-4.4-4.5-8-10-8z"/></svg>',
+  content: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>',
   settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+  users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
 };
 function renderTabs() {
-  const host = document.getElementById("tabs");
-  host.innerHTML = "";
+  const top = document.getElementById("tabs");
+  const bottom = document.getElementById("tabsBottom");
+  top.innerHTML = ""; bottom.innerHTML = "";
   for (const [id, cfg] of Object.entries(TABS)) {
+    if (cfg.superOnly && !isSuper()) continue;
     const b = document.createElement("button");
     b.innerHTML = (TAB_ICONS[id] || "") + `<span>${esc(cfg.label)}</span>`;
     b.className = id === state.tab ? "active" : "";
-    b.onclick = () => { state.tab = id; state.qaQuery = ""; state.offset = 0; loadTab(); };
-    host.appendChild(b);
+    b.onclick = () => { state.tab = id; state.qaQuery = ""; state.offset = 0; if (window.innerWidth <= 860) toggleDrawer(false); loadTab(); };
+    (cfg.bottom ? bottom : top).appendChild(b);
   }
   const cur = TABS[state.tab];
   const pt = document.getElementById("pageTitle");
@@ -417,60 +778,108 @@ function cellHTML(row, col) {
   return col.trunc ? `<span title="${esc(val)}">${inner}</span>` : inner;
 }
 
-function loadTab() {
-  const cfg = TABS[state.tab];
-  if (cfg.readonly) return loadConversations();
-  if (cfg.custom) return loadAppearance();
-  renderTabs();
-  document.getElementById("mainToolbar").style.display = "";
-  document.getElementById("addBtn").style.display = cfg.noAdd ? "none" : "";
+function showNoTenant() {
+  document.getElementById("testHost").innerHTML = "";
+  document.getElementById("mainToolbar").style.display = "none";
   document.getElementById("convBar").style.display = "none";
-  document.getElementById("qaSearch").style.display = cfg.searchable ? "" : "none";
+  document.getElementById("pager").style.display = "none";
+  document.getElementById("tableHost").innerHTML =
+    `<div class="empty"><strong>Chatbot seçili değil</strong>Soldaki “Aktif chatbot” listesinden bir chatbot seçin ya da Ana Sayfa’dan yönetin.</div>`;
+}
+
+function tableHostPlain(on) {
+  document.getElementById("tableHost").classList.toggle("plain", !!on);
+}
+function toggleDrawer(force) {
+  const sb = document.querySelector(".sidebar"), bd = document.getElementById("sideBackdrop");
+  if (!sb || !bd) return;
+  const open = force === undefined ? !sb.classList.contains("open") : force;
+  sb.classList.toggle("open", open); bd.classList.toggle("show", open);
+}
+function loadTab() {
+  let cfg = TABS[state.tab];
+  if (!cfg) { state.tab = DEFAULT_TAB; cfg = TABS[state.tab]; }
+  if (cfg.superOnly && !isSuper()) { state.tab = DEFAULT_TAB; return loadTab(); }
+  // yenilemede ayni yerde kalmak icin sekme + aktif chatbot'u sakla
+  try {
+    localStorage.setItem("bfl_admin_tab", state.tab);
+    if (state.tenant) localStorage.setItem("bfl_admin_tenant", state.tenant);
+  } catch (e) {}
+  tableHostPlain(false);
+  if (state.tab === "home") { renderTabs(); return loadHome(); }
+  if (state.tab === "users") { return loadUsers(); }
+  if (!state.tenant) { renderTabs(); return showNoTenant(); }
+  if (state.tab === "contacts") { renderTabs(); return loadContacts(); }
+  if (cfg.readonly) return loadConversations();
+  if (cfg.custom) return state.tab === "content" ? loadContent() : loadAppearance();
+  renderTabs();
+  tableHostPlain(true);
+  document.getElementById("mainToolbar").style.display = "none";
+  document.getElementById("convBar").style.display = "none";
   renderTestBox(cfg);
   const host = document.getElementById("tableHost");
-  host.innerHTML = `<div class="empty">Yükleniyor…</div>`;
-  document.getElementById("count").textContent = "";
+  host.innerHTML = `<div class="wide-col"><div class="card"><div class="empty">Yükleniyor…</div></div></div>`;
 
   cfg.load(state.tenant).then(rows => {
     state.rows = rows;
-    if (!rows.length) {
-      host.innerHTML = `<div class="empty"><strong>Kayıt yok</strong>Bu chatbot için henüz ${cfg.label.toLowerCase()} eklenmemiş. “Yeni ekle” ile başlayın.</div>`;
-      document.getElementById("count").textContent = "";
-      document.getElementById("pager").style.display = "none";
-      return;
-    }
     const cols = cfg.columns;
-    const head = cols.map(c => `<th${c.w ? ` style="width:${c.w}"` : ""}>${c.label}</th>`).join("") + "<th></th>";
-    const body = rows.map((r, i) => {
-      const tds = cols.map(c => `<td class="${c.trunc ? "trunc" : ""}">${cellHTML(r, c)}</td>`).join("");
-      const del = cfg.noDelete ? "" : `<button class="btn-danger btn-sm" data-del="${i}">Sil</button>`;
-      const aug = state.tab === "qa"
-        ? `<button class="btn-ghost btn-sm" data-aug="${i}">Augment</button>` : "";
-      return `<tr>${tds}<td class="row-actions">
-        ${aug}
-        <button class="btn-ghost btn-sm" data-edit="${i}">Düzenle</button>
-        ${del}</td></tr>`;
-    }).join("");
-    host.innerHTML = `<div style="overflow-x:auto"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+    const countText = cfg.searchable
+      ? `${rows.length}${state.total > rows.length ? " / " + state.total : ""} kayıt`
+      : `${rows.length} kayıt`;
+    const header = `
+      <div class="lc-head">
+        <div class="lc-title">${esc(cfg.label)} <span class="count">${countText}</span></div>
+        <div class="lc-actions">
+          ${cfg.searchable ? `<input type="search" id="tabSearch" class="lc-search" placeholder="Soru/cevap içinde ara…" value="${esc(state.qaQuery)}">` : ""}
+          ${cfg.noAdd ? "" : `<button class="btn-primary" id="tabAdd">+ Yeni ekle</button>`}
+        </div>
+      </div>`;
+    let inner;
+    if (!rows.length) {
+      inner = header + `<div class="empty"><strong>${state.qaQuery ? "Sonuç yok" : "Kayıt yok"}</strong>${state.qaQuery ? "Aramanıza uyan kayıt bulunamadı." : `Bu chatbot için henüz ${cfg.label.toLowerCase()} eklenmemiş. “Yeni ekle” ile başlayın.`}</div>`;
+    } else if (cfg.renderCard) {
+      inner = header + `<div class="rec-list">${rows.map((r, i) => cfg.renderCard(r, i)).join("")}</div>`;
+    } else {
+      const head = cols.map(c => `<th${c.w ? ` style="width:${c.w}"` : ""}>${c.label}</th>`).join("") + "<th></th>";
+      const body = rows.map((r, i) => {
+        const tds = cols.map(c => `<td class="${c.trunc ? "trunc" : ""}">${cellHTML(r, c)}</td>`).join("");
+        const del = cfg.noDelete ? "" : `<button class="btn-danger btn-sm" data-del="${i}">Sil</button>`;
+        const aug = state.tab === "qa" ? `<button class="btn-ghost btn-sm" data-aug="${i}">Augment</button>` : "";
+        return `<tr>${tds}<td class="row-actions">${aug}<button class="btn-ghost btn-sm" data-edit="${i}">Düzenle</button>${del}</td></tr>`;
+      }).join("");
+      inner = header + `<div style="overflow-x:auto"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+    }
+    host.innerHTML = `<div class="wide-col"><div class="card">${inner}</div></div>`;
     host.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => openModal(rows[+b.dataset.edit]));
     host.querySelectorAll("[data-del]").forEach(b => b.onclick = () => removeRow(rows[+b.dataset.del]));
     host.querySelectorAll("[data-aug]").forEach(b => b.onclick = () => augmentRow(rows[+b.dataset.aug]));
-    const c = cfg.searchable ? `${rows.length}${state.total > rows.length ? " / " + state.total : ""} kayıt` : `${rows.length} kayıt`;
-    document.getElementById("count").textContent = c;
+    host.querySelectorAll("[data-itoggle]").forEach(b => b.onchange = () => toggleIntentEnabled(rows[+b.dataset.itoggle], b.checked, b));
+    const addBtn = host.querySelector("#tabAdd"); if (addBtn) addBtn.onclick = () => openModal(null);
+    const search = host.querySelector("#tabSearch");
+    if (search) {
+      let timer;
+      search.addEventListener("input", e => {
+        clearTimeout(timer);
+        _reloadFromSearch = true;
+        timer = setTimeout(() => { state.qaQuery = e.target.value.trim(); state.offset = 0; loadTab(); }, 300);
+      });
+      if (_reloadFromSearch) { _reloadFromSearch = false; search.focus(); const v = search.value; try { search.setSelectionRange(v.length, v.length); } catch (e) {} }
+    }
     if (state.tab === "qa") loadOptions();
-    if (cfg.paged) renderPager(state.total, loadTab);
+    if (cfg.paged && rows.length) renderPager(state.total, loadTab);
     else document.getElementById("pager").style.display = "none";
   }).catch(err => {
-    host.innerHTML = `<div class="empty"><strong>Yüklenemedi</strong>${esc(err.message)}</div>`;
+    host.innerHTML = `<div class="wide-col"><div class="card"><div class="empty"><strong>Yüklenemedi</strong>${esc(err.message)}</div></div></div>`;
   });
 }
+let _reloadFromSearch = false;
 
 // ---- Semantik test kutusu (yalnızca Q&A) ------------------------------------
 function renderTestBox(cfg) {
   const host = document.getElementById("testHost");
   if (!cfg.hasTest) { host.innerHTML = ""; return; }
   host.innerHTML = `
-    <div class="testbox">
+    <div class="wide-col"><div class="testbox">
       <h3>Bot ne cevaplar? — semantik test</h3>
       <p>Bir müşteri sorusu yazın; bu chatbot'un bilgi tabanında en yakın kayıtları benzerlik skoruyla görün.</p>
       <div class="row">
@@ -478,7 +887,7 @@ function renderTestBox(cfg) {
         <button class="btn-primary" id="testBtn">Test et</button>
       </div>
       <div class="test-results" id="testRes"></div>
-    </div>`;
+    </div></div>`;
   const run = async () => {
     const q = document.getElementById("testQ").value.trim();
     if (!q) return;
@@ -609,7 +1018,7 @@ async function saveModal() {
 }
 
 async function augmentRow(row) {
-  if (!confirm(`Bu soru için benzer varyasyonlar üretilsin mi?\n\n#${row.id} — ${row.question}`)) return;
+  if (!await confirmDialog({ title: "Augmentation", message: "Bu soru için benzer varyasyonlar üretilsin mi?", detail: `#${row.id} — ${row.question}`, okLabel: "Üret" })) return;
   try {
     const res = await fetchJSON("POST", `${state.tenant}/qa/${row.id}/augment`);
     if (res && res.augmented_added)
@@ -622,55 +1031,188 @@ async function augmentRow(row) {
 
 async function removeRow(row) {
   const cfg = TABS[state.tab];
-  if (!confirm(`Silinsin mi?\n\n${cfg.label1(row)}`)) return;
+  if (!await confirmDialog({ title: "Silme onayı", message: "Bu kayıt silinsin mi?", detail: cfg.label1(row), danger: true })) return;
   try { await cfg.remove(state.tenant, row); toast("Silindi.", "ok"); loadTab(); }
   catch (e) { toast(e.message, "err"); }
 }
 
-// ---- Görünüm (branding: başlık/alt başlık/avatar/karşılama/renk) -------------
-async function loadAppearance() {
-  renderTabs();
+async function toggleIntentEnabled(row, enabled, el) {
+  el.disabled = true;
+  try {
+    await fetchJSON("PUT", `${state.tenant}/intents-full/${encodeURIComponent(row.name)}`, {
+      static_response: row.static_response, priority: row.priority,
+      keywords: row.keywords || [], enabled: enabled,
+      forms: (row.forms || []).map(f => ({ button_label: f.button_label, url: f.url })),
+    });
+    row.enabled = enabled;
+    // kartı yeniden çizmeden etikete/duruma yansıt
+    const card = el.closest(".rec-card");
+    if (card) {
+      card.classList.toggle("is-off", !enabled);
+      const lbl = card.querySelector(".sw-lbl");
+      if (lbl) { lbl.textContent = enabled ? "aktif" : "pasif"; lbl.classList.toggle("on", enabled); }
+    }
+    toast(enabled ? "Intent aktifleştirildi." : "Intent pasife alındı.", "ok");
+  } catch (e) { el.checked = !enabled; toast(e.message, "err"); }
+  finally { el.disabled = false; }
+}
+
+function _appearancePrep() {
+  renderTabs(); tableHostPlain(true);
   document.getElementById("testHost").innerHTML = "";
   document.getElementById("mainToolbar").style.display = "none";
   document.getElementById("convBar").style.display = "none";
   document.getElementById("pager").style.display = "none";
   const host = document.getElementById("tableHost");
   host.innerHTML = `<div class="empty">Yükleniyor…</div>`;
+  return host;
+}
+async function _saveSettings(items, btn) {
+  const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = "Kaydediliyor…";
+  try {
+    for (const [k, v] of Object.entries(items)) {
+      await fetchJSON("PUT", `${state.tenant}/settings/${k}`, { value: v });
+    }
+    try { await fetchJSON("POST", `${state.tenant}/reload`); } catch (_) {}
+    toast("Kaydedildi. Widget'ta anında geçerli.", "ok");
+  } catch (e) { toast(e.message, "err"); }
+  finally { btn.disabled = false; btn.textContent = orig; }
+}
+
+// ---- Görünüm (yalnızca marka: başlık/alt başlık/avatar/renk) -----------------
+async function loadAppearance() {
+  const host = _appearancePrep();
+  try {
+    const rows = await fetchJSON("GET", `${state.tenant}/settings`);
+    const val = k => { const r = rows.find(x => x.key === k); return r && r.value != null ? r.value : ""; };
+    const avatarText = s => (s || "").replace(/\s+/g, "").slice(0, 3).toUpperCase();
+    // avatar boşsa widget'ta robot maskot görünür — önizlemede de aynısını göster
+    const ROBOT_SVG = `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4"/><circle cx="12" cy="3" r="1.4" fill="currentColor" stroke="none"/><circle cx="9" cy="14" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="14" r="1.2" fill="currentColor" stroke="none"/><path d="M2 13v2M22 13v2"/></svg>`;
+    const avHtml = s => { const t = avatarText(s); return t ? esc(t) : ROBOT_SVG; };
+    host.innerHTML = `
+      <div class="center-col" style="max-width:900px">
+        <div class="ap-grid">
+          <div class="card" style="padding:22px 24px; display:grid; gap:16px">
+            <div class="sec-title">Marka görünümü</div>
+            <div class="field"><label>Başlık</label><input type="text" id="ap_title" value="${esc(val("widget_title"))}"></div>
+            <div class="field"><label>Alt başlık</label><input type="text" id="ap_subtitle" value="${esc(val("widget_subtitle"))}"></div>
+            <div class="field"><label>Avatar <span class="hint">(en fazla 3 harf, örn. BFL — boş bırakılırsa robot maskot)</span></label><input type="text" id="ap_avatar" maxlength="3" value="${esc(avatarText(val("widget_avatar")))}" style="width:90px;text-transform:uppercase"></div>
+            <div class="field"><label>Renk <span class="hint">(widget ana rengi)</span></label>
+              <div style="display:flex;align-items:center;gap:10px"><input type="color" id="ap_color" value="${esc(val("widget_color") || "#6c4cf1")}" style="width:52px;height:40px;padding:2px"><span class="meta" id="ap_colorhex">${esc(val("widget_color") || "#6c4cf1")}</span></div></div>
+            <div><button class="btn-primary" id="ap_save">Kaydet</button></div>
+          </div>
+          <div class="card ap-preview-card" style="padding:22px 24px">
+            <div class="sec-title">Önizleme</div>
+            <div class="wprev">
+              <div class="wprev-top" id="wprev_top">
+                <div class="wprev-av" id="wprev_av">${avHtml(val("widget_avatar"))}</div>
+                <div style="min-width:0"><div class="wprev-title" id="wprev_title">${esc(val("widget_title") || "Asistan")}</div>
+                  <div class="wprev-sub"><span class="wprev-dot"></span><span id="wprev_sub">${esc(val("widget_subtitle") || "Her zaman yanınızda")}</span></div></div>
+              </div>
+              <div class="wprev-body">
+                <div class="wprev-bubble">Merhaba! Size nasıl yardımcı olabilirim?</div>
+                <div class="wprev-bubble me" id="wprev_me">Örnek kullanıcı mesajı</div>
+              </div>
+              <div class="wprev-input"><span>Mesajınızı yazın…</span><span class="wprev-send" id="wprev_send">➤</span></div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    const $ = id => document.getElementById(id);
+    const sync = () => {
+      const col = $("ap_color").value || "#6c4cf1";
+      $("wprev_title").textContent = $("ap_title").value || "Asistan";
+      $("wprev_sub").textContent = $("ap_subtitle").value || "Her zaman yanınızda";
+      $("wprev_av").innerHTML = avHtml($("ap_avatar").value);
+      $("wprev_top").style.background = col;
+      $("wprev_av").style.color = col;
+      $("wprev_me").style.background = col;
+      $("wprev_send").style.background = col;
+      $("ap_colorhex").textContent = col;
+    };
+    ["ap_title", "ap_subtitle", "ap_avatar", "ap_color"].forEach(id => { $(id).addEventListener("input", sync); });
+    sync();
+    $("ap_save").onclick = () => _saveSettings({
+      widget_title: $("ap_title").value.trim(),
+      widget_subtitle: $("ap_subtitle").value.trim(),
+      widget_avatar: avatarText($("ap_avatar").value),
+      widget_color: $("ap_color").value.trim(),
+    }, $("ap_save"));
+  } catch (e) {
+    host.innerHTML = `<div class="empty"><strong>Yüklenemedi</strong>${esc(e.message)}</div>`;
+  }
+}
+
+// ---- Karşılama & SSS (ilk mesaj + hızlı erişim + sık sorulan sorular) --------
+// ---- Hızlı erişim ikon seti (widget chat.html ICON ile birebir aynı anahtarlar) ----
+const IC_SVG = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const ADMIN_ICONS = {
+  chat: { label: "Mesaj", svg: IC_SVG('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>') },
+  car: { label: "Araç / Ürün", svg: IC_SVG('<path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><path d="M3 11h18v5H3z"/><circle cx="7" cy="16.5" r="1.6"/><circle cx="17" cy="16.5" r="1.6"/>') },
+  doc: { label: "Belge / Teklif", svg: IC_SVG('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/>') },
+  head: { label: "Destek", svg: IC_SVG('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M20 18v1a3 3 0 0 1-3 3h-3"/>') },
+  phone: { label: "Telefon", svg: IC_SVG('<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.5a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6A2 2 0 0 1 22 16.9z"/>') },
+  mail: { label: "E-posta", svg: IC_SVG('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>') },
+  info: { label: "Bilgi", svg: IC_SVG('<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>') },
+  tag: { label: "Fiyat / Kampanya", svg: IC_SVG('<path d="M9 3H5a2 2 0 0 0-2 2v4l10 10 6-6L9 3z"/><circle cx="7.5" cy="7.5" r="1.3"/>') },
+  calendar: { label: "Randevu", svg: IC_SVG('<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>') },
+  location: { label: "Konum / Bayi", svg: IC_SVG('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="2.5"/>') },
+  question: { label: "Soru / SSS", svg: IC_SVG('<circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.5 2.5 0 0 1 4.5 1.5c0 1.6-2 2-2 3"/><path d="M12 17h.01"/>') },
+  user: { label: "Hesap", svg: IC_SVG('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>') },
+  clock: { label: "Çalışma saati", svg: IC_SVG('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>') },
+  wrench: { label: "Servis", svg: IC_SVG('<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-2.5z"/>') },
+  star: { label: "Avantaj", svg: IC_SVG('<path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.4l6.1-.9z"/>') },
+  home: { label: "Ana sayfa", svg: IC_SVG('<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/>') },
+  dots: { label: "Diğer", svg: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="18" cy="12" r="1.8"/></svg>' },
+};
+
+async function loadContent() {
+  const host = _appearancePrep();
   try {
     const rows = await fetchJSON("GET", `${state.tenant}/settings`);
     const val = k => { const r = rows.find(x => x.key === k); return r && r.value != null ? r.value : ""; };
     const parseArr = v => { if (Array.isArray(v)) return v; if (typeof v === "string" && v.trim()) { try { return JSON.parse(v); } catch (e) { return []; } } return []; };
-    const QUICK_ICONS = [["car","Araç / Ürün"],["doc","Belge / Teklif"],["head","Destek"],["dots","Diğer"]];
     const QUICK_MAX = 4, FAQ_MAX = 6;
+    const DEFAULT_ICON = "chat";
     const quick = parseArr(val("widget_quick_actions"));
     const faq = parseArr(val("widget_faq"));
 
     host.innerHTML = `
-      <div style="padding:20px; display:grid; gap:18px; max-width:660px">
-        <div class="field"><label>Başlık</label><input type="text" id="ap_title" value="${esc(val("widget_title"))}"></div>
-        <div class="field"><label>Alt başlık</label><input type="text" id="ap_subtitle" value="${esc(val("widget_subtitle"))}"></div>
-        <div class="field"><label>Avatar <span class="hint">(kısa harf, örn. BF)</span></label><input type="text" id="ap_avatar" maxlength="4" value="${esc(val("widget_avatar"))}" style="width:90px"></div>
-        <div class="field"><label>Karşılama mesajı</label><textarea id="ap_greeting">${esc(val("widget_greeting"))}</textarea></div>
-        <div class="field"><label>Renk</label><input type="color" id="ap_color" value="${esc(val("widget_color") || "#537286")}" style="width:64px;height:38px;padding:2px"></div>
-
-        <div class="field">
-          <label>Hızlı işlem butonları <span class="hint">(en fazla ${QUICK_MAX} — sohbet açılışında kutucuk olarak görünür)</span></label>
+      <div class="center-col" style="max-width:760px; display:grid; gap:16px">
+        <div class="card" style="padding:22px 24px; display:grid; gap:14px">
+          <div class="sec-title">İlk mesaj (karşılama)</div>
+          <div class="field"><label>Sohbet açıldığında gösterilen mesaj</label><textarea id="ct_greeting" placeholder="Merhaba! Size nasıl yardımcı olabilirim?">${esc(val("widget_greeting"))}</textarea></div>
+        </div>
+        <div class="card" style="padding:22px 24px; display:grid; gap:12px; overflow:visible">
+          <div class="sec-title">Hızlı erişim butonları <span class="hint">(en fazla ${QUICK_MAX} — karşılamanın altında kutucuk; her butona ikon seçin)</span></div>
           <div id="ap_quick"></div>
-          <button type="button" class="btn-sm" id="ap_quick_add" style="margin-top:8px">+ Buton ekle</button>
+          <div><button type="button" class="btn-sm" id="ap_quick_add">+ Buton ekle</button></div>
         </div>
-
-        <div class="field">
-          <label>Sık sorulan sorular <span class="hint">(en fazla ${FAQ_MAX} — tıklanınca bota gönderilir)</span></label>
+        <div class="card" style="padding:22px 24px; display:grid; gap:12px">
+          <div class="sec-title">Sık sorulan sorular <span class="hint">(en fazla ${FAQ_MAX} — tıklanınca bota gönderilir)</span></div>
           <div id="ap_faq"></div>
-          <button type="button" class="btn-sm" id="ap_faq_add" style="margin-top:8px">+ Soru ekle</button>
+          <div><button type="button" class="btn-sm" id="ap_faq_add">+ Soru ekle</button></div>
         </div>
-
-        <div><button class="btn-primary" id="ap_save">Kaydet</button></div>
+        <div><button class="btn-primary" id="ct_save">Kaydet</button></div>
       </div>`;
 
     const quickHost = document.getElementById("ap_quick");
     const faqHost = document.getElementById("ap_faq");
-    const optsHtml = sel => QUICK_ICONS.map(([v,l]) => `<option value="${v}" ${v===sel?"selected":""}>${l}</option>`).join("");
+    const iconPickHtml = cur => {
+      const ic = (cur && ADMIN_ICONS[cur]) ? cur : DEFAULT_ICON;
+      const grid = Object.entries(ADMIN_ICONS).map(([k, o]) =>
+        `<button type="button" data-ic="${k}" class="${k === ic ? "sel" : ""}" title="${esc(o.label)}">${o.svg}</button>`).join("");
+      return `<div class="icnpick" data-role="iconpick" data-icon="${ic}">
+        <button type="button" class="icnpick-btn" data-role="iconbtn" title="İkon seç">${ADMIN_ICONS[ic].svg}</button>
+        <div class="icnpick-pop">${grid}</div>
+      </div>`;
+    };
+    // açık ikon seçiciyi dışarı tıklayınca kapat (bir kez bağla)
+    if (!window.__icnpickBound) {
+      window.__icnpickBound = true;
+      document.addEventListener("click", () => document.querySelectorAll(".icnpick.open").forEach(p => p.classList.remove("open")));
+    }
     const syncQuickBtn = () => { document.getElementById("ap_quick_add").disabled = quickHost.children.length >= QUICK_MAX; };
     const syncFaqBtn = () => { document.getElementById("ap_faq_add").disabled = faqHost.children.length >= FAQ_MAX; };
 
@@ -680,10 +1222,27 @@ async function loadAppearance() {
       d.className = "ap-qrow";
       d.style.cssText = "display:flex; gap:8px; margin-bottom:6px; align-items:center";
       d.innerHTML =
-        `<select data-role="icon" style="flex:0 0 130px">${optsHtml(item && item.icon)}</select>
+        `${iconPickHtml(item && item.icon)}
          <input type="text" data-role="label" placeholder="Etiket (ör. Ürün Bilgisi)" value="${esc(item && item.label || "")}" style="flex:1">
          <input type="text" data-role="query" placeholder="Gönderilecek soru" value="${esc(item && item.query || "")}" style="flex:1.4">
          <button type="button" class="btn-danger btn-sm" data-role="rm" title="Kaldır">✕</button>`;
+      // ikon seçici olayları
+      const pick = d.querySelector('[data-role="iconpick"]');
+      const ibtn = pick.querySelector('[data-role="iconbtn"]');
+      ibtn.onclick = (e) => {
+        e.stopPropagation();
+        const wasOpen = pick.classList.contains("open");
+        document.querySelectorAll(".icnpick.open").forEach(p => p.classList.remove("open"));
+        if (!wasOpen) pick.classList.add("open");
+      };
+      pick.querySelectorAll(".icnpick-pop button").forEach(b => b.onclick = (e) => {
+        e.stopPropagation();
+        const k = b.dataset.ic;
+        pick.dataset.icon = k;
+        ibtn.innerHTML = ADMIN_ICONS[k].svg;
+        pick.querySelectorAll(".icnpick-pop button").forEach(x => x.classList.toggle("sel", x === b));
+        pick.classList.remove("open");
+      });
       d.querySelector('[data-role="rm"]').onclick = () => { d.remove(); syncQuickBtn(); };
       quickHost.appendChild(d); syncQuickBtn();
     }
@@ -705,33 +1264,19 @@ async function loadAppearance() {
     document.getElementById("ap_quick_add").onclick = () => addQuick(null);
     document.getElementById("ap_faq_add").onclick = () => addFaq("");
 
-    document.getElementById("ap_save").onclick = async () => {
+    document.getElementById("ct_save").onclick = () => {
       const quickArr = [...quickHost.querySelectorAll(".ap-qrow")].map(r => ({
-        icon: r.querySelector('[data-role="icon"]').value,
+        icon: r.querySelector('[data-role="iconpick"]').dataset.icon,
         label: r.querySelector('[data-role="label"]').value.trim(),
         query: r.querySelector('[data-role="query"]').value.trim(),
       })).filter(x => x.label && x.query).slice(0, QUICK_MAX);
       const faqArr = [...faqHost.querySelectorAll(".ap-frow")]
         .map(r => r.querySelector('[data-role="q"]').value.trim()).filter(Boolean).slice(0, FAQ_MAX);
-      const items = {
-        widget_title: document.getElementById("ap_title").value.trim(),
-        widget_subtitle: document.getElementById("ap_subtitle").value.trim(),
-        widget_avatar: document.getElementById("ap_avatar").value.trim(),
-        widget_greeting: document.getElementById("ap_greeting").value.trim(),
-        widget_color: document.getElementById("ap_color").value.trim(),
+      _saveSettings({
+        widget_greeting: document.getElementById("ct_greeting").value.trim(),
         widget_quick_actions: JSON.stringify(quickArr),
         widget_faq: JSON.stringify(faqArr),
-      };
-      const btn = document.getElementById("ap_save");
-      btn.disabled = true; btn.textContent = "Kaydediliyor…";
-      try {
-        for (const [k, v] of Object.entries(items)) {
-          await fetchJSON("PUT", `${state.tenant}/settings/${k}`, { value: v });
-        }
-        try { await fetchJSON("POST", `${state.tenant}/reload`); } catch (_) {}
-        toast("Görünüm kaydedildi. Widget'ta anında geçerli.", "ok");
-      } catch (e) { toast(e.message, "err"); }
-      finally { btn.disabled = false; btn.textContent = "Kaydet"; }
+      }, document.getElementById("ct_save"));
     };
   } catch (e) {
     host.innerHTML = `<div class="empty"><strong>Yüklenemedi</strong>${esc(e.message)}</div>`;
@@ -756,53 +1301,339 @@ function renderPager(total, reload) {
 }
 
 // ---- Görüşmeler (salt-okunur izleme) ----------------------------------------
-function loadConversations() {
+function _isoDate(d) { const z = n => String(n).padStart(2, "0"); return `${d.getFullYear()}-${z(d.getMonth() + 1)}-${z(d.getDate())}`; }
+function _convFilter() {
+  if (!state.conv) state.conv = { from: "", to: "", status: "all", preset: "all", intent: "" };
+  if (state.conv.intent === undefined) state.conv.intent = "";
+  return state.conv;
+}
+function _applyPreset(p) {
+  const f = _convFilter(); f.preset = p;
+  const today = new Date();
+  if (p === "all") { f.from = ""; f.to = ""; }
+  else if (p === "today") { f.from = f.to = _isoDate(today); }
+  else { const d = new Date(); d.setDate(d.getDate() - (p === "7" ? 6 : 29)); f.from = _isoDate(d); f.to = _isoDate(today); }
+  state.offset = 0; loadConversations();
+}
+
+async function loadConversations() {
   renderTabs();
+  tableHostPlain(true);
   document.getElementById("testHost").innerHTML = "";
   document.getElementById("mainToolbar").style.display = "none";
-  document.getElementById("convBar").style.display = "";
+  document.getElementById("convBar").style.display = "none"; // eski filtre gizli
   const host = document.getElementById("tableHost");
   host.innerHTML = `<div class="empty">Yükleniyor…</div>`;
 
-  const qs = new URLSearchParams();
-  const from = document.getElementById("convFrom").value;
-  const to = document.getElementById("convTo").value;
-  const status = document.getElementById("convStatus").value;
-  if (from) qs.set("date_from", from);
-  if (to) qs.set("date_to", to);
-  if (status) qs.set("status", status);
-  qs.set("limit", state.limit);
-  qs.set("offset", state.offset);
+  const f = _convFilter();
+  const baseQs = (st) => {
+    const q = new URLSearchParams();
+    if (f.from) q.set("date_from", f.from);
+    if (f.to) q.set("date_to", f.to);
+    if (st) q.set("status", st);
+    if (f.intent) q.set("intent", f.intent);
+    return q;
+  };
+  const presets = [["all", "Tümü"], ["today", "Bugün"], ["7", "Son 7 gün"], ["30", "Son 30 gün"]];
+  const statuses = [["all", "Tümü"], ["answered", "Cevaplandı"], ["unanswered", "Cevaplanamadı"]];
 
-  fetchJSON("GET", `${state.tenant}/conversations?${qs}`).then(d => {
-    const rows = d.items;
-    document.getElementById("convCount").textContent =
-      `${rows.length}${d.total > rows.length ? " / " + d.total : ""} görüşme`;
-    if (!rows.length) {
-      host.innerHTML = `<div class="empty"><strong>Görüşme yok</strong>Seçilen filtreye uyan kayıt bulunamadı.</div>`;
-      document.getElementById("pager").style.display = "none";
-      return;
-    }
-    const cards = rows.map(r => {
-      const t = r.ts ? new Date(r.ts).toLocaleString("tr-TR") : "";
-      const cls = r.answered ? "ans" : (r.source === "fallback" ? "unans" : "");
-      const badge = r.answered
-        ? `<span class="pill on">cevaplandı</span>`
-        : (r.source === "fallback"
-            ? `<span class="pill off">cevaplanamadı</span>`
-            : `<span class="pill">${esc(r.source || "—")}</span>`);
-      const intent = r.intent ? `<span class="intent k">${esc(r.intent)}</span>` : "";
-      return `<div class="conv-card ${cls}">
-        <div class="conv-head"><span class="time">${esc(t)}</span> ${badge} ${intent}</div>
-        <div class="conv-line q"><b>Soru</b><span>${esc(r.question || "—")}</span></div>
-        <div class="conv-line a"><b>Cevap</b><span>${esc(r.answer || "—")}</span></div>
+  // intent (kategori) secenekleri — ayri endpoint'ten (tenant basina onbellek)
+  if (!state._convIntents) state._convIntents = {};
+  if (state._convIntents[state.tenant] === undefined) {
+    try { state._convIntents[state.tenant] = await fetchJSON("GET", `${state.tenant}/conversation-intents`); }
+    catch (e) { state._convIntents[state.tenant] = []; }
+  }
+
+  try {
+    const countOf = async (st) => {
+      const q = baseQs(st); q.set("limit", 1); q.set("offset", 0);
+      try { return (await fetchJSON("GET", `${state.tenant}/conversations?${q}`)).total || 0; }
+      catch (e) { return 0; }
+    };
+    const [tAll, tAns, tUn] = await Promise.all([countOf("all"), countOf("answered"), countOf("unanswered")]);
+    const rate = tAll ? Math.round((tAns / tAll) * 100) : 0;
+    const statCards = `
+      <div class="stat-grid">
+        ${statCard('v1', ICONS_STAT.chat, 'Toplam görüşme', tAll)}
+        ${statCard('v4', ICONS_STAT.ok, 'Cevaplandı', tAns)}
+        ${statCard('v5', ICONS_STAT.warn, 'Cevaplanamadı', tUn)}
+        ${statCard('v3', ICONS_STAT.rate, 'Yanıt oranı', rate + '%')}
       </div>`;
-    }).join("");
-    host.innerHTML = `<div class="conv-list">${cards}</div>`;
+
+    const q = baseQs(f.status); q.set("limit", state.limit); q.set("offset", state.offset);
+    const d = await fetchJSON("GET", `${state.tenant}/conversations?${q}`);
+    const rows = d.items;
+
+    // intent açılır listesi: endpoint + yüklenen satırlarda görülenlerin birleşimi
+    // (endpoint yoksa bile satırlardan türetilir), seçili değer her zaman dahil.
+    const intentSet = new Set(state._convIntents[state.tenant] || []);
+    rows.forEach(r => { if (r.intent) intentSet.add(r.intent); });
+    if (f.intent) intentSet.add(f.intent);
+    const intents = [...intentSet].sort((a, b) => a.localeCompare(b, "tr"));
+    const intentSel = `
+      <div class="fb-intent">
+        <label class="fb-ilabel">Konu</label>
+        <select id="cf_intent" class="fb-select">
+          <option value="" ${f.intent ? "" : "selected"}>Tüm konular</option>
+          ${intents.map(i => `<option value="${esc(i)}" ${f.intent === i ? "selected" : ""}>${esc(i)}</option>`).join("")}
+        </select>
+      </div>`;
+    const filterBar = `
+      <div class="filterbar">
+        <div class="seg">${presets.map(([v, l]) => `<button data-preset="${v}" class="${f.preset === v ? "on" : ""}">${l}</button>`).join("")}</div>
+        <div class="fb-dates">
+          <input type="date" id="cf_from" value="${f.from}">
+          <span class="fb-dash">–</span>
+          <input type="date" id="cf_to" value="${f.to}">
+        </div>
+        ${intents.length ? intentSel : ""}
+        <div class="fb-spacer"></div>
+        <div class="seg">${statuses.map(([v, l]) => `<button data-st="${v}" class="${f.status === v ? "on" : ""}">${l}</button>`).join("")}</div>
+      </div>`;
+
+    const listInner = !rows.length
+      ? `<div class="empty"><strong>Görüşme yok</strong>Seçilen filtreye uyan kayıt bulunamadı.</div>`
+      : `<div class="conv-head-bar">Geçmiş görüşmeler <span class="count">${rows.length}${d.total > rows.length ? " / " + d.total : ""}</span></div><div class="conv-list">` + rows.map(r => {
+          const t = r.ts ? new Date(r.ts).toLocaleString("tr-TR") : "";
+          const cls = r.answered ? "ans" : (r.source === "fallback" ? "unans" : "");
+          const badge = r.answered
+            ? `<span class="pill on">cevaplandı</span>`
+            : (r.source === "fallback"
+                ? `<span class="pill off">cevaplanamadı</span>`
+                : `<span class="pill">${esc(r.source || "—")}</span>`);
+          const intent = r.intent ? `<span class="intent k">${esc(r.intent)}</span>` : "";
+          return `<div class="conv-card ${cls}">
+            <div class="conv-head"><span class="time">${esc(t)}</span> ${badge} ${intent}</div>
+            <div class="conv-line q"><b>Soru</b><span>${esc(r.question || "—")}</span></div>
+            <div class="conv-line a"><b>Cevap</b><span>${esc(r.answer || "—")}</span></div>
+          </div>`;
+        }).join("") + `</div>`;
+
+    host.innerHTML = `<div class="center-col">${filterBar}${statCards}<div class="card">${listInner}</div></div>`;
+
+    // filtre olaylari
+    host.querySelectorAll("[data-preset]").forEach(b => b.onclick = () => _applyPreset(b.dataset.preset));
+    host.querySelectorAll("[data-st]").forEach(b => b.onclick = () => { f.status = b.dataset.st; state.offset = 0; loadConversations(); });
+    const cFrom = host.querySelector("#cf_from"), cTo = host.querySelector("#cf_to");
+    const onDate = () => { f.from = cFrom.value; f.to = cTo.value; f.preset = "custom"; state.offset = 0; loadConversations(); };
+    cFrom.onchange = onDate; cTo.onchange = onDate;
+    const cInt = host.querySelector("#cf_intent");
+    if (cInt) cInt.onchange = () => { f.intent = cInt.value; state.offset = 0; loadConversations(); };
+
     renderPager(d.total, loadConversations);
-  }).catch(err => {
+  } catch (err) {
     host.innerHTML = `<div class="empty"><strong>Yüklenemedi</strong>${esc(err.message)}</div>`;
+  }
+}
+
+// ---- İletişim talepleri (fallback_contacts) ---------------------------------
+function _contactFilter() { if (!state.contacts) state.contacts = { status: "all" }; return state.contacts; }
+
+async function loadContacts() {
+  renderTabs();
+  tableHostPlain(true);
+  document.getElementById("testHost").innerHTML = "";
+  document.getElementById("mainToolbar").style.display = "none";
+  document.getElementById("convBar").style.display = "none";
+  const host = document.getElementById("tableHost");
+  host.innerHTML = `<div class="empty">Yükleniyor…</div>`;
+  const f = _contactFilter();
+  const statuses = [["all", "Tümü"], ["new", "Yeni"], ["contacted", "Dönüş yapıldı"], ["closed", "Kapatıldı"]];
+  const cnt = (st) => fetchJSON("GET", `${state.tenant}/contacts?status=${st}&limit=1&offset=0`).then(d => d.total || 0).catch(() => 0);
+  try {
+    const [tAll, tNew, tDone] = await Promise.all([cnt("all"), cnt("new"), cnt("contacted")]);
+    const statCards = `<div class="stat-grid">
+      ${statCard('v1', ICONS_STAT.chat, 'Toplam talep', tAll)}
+      ${statCard('v5', ICONS_STAT.warn, 'Yeni / bekleyen', tNew)}
+      ${statCard('v4', ICONS_STAT.ok, 'Dönüş yapıldı', tDone)}
+    </div>`;
+    const filterBar = `<div class="filterbar">
+      <div class="seg">${statuses.map(([v, l]) => `<button data-cst="${v}" class="${f.status === v ? "on" : ""}">${l}</button>`).join("")}</div>
+    </div>`;
+    const q = new URLSearchParams();
+    if (f.status && f.status !== "all") q.set("status", f.status);
+    q.set("limit", state.limit); q.set("offset", state.offset);
+    const d = await fetchJSON("GET", `${state.tenant}/contacts?${q}`);
+    const rows = d.items;
+    const listInner = !rows.length
+      ? `<div class="empty"><strong>Talep yok</strong>Seçilen filtreye uyan iletişim talebi bulunamadı.</div>`
+      : `<div class="conv-head-bar">İletişim talepleri <span class="count">${rows.length}${d.total > rows.length ? " / " + d.total : ""}</span></div><div class="rec-list">` + rows.map(r => {
+          const t = r.created_at ? new Date(r.created_at).toLocaleString("tr-TR") : "";
+          const isPhone = r.contact_type === "phone";
+          const icon = isPhone ? ADMIN_ICONS.phone.svg : ADMIN_ICONS.mail.svg;
+          const href = isPhone ? `tel:${(r.contact_value || "").replace(/\s/g, "")}` : `mailto:${r.contact_value || ""}`;
+          const stPill = r.status === "contacted" ? `<span class="pill on">dönüş yapıldı</span>`
+            : r.status === "closed" ? `<span class="pill muted">kapatıldı</span>`
+            : `<span class="pill off">yeni</span>`;
+          const actions = r.status === "new"
+            ? `<button class="btn-primary btn-sm" data-done="${esc(r.id)}">Dönüş yapıldı</button><button class="btn-ghost btn-sm" data-close="${esc(r.id)}">Kapat</button>`
+            : `<button class="btn-ghost btn-sm" data-new="${esc(r.id)}">Yeni'ye al</button>`;
+          return `<div class="rec-card">
+            <div class="rec-head">
+              <span class="ct-ic">${icon}</span>
+              <span class="rec-name k">${esc(r.name || "İsimsiz")}</span>
+              ${stPill}
+              <span class="meta" style="color:var(--faint)">${esc(t)}</span>
+              <div class="rec-actions">${actions}</div>
+            </div>
+            <div class="rec-line"><b>${isPhone ? "Telefon" : "E-posta"}</b><span><a href="${esc(href)}" class="ct-link">${esc(r.contact_value || "—")}</a></span></div>
+          </div>`;
+        }).join("") + `</div>`;
+    host.innerHTML = `<div class="center-col">${filterBar}${statCards}<div class="card">${listInner}</div></div>`;
+    host.querySelectorAll("[data-cst]").forEach(b => b.onclick = () => { f.status = b.dataset.cst; state.offset = 0; loadContacts(); });
+    const setStatus = async (id, st) => {
+      try { await fetchJSON("PUT", `${state.tenant}/contacts/${id}/status`, { status: st }); toast("Güncellendi.", "ok"); loadContacts(); }
+      catch (e) { toast(e.message, "err"); }
+    };
+    host.querySelectorAll("[data-done]").forEach(b => b.onclick = () => setStatus(b.dataset.done, "contacted"));
+    host.querySelectorAll("[data-close]").forEach(b => b.onclick = () => setStatus(b.dataset.close, "closed"));
+    host.querySelectorAll("[data-new]").forEach(b => b.onclick = () => setStatus(b.dataset.new, "new"));
+    renderPager(d.total, loadContacts);
+  } catch (err) {
+    host.innerHTML = `<div class="empty"><strong>Yüklenemedi</strong>${esc(err.message)}</div>`;
+  }
+}
+
+// ---- İstatistik / kart yardımcıları -----------------------------------------
+const ICONS_STAT = {
+  bot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><path d="M8 16h.01M16 16h.01"/></svg>',
+  qa: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 3V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v9l-4-3h-6a2 2 0 0 1-2-2v-1"/></svg>',
+  ok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+  warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  rate: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+};
+function statCard(variant, icon, label, value) {
+  return `<div class="stat-card"><div class="stat-ic ${variant}">${icon}</div>
+    <div class="stat-meta"><div class="stat-label">${esc(label)}</div><div class="stat-value">${esc(value)}</div></div></div>`;
+}
+const _PAL = ['#6c4cf1', '#2ec4a0', '#f0a63a', '#3aa0f0', '#e5576e', '#8b5cf6', '#14b8a6', '#f59e0b'];
+function tenantColor(id) { let h = 0; for (const c of (id || "")) h = (h * 31 + c.charCodeAt(0)) >>> 0; return _PAL[h % _PAL.length]; }
+function initials(s) { return (s || "?").trim().split(/\s+/).slice(0, 2).map(w => w[0] || "").join("").toUpperCase().slice(0, 2) || "?"; }
+
+// ---- Ana Sayfa (aktif chatbot panelleri) ------------------------------------
+let _homeList = [];      // [{id,label,enabled,qa,conv}]
+let _homeQuery = "";
+async function loadHome() {
+  tableHostPlain(true);
+  document.getElementById("testHost").innerHTML = "";
+  document.getElementById("mainToolbar").style.display = "none";
+  document.getElementById("convBar").style.display = "none";
+  document.getElementById("pager").style.display = "none";
+  const host = document.getElementById("tableHost");
+  host.innerHTML = `<div class="empty">Yükleniyor…</div>`;
+  try {
+    let tenants;
+    if (isSuper()) tenants = await fetchJSON("GET", "tenants/all");          // pasifler dahil
+    else tenants = (await fetchJSON("GET", "tenants")).map(t => ({ ...t, enabled: true }));
+    _homeList = await Promise.all(tenants.map(async (t) => {
+      let qa = null, conv = null;
+      if (t.enabled) {
+        try { qa = (await fetchJSON("GET", `${t.id}/qa?limit=1&offset=0`)).total || 0; } catch (e) {}
+        try { conv = (await fetchJSON("GET", `${t.id}/conversations?limit=1&offset=0`)).total || 0; } catch (e) {}
+      }
+      return { ...t, qa, conv };
+    }));
+    renderHome();
+  } catch (e) { host.innerHTML = `<div class="empty"><strong>Yüklenemedi</strong>${esc(e.message)}</div>`; }
+}
+function renderHome() {
+  const host = document.getElementById("tableHost");
+  const q = _homeQuery.toLocaleLowerCase("tr");
+  const list = _homeList.filter(t => !q || (t.label || "").toLocaleLowerCase("tr").includes(q) || (t.id || "").includes(q));
+  const activeCount = _homeList.filter(t => t.enabled).length;
+  const totQa = _homeList.reduce((a, s) => a + (s.qa || 0), 0);
+  const totConv = _homeList.reduce((a, s) => a + (s.conv || 0), 0);
+  const statCards = `
+    <div class="stat-grid">
+      ${statCard('v1', ICONS_STAT.bot, 'Aktif chatbot', activeCount + ' / ' + _homeList.length)}
+      ${statCard('v3', ICONS_STAT.qa, 'Toplam soru-cevap', totQa)}
+      ${statCard('v4', ICONS_STAT.chat, 'Toplam görüşme', totConv)}
+    </div>`;
+  const toolbar = `
+    <div class="home-toolbar">
+      <input type="search" id="homeSearch" class="lc-search" placeholder="Chatbot ara…" value="${esc(_homeQuery)}" style="max-width:320px">
+    </div>`;
+  const cards = list.length ? list.map(t => {
+    const col = tenantColor(t.id);
+    const canToggle = isSuper();
+    const toggle = canToggle
+      ? `<label class="switch" title="${t.enabled ? "Pasife al" : "Aktifleştir"}"><input type="checkbox" data-toggle="${esc(t.id)}" ${t.enabled ? "checked" : ""}><span class="slider"></span></label>`
+      : "";
+    return `<div class="ent-card ${t.enabled ? "" : "is-off"}">
+      <div class="ent-top">
+        <div class="ent-av" style="background:${col}">${esc(initials(t.label))}</div>
+        <div style="min-width:0"><div class="ent-name">${esc(t.label)}</div><div class="ent-id">${esc(t.id)}</div></div>
+        <span class="ent-badge pill ${t.enabled ? "on" : "off"}">${t.enabled ? "aktif" : "pasif"}</span>
+      </div>
+      <div class="ent-stats">
+        <div class="ent-stat"><b>${t.qa == null ? "—" : t.qa}</b>soru-cevap</div>
+        <div class="ent-stat"><b>${t.conv == null ? "—" : t.conv}</b>görüşme</div>
+        <div style="flex:1"></div>${toggle}
+      </div>
+      <div class="ent-foot">
+        <button class="btn-primary" data-go="${esc(t.id)}" ${t.enabled ? "" : "disabled"}>Yönet →</button>
+        <button class="btn-ghost btn-code" data-embed="${esc(t.id)}" title="Siteye yerleştirme kodu">&lt;/&gt; Kod</button>
+      </div>
+    </div>`;
+  }).join("") : `<div class="empty" style="grid-column:1/-1"><strong>${_homeQuery ? "Sonuç yok" : "Chatbot yok"}</strong>${_homeQuery ? "Aramanıza uyan chatbot bulunamadı." : (isSuper() ? "“Yeni chatbot” ile ekleyebilirsiniz." : "Hesabınıza atanmış bir chatbot yok.")}</div>`;
+
+  host.innerHTML = statCards + toolbar + `<div class="cards-grid">${cards}</div>`;
+  host.querySelectorAll("[data-go]").forEach(b => b.onclick = () => {
+    if (b.disabled) return;
+    state.tenant = b.dataset.go;
+    const sel = document.getElementById("tenant"); if (sel && [...sel.options].some(o => o.value === state.tenant)) sel.value = state.tenant;
+    state.tab = "qa"; loadTab();
   });
+  host.querySelectorAll("[data-embed]").forEach(b => b.onclick = () => openEmbedModal(b.dataset.embed));
+  host.querySelectorAll("[data-toggle]").forEach(b => b.onchange = () => toggleTenant(b.dataset.toggle, b.checked, b));
+  const s = host.querySelector("#homeSearch");
+  if (s) {
+    s.addEventListener("input", e => { _homeQuery = e.target.value; renderHome(); });
+    if (_homeQuery) { s.focus(); const v = s.value; try { s.setSelectionRange(v.length, v.length); } catch (e) {} }
+  }
+}
+async function toggleTenant(id, enabled, el) {
+  el.disabled = true;
+  try {
+    await fetchJSON("PUT", `tenants/${id}/enabled`, { enabled });
+    const row = _homeList.find(t => t.id === id); if (row) row.enabled = enabled;
+    toast(enabled ? "Chatbot aktifleştirildi." : "Chatbot pasife alındı.", "ok");
+    // aktif chatbot dropdown'ını tazele
+    try { const cur = state.tenant; await refreshTenantsSelectOnly(); } catch (e) {}
+    renderHome();
+  } catch (e) { el.checked = !enabled; toast(e.message, "err"); }
+  finally { el.disabled = false; }
+}
+// Sadece üstteki aktif-chatbot dropdown'ını güncelle (sayfayı değiştirmeden)
+async function refreshTenantsSelectOnly() {
+  const tenants = await fetchJSON("GET", "tenants");
+  state._tenantsAll = tenants;
+  const sel = document.getElementById("tenant");
+  if (tenants.length) {
+    sel.disabled = false;
+    sel.innerHTML = tenants.map(t => `<option value="${t.id}">${esc(t.label)}</option>`).join("");
+    if (!tenants.some(t => t.id === state.tenant)) state.tenant = tenants[0].id;
+    sel.value = state.tenant;
+  } else { sel.disabled = true; sel.innerHTML = `<option>chatbot yok</option>`; state.tenant = null; }
+}
+
+// ---- Yerleştirme kodu modalı -------------------------------------------------
+function openEmbedModal(tenantId) {
+  const base = document.getElementById("emb_base");
+  const side = document.getElementById("emb_side");
+  const out = document.getElementById("emb_out");
+  // varsayılan adres: mevcut origin
+  base.value = location.origin && location.origin.startsWith("http") ? location.origin : "https://chat.example.com";
+  side.value = "left";
+  const gen = () => {
+    let b = base.value.trim().replace(/\/+$/, "");
+    const sideAttr = side.value === "right" ? ' data-side="right"' : "";
+    out.value = `<script src="${b}/static/widget.js" data-tenant="${tenantId}"${sideAttr} defer></` + `script>`;
+  };
+  base.oninput = gen; side.onchange = gen; gen();
+  document.getElementById("embedTitle").textContent = `Yerleştirme kodu — ${tenantId}`;
+  document.getElementById("embedOverlay").classList.add("show");
 }
 
 async function loadOptions() {
@@ -838,6 +1669,7 @@ async function init() {
   // Yeni chatbot ekleme
   const tOverlay = document.getElementById("tenantOverlay");
   document.getElementById("newTenantBtn").onclick = () => {
+    if (window.innerWidth <= 860) toggleDrawer(false);
     document.getElementById("nt_id").value = "";
     document.getElementById("nt_label").value = "";
     tOverlay.classList.add("show");
@@ -860,6 +1692,26 @@ async function init() {
     finally { btn.disabled = false; btn.textContent = "Oluştur"; }
   };
 
+  // Mobil çekmece
+  document.getElementById("hamburger").onclick = () => toggleDrawer();
+  document.getElementById("sideBackdrop").onclick = () => toggleDrawer(false);
+
+  // Çıkış + kullanıcı modalı
+  document.getElementById("logoutBtn").onclick = () => doLogout(false);
+  document.getElementById("userSaveBtn").onclick = saveUser;
+  document.getElementById("userCancelBtn").onclick = () => document.getElementById("userOverlay").classList.remove("show");
+  document.getElementById("userOverlay").addEventListener("click", e => { if (e.target.id === "userOverlay") e.currentTarget.classList.remove("show"); });
+
+  // Yerleştirme kodu modalı
+  const embOv = document.getElementById("embedOverlay");
+  document.getElementById("embedClose").onclick = () => embOv.classList.remove("show");
+  embOv.addEventListener("click", e => { if (e.target.id === "embedOverlay") embOv.classList.remove("show"); });
+  document.getElementById("embedCopy").onclick = async () => {
+    const out = document.getElementById("emb_out");
+    try { await navigator.clipboard.writeText(out.value); toast("Kod kopyalandı.", "ok"); }
+    catch (e) { out.select(); document.execCommand && document.execCommand("copy"); toast("Kod kopyalandı.", "ok"); }
+  };
+
   try {
     await refreshTenants();
   } catch (e) {
@@ -869,14 +1721,216 @@ async function init() {
 
 async function refreshTenants(selectId) {
   const tenants = await fetchJSON("GET", "tenants");
+  state._tenantsAll = tenants;
   const sel = document.getElementById("tenant");
-  sel.innerHTML = tenants.map(t => `<option value="${t.id}">${esc(t.label)}</option>`).join("");
-  state.tenant = (selectId && tenants.some(t => t.id === selectId)) ? selectId : tenants[0].id;
-  sel.value = state.tenant;
-  sel.onchange = () => { state.tenant = sel.value; state.qaQuery = ""; state.offset = 0; document.getElementById("qaSearch").value = ""; loadTab(); };
+  if (tenants.length) {
+    sel.innerHTML = tenants.map(t => `<option value="${t.id}">${esc(t.label)}</option>`).join("");
+    sel.disabled = false;
+    if (selectId && tenants.some(t => t.id === selectId)) state.tenant = selectId;
+    else if (!state.tenant || !tenants.some(t => t.id === state.tenant)) state.tenant = tenants[0].id;
+    sel.value = state.tenant;
+  } else {
+    sel.innerHTML = `<option>chatbot yok</option>`;
+    sel.disabled = true;
+    state.tenant = null;
+  }
+  sel.onchange = () => {
+    state.tenant = sel.value; state.qaQuery = ""; state.offset = 0;
+    const q = document.getElementById("qaSearch"); if (q) q.value = "";
+    if (state.tab === "home" || state.tab === "users") state.tab = "qa";
+    if (window.innerWidth <= 860) toggleDrawer(false);
+    loadTab();
+  };
   loadTab();
 }
-init();
+
+// ---- Kullanıcılar (yalnızca süper admin) ------------------------------------
+async function loadUsers() {
+  renderTabs();
+  document.getElementById("testHost").innerHTML = "";
+  document.getElementById("mainToolbar").style.display = "none";
+  document.getElementById("convBar").style.display = "none";
+  document.getElementById("pager").style.display = "none";
+  const host = document.getElementById("tableHost");
+  host.innerHTML = `<div class="empty">Yükleniyor…</div>`;
+  try {
+    const [users, tenants] = await Promise.all([
+      fetchJSON("GET", "users"), fetchJSON("GET", "tenants"),
+    ]);
+    state._tenantsAll = tenants;
+    const cards = users.map(u => {
+      const rolePill = u.role === "super_admin"
+        ? '<span class="pill on">Süper Admin</span>'
+        : '<span class="pill">Yönetici</span>';
+      const statusPill = `<span class="pill ${u.is_active ? "on" : "off"}">${u.is_active ? "aktif" : "pasif"}</span>`;
+      const tg = u.role === "super_admin"
+        ? '<span class="chip accent">tümü</span>'
+        : (u.tenant_ids && u.tenant_ids.length
+            ? u.tenant_ids.map(t => `<span class="chip accent">${esc(t)}</span>`).join("")
+            : '<span class="meta" style="color:var(--faint)">— atanmamış</span>');
+      const av = (u.display_name || u.email || "?").trim().slice(0, 2).toUpperCase();
+      return `<div class="rec-card ${u.is_active ? "" : "is-off"}">
+        <div class="rec-head">
+          <span class="u-av">${esc(av)}</span>
+          <span class="rec-name k">${esc(u.email)}</span>
+          ${rolePill} ${statusPill}
+          <div class="rec-actions">
+            <button class="btn-ghost btn-sm" data-edit="${u.id}">Düzenle</button>
+            <button class="btn-danger btn-sm" data-del="${u.id}">Sil</button>
+          </div>
+        </div>
+        ${u.display_name ? `<div class="rec-line"><b>Ad</b><span>${esc(u.display_name)}</span></div>` : ""}
+        <div class="rec-line"><b>Chatbot</b><span><span class="rec-kw" style="margin:0">${tg}</span></span></div>
+      </div>`;
+    }).join("");
+    host.innerHTML = `
+      <div style="padding:14px 16px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--line-2)">
+        <button class="btn-primary" id="userAdd">+ Yeni kullanıcı</button>
+        <div style="flex:1"></div>
+        <span class="count">${users.length} kullanıcı</span>
+      </div>
+      <div class="rec-list">${cards || '<div class="empty">Kullanıcı yok</div>'}</div>`;
+    host.querySelector("#userAdd").onclick = () => openUserModal(null);
+    host.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => openUserModal(users.find(x => x.id == b.dataset.edit)));
+    host.querySelectorAll("[data-del]").forEach(b => b.onclick = () => deleteUser(users.find(x => x.id == b.dataset.del)));
+  } catch (e) {
+    host.innerHTML = `<div class="empty"><strong>Yüklenemedi</strong>${esc(e.message)}</div>`;
+  }
+}
+
+function openUserModal(user) {
+  const tenants = state._tenantsAll || [];
+  const isEdit = !!user;
+  editingUser = user || null;
+  document.getElementById("userModalTitle").textContent = isEdit ? `Düzenle — ${user.email}` : "Yeni kullanıcı";
+  const role = user ? user.role : "manager";
+  const sel = new Set(user ? (user.tenant_ids || []) : []);
+  document.getElementById("userModalBody").innerHTML = `
+    <div class="field"><label>E-posta</label><input type="email" id="u_email" value="${esc(user ? user.email : "")}" ${isEdit ? "disabled" : ""} autocomplete="off" placeholder="ornek@sirket.com"></div>
+    <div class="field"><label>Şifre ${isEdit ? '<span class="hint">(boş = değişmez)</span>' : ''}</label><input type="password" id="u_password" autocomplete="new-password"></div>
+    <div class="field"><label>Görünen ad</label><input type="text" id="u_display" value="${esc(user ? (user.display_name || "") : "")}"></div>
+    <div class="field"><label>Rol</label><select id="u_role">
+      <option value="manager" ${role === "manager" ? "selected" : ""}>Yönetici — yalnızca atanan chatbotlar</option>
+      <option value="super_admin" ${role === "super_admin" ? "selected" : ""}>Süper Admin — tümü + yönetim</option>
+    </select></div>
+    ${isEdit ? `<div class="field"><label class="check"><input type="checkbox" id="u_active" ${user.is_active ? "checked" : ""}> Aktif</label></div>` : ""}
+    <div class="field" id="u_tenants_wrap"><label>Yetkili chatbotlar</label>
+      <div id="u_tenants" style="display:grid; grid-template-columns:repeat(2,1fr); gap:6px; max-height:190px; overflow:auto; border:1px solid var(--line); border-radius:8px; padding:10px">
+        ${tenants.length ? tenants.map(t => `<label class="check"><input type="checkbox" value="${esc(t.id)}" ${sel.has(t.id) ? "checked" : ""}> ${esc(t.label)} <span class="meta">(${esc(t.id)})</span></label>`).join("") : '<span class="meta">Chatbot yok</span>'}
+      </div>
+    </div>`;
+  const roleSel = document.getElementById("u_role");
+  const tw = document.getElementById("u_tenants_wrap");
+  const sync = () => { tw.style.display = roleSel.value === "manager" ? "" : "none"; };
+  roleSel.onchange = sync; sync();
+  document.getElementById("userOverlay").classList.add("show");
+}
+
+async function saveUser() {
+  const isEdit = !!editingUser;
+  const email = document.getElementById("u_email").value.trim();
+  const password = document.getElementById("u_password").value;
+  const display_name = document.getElementById("u_display").value.trim();
+  const role = document.getElementById("u_role").value;
+  const tenant_ids = [...document.querySelectorAll("#u_tenants input:checked")].map(c => c.value);
+  const activeEl = document.getElementById("u_active");
+  const btn = document.getElementById("userSaveBtn"); const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = "Kaydediliyor…";
+  try {
+    if (isEdit) {
+      const body = { display_name, role, tenant_ids };
+      if (password) body.password = password;
+      if (activeEl) body.is_active = activeEl.checked;
+      await fetchJSON("PUT", `users/${editingUser.id}`, body);
+    } else {
+      if (!email || !password) throw new Error("E-posta ve şifre zorunlu.");
+      await fetchJSON("POST", "users", { email, password, display_name, role, tenant_ids });
+    }
+    document.getElementById("userOverlay").classList.remove("show");
+    toast("Kullanıcı kaydedildi.", "ok");
+    loadUsers();
+  } catch (e) { toast(e.message, "err"); }
+  finally { btn.disabled = false; btn.textContent = orig; }
+}
+
+async function deleteUser(u) {
+  if (!u) return;
+  if (!await confirmDialog({ title: "Kullanıcı silme", message: "Bu kullanıcı silinsin mi?", detail: u.email, danger: true })) return;
+  try { await fetchJSON("DELETE", `users/${u.id}`); toast("Silindi.", "ok"); loadUsers(); }
+  catch (e) { toast(e.message, "err"); }
+}
+
+// ---- Oturum akışı -----------------------------------------------------------
+function showLogin() {
+  document.getElementById("appRoot").style.display = "none";
+  document.getElementById("loginScreen").classList.add("show");
+}
+function showApp() {
+  document.getElementById("loginScreen").classList.remove("show");
+  document.getElementById("appRoot").style.display = "flex";
+}
+function applyRole() {
+  const u = CURRENT_USER || {};
+  document.getElementById("userBox").style.display = "";
+  document.getElementById("suName").textContent = u.display_name || u.username || "";
+  document.getElementById("suRole").textContent = u.role === "super_admin" ? "Süper Admin" : "Yönetici";
+  document.getElementById("suAv").textContent = (u.display_name || u.username || "?").trim().slice(0, 2).toUpperCase();
+  const nt = document.getElementById("newTenantBtn");
+  if (nt) nt.style.display = u.role === "super_admin" ? "" : "none";
+  if (state.tab === "users" && u.role !== "super_admin") state.tab = "qa";
+}
+function doLogout(expired) {
+  AUTH_TOKEN = null; CURRENT_USER = null;
+  try { localStorage.removeItem("bfl_admin_token"); } catch (e) {}
+  toggleDrawer(false);
+  showLogin();
+  const m = document.getElementById("loginMsg");
+  if (m) { m.style.display = expired ? "" : "none"; if (expired) m.textContent = "Oturum sona erdi, tekrar giriş yapın."; }
+}
+function bindLogin() {
+  const form = document.getElementById("loginForm");
+  if (!form || form._bound) return; form._bound = true;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const u = document.getElementById("lg_email").value.trim();
+    const p = document.getElementById("lg_pass").value;
+    const msg = document.getElementById("loginMsg");
+    const btn = document.getElementById("lg_btn");
+    msg.style.display = "none";
+    if (!u || !p) { msg.textContent = "E-posta ve şifre gerekli."; msg.style.display = ""; return; }
+    btn.disabled = true; btn.textContent = "Giriş yapılıyor…";
+    try {
+      const r = await fetch(`${API}/auth/login`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: u, password: p }),
+      });
+      const d = await r.json().catch(() => null);
+      if (!r.ok) throw new Error((d && d.detail) || "Giriş başarısız.");
+      AUTH_TOKEN = d.token; CURRENT_USER = d.user;
+      try { localStorage.setItem("bfl_admin_token", d.token); } catch (e) {}
+      document.getElementById("lg_pass").value = "";
+      startPanel();
+    } catch (err) { msg.textContent = err.message; msg.style.display = ""; }
+    finally { btn.disabled = false; btn.textContent = "Giriş Yap"; }
+  });
+}
+let _panelStarted = false;
+function startPanel() {
+  showApp();
+  applyRole();
+  if (!_panelStarted) { _panelStarted = true; init(); }
+  else { refreshTenants().catch(() => {}); }
+}
+async function boot() {
+  bindLogin();
+  if (!AUTH_TOKEN) return showLogin();
+  try {
+    const me = await fetchJSON("GET", "auth/me");
+    CURRENT_USER = me;
+    startPanel();
+  } catch (e) { showLogin(); }
+}
+boot();
 </script>
 </body>
 </html>

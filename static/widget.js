@@ -102,12 +102,26 @@
   ].join('\n');
 
   function boot(){
+    // Önce chatbot'un aktif olup olmadığını kontrol et: pasif/bilinmeyen tenant'ta
+    // (config 403/404/503) widget hiç yüklenmesin. Ağ hatasında yine de yüklenir.
+    var done=false;
+    function proceed(cfg){ if(done) return; done=true; build(cfg); }
+    try{
+      fetch(CONFIG_URL).then(function(r){
+        if(r.status===403 || r.status===404 || r.status===503){ done=true; return; } // chatbot pasif → gösterme
+        return r.json().then(function(cfg){ proceed(cfg||null); }, function(){ proceed(null); });
+      }).catch(function(){ proceed(null); });  // ağ hatası → yine de göster
+    }catch(_){ proceed(null); }
+  }
+
+  function build(cfg){
     // Google font (yoksa ekle)
     if (!document.getElementById('bflw-font')) {
       var f=document.createElement('link'); f.id='bflw-font'; f.rel='stylesheet';
       f.href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
       document.head.appendChild(f);
     }
+    if (document.getElementById('bflw-style')) return; // iki kez kurma
     var style=document.createElement('style'); style.id='bflw-style'; style.textContent=CSS; document.head.appendChild(style);
 
     var root=document.createElement('div'); root.className='bflw-root';
@@ -138,12 +152,8 @@
     });
     window.addEventListener('keydown',function(e){ if(e.key==='Escape' && open) closeChat(); });
 
-    // renk: config'ten launcher temasını da güncelle (isteğe bağlı accent)
-    try{
-      fetch(CONFIG_URL).then(function(r){return r.json();}).then(function(cfg){
-        if(cfg && cfg.color){ root.style.setProperty('--blue', cfg.color); }
-      }).catch(function(){});
-    }catch(_){}
+    // renk: config'ten launcher temasını uygula (isteğe bağlı accent)
+    if(cfg && cfg.color){ root.style.setProperty('--blue', cfg.color); }
 
     // açılışta kısa "merhaba" dürtmesi + rozet
     setTimeout(function(){
