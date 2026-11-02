@@ -14,3 +14,4 @@ pgvector
 sentence-transformers==5.4.1
 httpx
 pandas
+openpyxl

@@ -16,9 +16,12 @@ Uclar:
 from __future__ import annotations
 
 import asyncio
+import io
+from datetime import datetime
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from app.core import provision
@@ -166,13 +169,21 @@ async def list_tenants(user: dict = Depends(get_current_user)) -> list[dict]:
     return rows
 
 
-@router.get("/tenants/all", dependencies=[Depends(require_super_admin)])
-async def list_tenants_all() -> list[dict]:
-    """Pasifler dahil tum tenant'lar (yonetim ekrani)."""
+@router.get("/tenants/all")
+async def list_tenants_all(user: dict = Depends(get_current_user)) -> list[dict]:
+    """Pasifler dahil tenant'lar. Super: hepsi; manager: yalnizca atananlar.
+
+    Manager'in kendi chatbot'larini (pasif olanlar dahil) gorup pasife/aktife
+    alabilmesi icin bu endpoint artik manager'a da acik, role gore filtreli.
+    """
     live = set(TENANTS.keys())
+    rows = await asyncio.to_thread(list_all_tenant_rows)
+    if user["role"] != admin_auth.ROLE_SUPER:
+        allowed = set(user.get("tenant_ids") or [])
+        rows = [r for r in rows if r[0] in allowed]
     return [
         {"id": tid, "label": label, "enabled": enabled, "live": tid in live}
-        for (tid, label, enabled) in await asyncio.to_thread(list_all_tenant_rows)
+        for (tid, label, enabled) in rows
     ]
 
 
@@ -184,9 +195,13 @@ class ContactStatus(BaseModel):
     status: str  # new | contacted | closed
 
 
-@router.put("/tenants/{tenant}/enabled", dependencies=[Depends(require_super_admin)])
+@router.put("/tenants/{tenant}/enabled")
 async def tenant_set_enabled(tenant: str, body: TenantEnabled) -> dict:
-    """Bir chatbot'u aktif/pasif yapar. Pasif: widget hizmet vermez; Aktif: tekrar yüklenir."""
+    """Bir chatbot'u aktif/pasif yapar. Pasif: widget hizmet vermez; Aktif: tekrar yüklenir.
+
+    Yetki: router'daki tenant_guard sayesinde super_admin her chatbot'u,
+    manager ise yalnizca kendisine atanmis chatbot'u pasife/aktife alabilir.
+    """
     try:
         await asyncio.to_thread(set_tenant_enabled, tenant, body.enabled)
     except ValueError as exc:
@@ -579,6 +594,88 @@ async def conversations_list(
 async def conversation_intents_list(tenant: str) -> list[str]:
     """Gorusmelerde gecen intent degerleri (filtre acilir listesi)."""
     return await convo.list_conversation_intents(_tenant(tenant))
+
+
+@router.get("/{tenant}/conversation-session")
+async def conversation_session(
+    tenant: str,
+    session_id: str,
+    ts_from: str | None = None,
+    ts_to: str | None = None,
+) -> list[dict]:
+    """Panelde 'detay' acilir kismi: bir satirin episodundaki mesajlar.
+
+    ts_from/ts_to verilirse yalnizca o zaman penceresindeki (ilgili iletisim
+    akisinin) mesajlari doner; verilmezse tum oturum.
+    """
+    return await convo.get_session_messages(_tenant(tenant), session_id, ts_from, ts_to)
+
+
+def _build_conversations_xlsx(rows: list[dict], tenant: str) -> bytes:
+    """Gorusme satirlarindan bir .xlsx (openpyxl) olusturur."""
+    from openpyxl import Workbook
+    from openpyxl.styles import Font, PatternFill, Alignment
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Görüşmeler"
+    headers = ["Tarih", "Durum", "Konu", "Soru", "Cevap"]
+    ws.append(headers)
+    head_fill = PatternFill("solid", fgColor="6C4CF1")
+    head_font = Font(bold=True, color="FFFFFF")
+    for c in range(1, len(headers) + 1):
+        cell = ws.cell(row=1, column=c)
+        cell.fill = head_fill
+        cell.font = head_font
+        cell.alignment = Alignment(vertical="center")
+    for r in rows:
+        ts = r.get("ts")
+        if isinstance(ts, datetime):
+            ts_str = ts.strftime("%Y-%m-%d %H:%M")
+        else:
+            ts_str = str(ts or "")
+        if r.get("contact_captured"):
+            durum = "İletişim alındı"
+        elif r.get("answered"):
+            durum = "Cevaplandı"
+        elif r.get("source") == "fallback":
+            durum = "Cevaplanamadı"
+        else:
+            durum = r.get("source") or ""
+        ws.append([ts_str, durum, r.get("intent") or "", r.get("question") or "", r.get("answer") or ""])
+    widths = [18, 16, 20, 48, 60]
+    for i, w in enumerate(widths, start=1):
+        ws.column_dimensions[chr(64 + i)].width = w
+    ws.freeze_panes = "A2"
+    buf = io.BytesIO()
+    wb.save(buf)
+    return buf.getvalue()
+
+
+@router.get("/{tenant}/conversations/export")
+async def conversations_export(
+    tenant: str,
+    date_from: str | None = None,
+    date_to: str | None = None,
+    status: str = "all",
+    intent: str | None = None,
+) -> StreamingResponse:
+    """Gorusmeleri (ayni filtrelerle) Excel (.xlsx) olarak indirir."""
+    ctx = _tenant(tenant)
+    try:
+        data = await convo.list_conversations(
+            ctx, date_from=date_from, date_to=date_to,
+            status=status, intent=intent, limit=50000, offset=0,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    content_bytes = await asyncio.to_thread(_build_conversations_xlsx, data["items"], tenant)
+    fname = f"gorusmeler_{tenant}_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
+    return StreamingResponse(
+        io.BytesIO(content_bytes),
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": f'attachment; filename="{fname}"'},
+    )
 
 
 # ─── İletişim talepleri (fallback_contacts) ──────────────────────────────────

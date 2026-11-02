@@ -601,6 +601,18 @@ def main() -> int:
     )
     try:
         with conn, conn.cursor() as cur:
+            # ── Idempotency guard: yalnizca ILK kurulumda (bos DB) seed'le ───────
+            # Daha once seed'lenmis bir DB'de varsayilanlari TEKRAR eklemeyiz;
+            # aksi halde panelden silinen/duzenlenen form butonlari her deploy'da
+            # geri gelir ve "Teklif Formu" gibi butonlar coklanir. Panel icerigi
+            # kaynak dogrudur; deploy onu ezmez.
+            cur.execute("SELECT COUNT(*) FROM intents")
+            if cur.fetchone()[0] > 0:
+                print(
+                    f"[seed_bfl] DB={settings.postgres_db} zaten seed'li; "
+                    "varsayilanlar yeniden EKLENMEDI (panel icerigi korunur)."
+                )
+                return 0
             # 1) form_urls (intent_forms FK'i icin once)
             for key, url in DATA["form_urls"].items():
                 cur.execute(

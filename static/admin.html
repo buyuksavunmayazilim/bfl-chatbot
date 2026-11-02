@@ -104,6 +104,7 @@
   .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; background: var(--line-2); color: var(--muted); }
   .pill.on { background: var(--ok-tint); color: var(--ok); }
   .pill.off { background: var(--danger-tint); color: var(--danger); }
+  .pill.contact { background: #e4f0ff; color: #1f6fd6; }
   .row-actions { white-space: nowrap; text-align: right; }
   .empty { padding: 48px 20px; text-align: center; color: var(--muted); }
   .empty strong { display: block; color: var(--ink); margin-bottom: 4px; }
@@ -113,6 +114,23 @@
   .conv-card { border: 1px solid var(--line); border-left: 3px solid var(--faint); border-radius: 8px; padding: 11px 14px; background: var(--card); }
   .conv-card.unans { border-left-color: var(--danger); background: #fffaf9; }
   .conv-card.ans { border-left-color: var(--ok); }
+  .conv-card.contact { border-left-color: #1f6fd6; background: #f6faff; }
+  .conv-toggle { cursor: pointer; }
+  .conv-head { position: relative; }
+  .conv-chev { margin-left: auto; color: var(--faint); display: inline-flex; transition: transform .18s; }
+  .conv-chev svg { width: 16px; height: 16px; }
+  .conv-card.expanded .conv-chev { transform: rotate(180deg); }
+  .conv-detail { margin-top: 10px; border-top: 1px dashed var(--line); padding-top: 10px; }
+  .tx { display: flex; flex-direction: column; gap: 8px; }
+  .tx-row { display: flex; flex-direction: column; max-width: 82%; }
+  .tx-row.bot { align-self: flex-start; align-items: flex-start; }
+  .tx-row.me { align-self: flex-end; align-items: flex-end; }
+  .tx-bub { padding: 8px 12px; border-radius: 12px; font-size: 13px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .tx-row.bot .tx-bub { background: var(--line-2); color: var(--ink); border-bottom-left-radius: 4px; }
+  .tx-row.me .tx-bub { background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+  .tx-meta { font-size: 10.5px; color: var(--faint); margin-top: 2px; display: flex; gap: 6px; align-items: center; }
+  .tx-src { font-family: var(--mono); background: var(--line-2); color: var(--muted); border-radius: 5px; padding: 0 5px; }
+  .tx-empty { font-size: 13px; color: var(--muted); padding: 6px 2px; }
   .conv-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
   .conv-head .time { color: var(--faint); font-size: 12px; white-space: nowrap; }
   .conv-head .intent { margin-left: auto; }
@@ -399,6 +417,10 @@ th{ background:#faf9ff; }
 .filterbar .fb-ilabel{ font-size:12px; font-weight:600; color:var(--faint); text-transform:uppercase; letter-spacing:.03em; }
 .filterbar .fb-select{ border:1px solid var(--line); border-radius:9px; padding:7px 30px 7px 11px; color:var(--ink); background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a93a6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>") no-repeat right 10px center; font:inherit; font-size:13px; font-weight:500; cursor:pointer; appearance:none; -webkit-appearance:none; max-width:220px; }
 .filterbar .fb-select:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-tint); }
+.fb-export{ display:inline-flex; align-items:center; gap:7px; border:1px solid #1f9d57; background:#eafaf0; color:#157a43; border-radius:10px; padding:8px 13px; font:inherit; font-size:13px; font-weight:600; cursor:pointer; transition:.15s; }
+.fb-export:hover{ background:#1f9d57; color:#fff; }
+.fb-export:disabled{ opacity:.6; cursor:default; }
+.fb-export svg{ width:17px; height:17px; }
 .seg{ display:inline-flex; background:#f0f1f6; border:1px solid var(--line); border-radius:10px; padding:3px; gap:2px; }
 .seg button{ border:0; background:transparent; color:var(--muted); padding:6px 12px; border-radius:7px; cursor:pointer; font:inherit; font-size:13px; font-weight:500; transition:.15s; }
 .seg button:hover{ color:var(--ink); }
@@ -1389,23 +1411,41 @@ async function loadConversations() {
         ${intents.length ? intentSel : ""}
         <div class="fb-spacer"></div>
         <div class="seg">${statuses.map(([v, l]) => `<button data-st="${v}" class="${f.status === v ? "on" : ""}">${l}</button>`).join("")}</div>
+        <button class="fb-export" id="cf_export" title="Seçili filtreyle Excel'e aktar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          <span>Excel'e aktar</span>
+        </button>
       </div>`;
 
     const listInner = !rows.length
       ? `<div class="empty"><strong>Görüşme yok</strong>Seçilen filtreye uyan kayıt bulunamadı.</div>`
       : `<div class="conv-head-bar">Geçmiş görüşmeler <span class="count">${rows.length}${d.total > rows.length ? " / " + d.total : ""}</span></div><div class="conv-list">` + rows.map(r => {
           const t = r.ts ? new Date(r.ts).toLocaleString("tr-TR") : "";
-          const cls = r.answered ? "ans" : (r.source === "fallback" ? "unans" : "");
-          const badge = r.answered
-            ? `<span class="pill on">cevaplandı</span>`
-            : (r.source === "fallback"
-                ? `<span class="pill off">cevaplanamadı</span>`
-                : `<span class="pill">${esc(r.source || "—")}</span>`);
-          const intent = r.intent ? `<span class="intent k">${esc(r.intent)}</span>` : "";
-          return `<div class="conv-card ${cls}">
-            <div class="conv-head"><span class="time">${esc(t)}</span> ${badge} ${intent}</div>
+          const isContact = !!r.contact_captured;
+          const cls = isContact ? "contact" : (r.answered ? "ans" : (r.source === "fallback" ? "unans" : ""));
+          const badge = isContact
+            ? `<span class="pill contact">iletişim alındı</span>`
+            : r.answered
+              ? `<span class="pill on">cevaplandı</span>`
+              : (r.source === "fallback"
+                  ? `<span class="pill off">cevaplanamadı</span>`
+                  : `<span class="pill">${esc(r.source || "—")}</span>`);
+          // iletişim alınan turda rozet zaten durumu anlatıyor; intent chip'i gösterme
+          const intent = (r.intent && !isContact) ? `<span class="intent k">${esc(r.intent)}</span>` : "";
+          const sid = r.session_id || "";
+          // yalnızca iletişim toplama (fallback) akışları genişletilir: ara adımları vardır
+          const expandable = r.source === "fallback";
+          const chev = expandable ? `<span class="conv-chev" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </span>` : "";
+          return `<div class="conv-card ${cls}" data-session="${esc(sid)}" data-tsfrom="${esc(r.ts_from || "")}" data-tsto="${esc(r.ts || "")}">
+            <div class="conv-head ${expandable ? "conv-toggle" : ""}" ${expandable ? 'title="Akışın adımlarını aç/kapat"' : ""}>
+              <span class="time">${esc(t)}</span> ${badge} ${intent}
+              ${chev}
+            </div>
             <div class="conv-line q"><b>Soru</b><span>${esc(r.question || "—")}</span></div>
             <div class="conv-line a"><b>Cevap</b><span>${esc(r.answer || "—")}</span></div>
+            ${expandable ? `<div class="conv-detail" hidden></div>` : ""}
           </div>`;
         }).join("") + `</div>`;
 
@@ -1419,11 +1459,83 @@ async function loadConversations() {
     cFrom.onchange = onDate; cTo.onchange = onDate;
     const cInt = host.querySelector("#cf_intent");
     if (cInt) cInt.onchange = () => { f.intent = cInt.value; state.offset = 0; loadConversations(); };
+    const cExp = host.querySelector("#cf_export");
+    if (cExp) cExp.onclick = () => exportConversationsXlsx(cExp);
+
+    // detay (ara adımlar) aç/kapat
+    host.querySelectorAll(".conv-toggle").forEach(h => h.onclick = () => toggleConvDetail(h.closest(".conv-card")));
 
     renderPager(d.total, loadConversations);
   } catch (err) {
     host.innerHTML = `<div class="empty"><strong>Yüklenemedi</strong>${esc(err.message)}</div>`;
   }
+}
+
+// Görüşme kartını aç/kapat: ilk açılışta oturumun tüm mesajlarını (ara adımlar) getir
+const _convTx = {};  // session_id -> mesaj dizisi (önbellek)
+async function toggleConvDetail(card) {
+  if (!card) return;
+  const box = card.querySelector(".conv-detail");
+  const sid = card.dataset.session || "";
+  const tsFrom = card.dataset.tsfrom || "";
+  const tsTo = card.dataset.tsto || "";
+  if (!box) return;
+  const open = !box.hidden;
+  if (open) { box.hidden = true; card.classList.remove("expanded"); return; }
+  card.classList.add("expanded");
+  box.hidden = false;
+  if (!sid) { box.innerHTML = `<div class="tx-empty">Bu kayıt için oturum bilgisi yok.</div>`; return; }
+  const key = sid + "|" + tsFrom + "|" + tsTo;  // episod bazlı önbellek
+  if (_convTx[key]) { box.innerHTML = _renderTx(_convTx[key]); return; }
+  box.innerHTML = `<div class="tx-empty">Yükleniyor…</div>`;
+  try {
+    let url = `${state.tenant}/conversation-session?session_id=${encodeURIComponent(sid)}`;
+    if (tsFrom && tsTo) url += `&ts_from=${encodeURIComponent(tsFrom)}&ts_to=${encodeURIComponent(tsTo)}`;
+    const msgs = await fetchJSON("GET", url);
+    _convTx[key] = msgs;
+    box.innerHTML = _renderTx(msgs);
+  } catch (e) { box.innerHTML = `<div class="tx-empty">Detay yüklenemedi: ${esc(e.message)}</div>`; }
+}
+function _renderTx(msgs) {
+  if (!msgs || !msgs.length) return `<div class="tx-empty">Mesaj bulunamadı.</div>`;
+  return `<div class="tx">` + msgs.map(m => {
+    const who = m.role === "user" ? "me" : "bot";
+    const time = m.ts ? new Date(m.ts).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }) : "";
+    const src = (m.role === "bot" && m.source) ? `<span class="tx-src">${esc(m.source)}</span>` : "";
+    return `<div class="tx-row ${who}">
+      <div class="tx-bub">${esc(m.content || "")}</div>
+      <div class="tx-meta">${esc(time)} ${src}</div>
+    </div>`;
+  }).join("") + `</div>`;
+}
+
+// Görüşmeleri (seçili filtreyle) Excel .xlsx olarak indir
+async function exportConversationsXlsx(btn) {
+  const f = _convFilter();
+  const q = new URLSearchParams();
+  if (f.from) q.set("date_from", f.from);
+  if (f.to) q.set("date_to", f.to);
+  if (f.status && f.status !== "all") q.set("status", f.status);
+  if (f.intent) q.set("intent", f.intent);
+  const label = btn ? btn.querySelector("span") : null;
+  const orig = label ? label.textContent : "";
+  if (btn) { btn.disabled = true; if (label) label.textContent = "Hazırlanıyor…"; }
+  try {
+    const res = await fetch(`${API}/${state.tenant}/conversations/export?${q}`, {
+      headers: AUTH_TOKEN ? { Authorization: "Bearer " + AUTH_TOKEN } : {},
+    });
+    if (res.status === 401) { doLogout(true); return; }
+    if (!res.ok) throw new Error("Dışa aktarma başarısız (" + res.status + ")");
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `gorusmeler_${state.tenant}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+    toast("Excel indirildi.", "ok");
+  } catch (e) { toast(e.message, "err"); }
+  finally { if (btn) { btn.disabled = false; if (label) label.textContent = orig; } }
 }
 
 // ---- İletişim talepleri (fallback_contacts) ---------------------------------
@@ -1523,9 +1635,9 @@ async function loadHome() {
   const host = document.getElementById("tableHost");
   host.innerHTML = `<div class="empty">Yükleniyor…</div>`;
   try {
-    let tenants;
-    if (isSuper()) tenants = await fetchJSON("GET", "tenants/all");          // pasifler dahil
-    else tenants = (await fetchJSON("GET", "tenants")).map(t => ({ ...t, enabled: true }));
+    // Her iki rol de /tenants/all kullanır: pasifler dahil, backend rol'e göre filtreler
+    // (manager yalnızca kendi chatbot'larını görür ve pasife/aktife alabilir).
+    const tenants = await fetchJSON("GET", "tenants/all");
     _homeList = await Promise.all(tenants.map(async (t) => {
       let qa = null, conv = null;
       if (t.enabled) {
@@ -1556,7 +1668,7 @@ function renderHome() {
     </div>`;
   const cards = list.length ? list.map(t => {
     const col = tenantColor(t.id);
-    const canToggle = isSuper();
+    const canToggle = true;  // super: tüm chatbotlar; manager: kendi chatbotları (backend doğrular)
     const toggle = canToggle
       ? `<label class="switch" title="${t.enabled ? "Pasife al" : "Aktifleştir"}"><input type="checkbox" data-toggle="${esc(t.id)}" ${t.enabled ? "checked" : ""}><span class="slider"></span></label>`
       : "";
@@ -1762,7 +1874,11 @@ async function loadUsers() {
       const rolePill = u.role === "super_admin"
         ? '<span class="pill on">Süper Admin</span>'
         : '<span class="pill">Yönetici</span>';
-      const statusPill = `<span class="pill ${u.is_active ? "on" : "off"}">${u.is_active ? "aktif" : "pasif"}</span>`;
+      const isSelf = CURRENT_USER && ((CURRENT_USER.id != null && String(u.id) === String(CURRENT_USER.id)) || (CURRENT_USER.email && u.email === CURRENT_USER.email));
+      const statusCtl = isSelf
+        ? `<span class="pill ${u.is_active ? "on" : "off"}" title="Kendi hesabınız">${u.is_active ? "aktif" : "pasif"}</span>`
+        : `<span class="sw-wrap"><span class="sw-lbl ${u.is_active ? "on" : ""}">${u.is_active ? "aktif" : "pasif"}</span>
+            <label class="switch" title="Aktif / Pasif"><input type="checkbox" data-utoggle="${u.id}" ${u.is_active ? "checked" : ""}><span class="slider"></span></label></span>`;
       const tg = u.role === "super_admin"
         ? '<span class="chip accent">tümü</span>'
         : (u.tenant_ids && u.tenant_ids.length
@@ -1773,10 +1889,11 @@ async function loadUsers() {
         <div class="rec-head">
           <span class="u-av">${esc(av)}</span>
           <span class="rec-name k">${esc(u.email)}</span>
-          ${rolePill} ${statusPill}
+          ${rolePill}
           <div class="rec-actions">
+            ${statusCtl}
             <button class="btn-ghost btn-sm" data-edit="${u.id}">Düzenle</button>
-            <button class="btn-danger btn-sm" data-del="${u.id}">Sil</button>
+            ${isSelf ? "" : `<button class="btn-danger btn-sm" data-del="${u.id}">Sil</button>`}
           </div>
         </div>
         ${u.display_name ? `<div class="rec-line"><b>Ad</b><span>${esc(u.display_name)}</span></div>` : ""}
@@ -1793,6 +1910,7 @@ async function loadUsers() {
     host.querySelector("#userAdd").onclick = () => openUserModal(null);
     host.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => openUserModal(users.find(x => x.id == b.dataset.edit)));
     host.querySelectorAll("[data-del]").forEach(b => b.onclick = () => deleteUser(users.find(x => x.id == b.dataset.del)));
+    host.querySelectorAll("[data-utoggle]").forEach(el => el.onchange = () => toggleUserActive(el.dataset.utoggle, el.checked, el));
   } catch (e) {
     host.innerHTML = `<div class="empty"><strong>Yüklenemedi</strong>${esc(e.message)}</div>`;
   }
@@ -1858,6 +1976,22 @@ async function deleteUser(u) {
   if (!await confirmDialog({ title: "Kullanıcı silme", message: "Bu kullanıcı silinsin mi?", detail: u.email, danger: true })) return;
   try { await fetchJSON("DELETE", `users/${u.id}`); toast("Silindi.", "ok"); loadUsers(); }
   catch (e) { toast(e.message, "err"); }
+}
+
+async function toggleUserActive(id, active, el) {
+  el.disabled = true;
+  try {
+    await fetchJSON("PUT", `users/${id}`, { is_active: active });
+    toast(active ? "Kullanıcı aktifleştirildi." : "Kullanıcı pasife alındı.", "ok");
+    // kartın görünümünü anında güncelle
+    const card = el.closest(".rec-card");
+    if (card) {
+      card.classList.toggle("is-off", !active);
+      const lbl = card.querySelector(".sw-lbl");
+      if (lbl) { lbl.textContent = active ? "aktif" : "pasif"; lbl.classList.toggle("on", active); }
+    }
+  } catch (e) { el.checked = !active; toast(e.message, "err"); }
+  finally { el.disabled = false; }
 }
 
 // ---- Oturum akışı -----------------------------------------------------------
